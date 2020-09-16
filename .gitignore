@@ -1,2 +1,2 @@
-./.vscode/**
-./backend/.venv/**
+/.vscode/**
+/backend/.venv/**
