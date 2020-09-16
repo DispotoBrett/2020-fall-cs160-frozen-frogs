@@ -25,7 +25,7 @@
 
 ## Run in development mode:
 To run the django app in deveopment mode:
-- Change to the `backend/bookshare/` directory
+- Change to the `backend/` directory
 
 - run `python manage.py runserver`
 
