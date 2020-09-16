@@ -6,12 +6,9 @@
 ## Build Prerequisites:
 - Python 3.5+ installed
 
-- Up-to-date python-setuptools (run `sudo pip install --upgrade setuptools`)
-
 - Python [venv](https://docs.python.org/3/library/venv.html) installed 
 
 - bash or zsh 
-
 
 - MySQL *(version TBD)*
 
