@@ -16,9 +16,10 @@
 
 - Clone the repository
 
-- Change to the `backend/` directory and run `install.sh`.  this will create the python virtual environment, and install several  dependencies using `pip`. 
-
-- Next you'll want to activate the python virtual environment by running `source /.venv/bin/activate` from the `backend` directory.
+- Change to the `backend/` directory and run the command: `source install.sh`. This will do three things:
+	1. Creates the python virtual environment if it doesn't exist 
+	2. activates the virtual environment for your shell session 
+	3. installs the app dependencies via `pip` from the `requirements.txt` file.
 
 ## Run in development mode:
 To run the django app in deveopment mode:
