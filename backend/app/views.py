@@ -6,4 +6,5 @@ def index(request):
     return HttpResponse("<h1>Frozen Frogs 🐸🐸🐸🐸🐸🐸🐸🐸🐸</h1><br>Time:{0}".format(datetime.now()))
 
 def profile(request): 
-	return HttpResponse("<h2>Profile Page</h2>")
+	print("FUCK U")
+	return render(request, 'profile.html')

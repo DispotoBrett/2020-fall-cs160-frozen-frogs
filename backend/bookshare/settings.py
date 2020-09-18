@@ -54,7 +54,7 @@ ROOT_URLCONF = 'bookshare.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.dirname(__file__), 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
