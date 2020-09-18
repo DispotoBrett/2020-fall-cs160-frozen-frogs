@@ -1,4 +1,31 @@
 <style>
+	.back {
+		background-color: blue;
+		margin: auto;
+  		width: 50%;
+  		width: 600px;
+  		justify-content: center;
+  		text-align:center;
+	}
+
+	.box {
+		border: 1px solid black;
+		overflow: auto;
+		display: inline-block;
+		background-color: whitesmoke;
+		margin: 10px;
+	}
+
+	.sides {
+		float:left;
+		margin: 10px;
+		padding: 10px;
+		border: 1px solid black;
+	}
+
+	.button_style {
+		cursor: pointer;
+	}
 </style>
 {% load static %}
 <!DOCTYPE html><!DOCTYPE html>
@@ -7,7 +34,18 @@
 	<title>User Profile</title>
 </head>
 <body>
+	<div class='back'>
+		<div class='box'>
+			<div class='sides'>
+				<img src="{% static 'jane_doe.jpg' %}">
+			</div>
+			<div class='sides'>
+				<p><b>Name: </b> {{name}}</p>
+				<p><b>SJSU Email: </b> {{email}}</p>
+				<button class='button_style' type='submit' id='list' disabled='true'>List a Book for Sale</button>
+			</div>
+		</div>
+	</div>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-	<img src="{% static 'omg.jpg' %}" alt="My image">
 </body>
 </html>
