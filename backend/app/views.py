@@ -77,3 +77,23 @@ def register(request):
         return HttpResponseRedirect("/") 
     context["form"] = form
     return HttpResponse(template.render(context, request))
+
+def view_book(request, book_id): 
+    '''
+    Book page. Will replace hardcoded values with DB data
+    Book ID will be used to query for data
+    '''
+    name = "Structure and Interpretation of Computer Programs"
+    author = "Harold Abelson, Gerald Jay Sussman, Julie Sussman"
+    isbn = "0-262-51087-1"
+    subject = "Computer Science"
+    class_used = "CS146"
+    template = loader.get_template('book_view.html')
+    context = {
+        'name': name,
+        'author': author,
+        'isbn': isbn,
+        'subject': subject,
+        'class_used': class_used
+    }
+    return HttpResponse(template.render(context, request))
