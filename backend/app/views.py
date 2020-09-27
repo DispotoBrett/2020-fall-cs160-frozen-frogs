@@ -9,7 +9,7 @@ def index(request):
     posting_list = Posting.objects.all()
     template = loader.get_template('index.html')
     context = {
-        'posting_list': posting_list,
+        'posting_list': posting_list[0:5],
         }
     return HttpResponse(template.render(context, request))
 
@@ -18,8 +18,13 @@ def about(request):
     return HttpResponse('Not implemented')
 
 def browse(request):
-    '''A simple about us static page'''
-    return HttpResponse('Not implemented')
+    '''A more detailed version of the homepage book listing'''
+    posting_list = Posting.objects.all()
+    template = loader.get_template('browse.html')
+    context = {
+        'posting_list': posting_list,
+        }
+    return HttpResponse(template.render(context, request))
 
 def get_posting(request, posting_id):
     '''Display an existing posting'''
