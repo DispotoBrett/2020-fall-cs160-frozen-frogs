@@ -1,8 +1,10 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block content %}
+<h1 class="display">Welcome to Spartan Bookshare!</h1>
+<h6 class="text-muted">The most trusted bookshare service for SJSU students<a href="/about"> Learn More</a></h6>
 {% if posting_list %}
-    <table id='postings' class='display'>
+    <table id='postings' class='display hover order-column striped bg-white border rounded'>
         <thead>
             <tr>
                 <th> Posting Title </th>
@@ -24,12 +26,9 @@
 
 <script>
     $(document).ready( function(){
-
-        var versionNo = $.fn.dataTable.version;
-        alert(versionNo);
-
-
-        $('#postings').DataTable();
+        $('#postings').DataTable({
+            "lengthChange": false,
+        });
     });
 </script>
 

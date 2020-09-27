@@ -4,7 +4,6 @@ from django.template import loader
 from datetime import datetime
 from .models import Posting
 
-
 def index(request):
     '''The app homepage'''
     posting_list = Posting.objects.all()
@@ -14,29 +13,34 @@ def index(request):
         }
     return HttpResponse(template.render(context, request))
 
+def about(request):
+    '''A simple about us static page'''
+    return HttpResponse('Not implemented')
+
+def browse(request):
+    '''A simple about us static page'''
+    return HttpResponse('Not implemented')
 
 def get_posting(request, posting_id):
     '''Display an existing posting'''
-    return HttpResponse()
-
+    return HttpResponse('Not implemented')
 
 def create_posting(request):
     '''Send the create post template for a seller'''
-    return HttpResponse('Create posting form goes here')
-
+    return HttpResponse('Not implemented')
 
 def save_posting(request):
     '''Save the posting to the database'''
     #Parse the form? Model binding is a thing tho. 
     #Create the posting here
-    return HttpResponse('Success or failure')
-
+    return HttpResponse('Not implemented')
 
 def profile(request): 
-	name = "Jane Doe"
-	email = "jane.doe@sjsu.edu"
-	context = {
-		'name': name,
-		'email': email
-	}
-	return render(request, 'profile.html', context)
+    name = "Jane Doe"
+    email = "jane.doe@sjsu.edu"
+    template = loader.get_template('profile.html')
+    context = {
+    	'name': name,
+    	'email': email
+    }
+    return HttpResponse(template.render(context, request))
