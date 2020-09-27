@@ -10,3 +10,22 @@ class Posting(models.Model):
 
     def __str__(self):
         return f'{self.title} Posted by {self.seller}'
+
+# Class for login. Trigger Login -> Logout
+class Login(models.Model):
+	sjsu_id = models.CharField(max_length = 9) # ID max length
+	sjsu_pw = models.CharField(max_length = 50)
+
+	def __str__(self):
+		return f'{self.sjsu_id},{self.sjsu_pw}'
+
+# Class for login. Trigger Login -> Logout
+class List_Book(models.Model):
+    title = models.CharField(max_length=300)
+    author = models.CharField(max_length=300)
+    isbn = models.CharField(max_length=300)
+    subject = models.CharField(max_length=300)
+    class_used = models.CharField(max_length=300)
+
+    def __str__(self):
+        return f'{self.title}/{self.author}/{self.isbn}/{self.subject}/{self.class_used}'

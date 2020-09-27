@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html><!DOCTYPE html>
+<html>
+<head>
+	<title>List a Book</title>
+</head>
+<body>
+	<h2>List a Book</h2>	
+	<form method='POST'>
+		{% csrf_token %}
+		<table class='table'>
+			<tr>
+				<th>
+					<label for="title">Title:</label>
+				</th>
+				<td>
+					<input id='title' type='text' class='form-control'>
+				</td>
+			</tr>
+			<tr>
+				<th>
+					<label for="author">Author:</label>
+				</th>
+				<td>
+					<input id='author' type='text' class='form-control'>
+				</td>
+			</tr>
+			<tr>
+				<th>
+					<label for="isbn">ISBN:</label>
+				</th>
+				<td>
+					<input id='isbn' type='text' class='form-control'>
+				</td>
+			</tr>
+			<tr>
+				<th>
+					<label for="subject">Subject:</label>
+				</th>
+				<td>
+					<input id='subject' type='text' class='form-control'>
+				</td>
+			</tr>
+			<tr>
+				<th>
+					<label for="class_used">Class Used In:</label>
+				</th>
+				<td>
+					<input id='class_used' type='text' class='form-control'>
+				</td>
+			</tr>
+		</table>
+		<input type="submit" value="List Book" class="btn btn-primary"> 
+	</form>
+</body>
+</html>
+
+{% endblock %}
