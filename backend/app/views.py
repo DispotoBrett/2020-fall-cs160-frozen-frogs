@@ -2,8 +2,8 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from datetime import datetime
-from .models import Posting, Login, List_Book
-from .forms import LoginForm, BookForm
+from .models import Posting, Login, List_Book, Register
+from .forms import LoginForm, BookForm, RegisterForm
 
 def index(request): # detail view
     '''The app homepage'''
@@ -70,11 +70,10 @@ def list_book(request):
 
 def register(request):
     '''Register a New User'''
-    # context ={}
-    # template = loader.get_template('register.html')
-    # form = RegisterForm(request.POST) 
-    # if form.is_valid(): 
-    #     return HttpResponseRedirect("/") 
-    # context["form"] = form
-    # return HttpResponse(template.render(context, request))
-    return HttpResponse('Not implemented')
+    context ={}
+    template = loader.get_template('register.html')
+    form = RegisterForm(request.POST) 
+    if form.is_valid(): 
+        return HttpResponseRedirect("/") 
+    context["form"] = form
+    return HttpResponse(template.render(context, request))

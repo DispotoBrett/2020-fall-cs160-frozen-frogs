@@ -13,11 +13,20 @@ class Posting(models.Model):
 
 # Class for login. Trigger Login -> Logout
 class Login(models.Model):
-	sjsu_id = models.CharField(max_length = 9) # ID max length
-	sjsu_pw = models.CharField(max_length = 50)
+    '''will need to make this more specific later'''
+    sjsu_id = models.CharField(max_length = 9)
+    sjsu_pw = models.CharField(max_length = 50)
+    def __str__(self):
+        return f'{self.sjsu_id},{self.sjsu_pw}'
 
-	def __str__(self):
-		return f'{self.sjsu_id},{self.sjsu_pw}'
+# class for registration
+class Register(models.Model):
+    sjsu_id = models.CharField(max_length = 9) # ID max length
+    sjsu_pw = models.CharField(max_length = 50)
+    name = models.CharField(max_length=300)
+
+    def __str__(self):
+        return f'{self.sjsu_id},{self.sjsu_pw},{self.name}'
 
 # Class for login. Trigger Login -> Logout
 class List_Book(models.Model):

@@ -3,13 +3,24 @@
 {% block content %}
 <div class="main"> 
     <!-- Create a Form -->
-    <h2>Login</h2>
+    <h2>Register</h2>
     <form method="POST"> 
         <!-- Security token by Django -->
         {% csrf_token %} 
   
         <!-- form as paragraph -->
         <table class='table'>
+        	<tr>
+	        	<th>
+	        		<label for="id_sjsu_id">Name:</label>
+	        	</th>
+	        	<td>
+	        		<!-- <ul class="errorlist">
+	        			<li>This field is required.</li>
+	        		</ul> -->
+	        		<input type="text" name="name" maxlength="9" required id="name" class="form-control">
+	        	</td>
+	        </tr>
         	<tr>
 	        	<th>
 	        		<label for="id_sjsu_id">SJSU ID:</label>
@@ -33,12 +44,7 @@
 			</tr>
         </table>
   
-        <input type="submit" value="Login" class="btn btn-primary"> 
+        <input type="submit" value="Register" class="btn btn-primary"> 
     </form> 
-  	 <div class="border-top pt-3">
-            <small class="text-muted">
-                Need An Account? <a class="ml-2" href="{% url 'register' %}">Sign Up Now</a>
-            </small>
-        </div>
 </div> 
 {% endblock%}
