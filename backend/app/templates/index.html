@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% if posting_list %}
+    <table id='postings' class='display'>
+        <thead>
+            <tr>
+                <th> Posting Title </th>
+                <th> Price </th>
+                <th> Seller </th>
+            </tr>
+        </thead>
+        {% for posting in posting_list %}
+        <tr>
+            <td> {{ posting.title }} </td>
+            <td> {{ posting.price }} </td>
+            <td> {{ posting.seller }} </td>
+        </tr>
+        {% endfor %}
+    </table>
+{% else %}
+    <p> No postings available. </p>
+{% endif %}
+
+<script>
+    $(document).ready( function(){
+
+        var versionNo = $.fn.dataTable.version;
+        alert(versionNo);
+
+
+        $('#postings').DataTable();
+    });
+</script>
+
+{% endblock %}
