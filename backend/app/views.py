@@ -2,8 +2,8 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from datetime import datetime
-from .models import Posting, Login, List_Book
-from .forms import LoginForm, BookForm
+from .models import Posting, Login, List_Book, Register
+from .forms import LoginForm, BookForm, RegisterForm
 
 def index(request): # detail view
     '''The app homepage'''
@@ -70,11 +70,30 @@ def list_book(request):
 
 def register(request):
     '''Register a New User'''
-    # context ={}
-    # template = loader.get_template('register.html')
-    # form = RegisterForm(request.POST) 
-    # if form.is_valid(): 
-    #     return HttpResponseRedirect("/") 
-    # context["form"] = form
-    # return HttpResponse(template.render(context, request))
-    return HttpResponse('Not implemented')
+    context ={}
+    template = loader.get_template('register.html')
+    form = RegisterForm(request.POST) 
+    if form.is_valid(): 
+        return HttpResponseRedirect("/") 
+    context["form"] = form
+    return HttpResponse(template.render(context, request))
+
+def view_book(request, book_id): 
+    '''
+    Book page. Will replace hardcoded values with DB data
+    Book ID will be used to query for data
+    '''
+    name = "Structure and Interpretation of Computer Programs"
+    author = "Harold Abelson, Gerald Jay Sussman, Julie Sussman"
+    isbn = "0-262-51087-1"
+    subject = "Computer Science"
+    class_used = "CS146"
+    template = loader.get_template('book_view.html')
+    context = {
+        'name': name,
+        'author': author,
+        'isbn': isbn,
+        'subject': subject,
+        'class_used': class_used
+    }
+    return HttpResponse(template.render(context, request))

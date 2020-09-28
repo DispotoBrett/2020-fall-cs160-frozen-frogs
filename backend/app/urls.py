@@ -15,5 +15,6 @@ urlpatterns = [
     path('browse', views.browse, name='browse'),
     path('login', views.login, name='login'),
     path('list_book', views.list_book, name='list_book'),
+    path('view_book/<book_id>', views.view_book, name='view_book'),
     path('register', views.register, name='register')
 ] + static(settings.STATIC_URL)
