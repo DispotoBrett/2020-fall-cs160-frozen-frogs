@@ -3,3 +3,4 @@
 *.pyc
 *.pyo
 **/__pycache__
+/backend/app/static/img/book_thumbnails/**

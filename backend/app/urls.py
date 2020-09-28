@@ -11,6 +11,5 @@ urlpatterns = [
     path('createPosting', views.create_posting, name='create'),
     path('savePosting', views.save_posting, name='save'),
     path('posting/<int:posting_id>', views.get_posting, name='get'),
-    path('about', views.about, name='about'),
     path('browse', views.browse, name='browse')
 ] + static(settings.STATIC_URL)

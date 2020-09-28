@@ -34,12 +34,14 @@ Ubuntu 20.04
 - run `sudo mysql_secure_installation`
 - Follow the prompt. Allow the least secure options available. Don't remove anon users. Don't disable remote root login.
 - Login to mysql as root "sudo mysql -u root -p', enter your password
-- Run the script following script AS ROOT! /backend/init-db.sh
+- Run the script following script AS ROOT! `/database/scripts/init-db.sh`
 	- This will create a user `frogs`
 	- Sets the password to `frogs`
 	- Creates a database named `frogs`
 	- The script will likley prompt you for your mysql root passsword you set earlier. ABOUT 4 times, so just keep  typing it.
 	- Feel free to do this by hand. Just make sure the credentals match up.
+    - You might want to run the sqldump script provided in `/database/scripts/loadBooks.sql` to populate with some books
+      for a demo.
 - Run `python manage.py migrate` to migrate the existing django services to the new database
 - Run `python manage.py makemigrations app` and `python manage.py migrate` again to put the models in the database
 - Verify everything worked. Your mysql database frogs should be populated

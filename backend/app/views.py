@@ -1,8 +1,10 @@
+from time import sleep
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import loader
 from datetime import datetime
 from .models import Posting
+from django.contrib.staticfiles import finders
 
 def index(request):
     '''The app homepage'''
@@ -13,21 +15,40 @@ def index(request):
         }
     return HttpResponse(template.render(context, request))
 
-def about(request):
-    '''A simple about us static page'''
-    return HttpResponse('Not implemented')
-
 def browse(request):
     '''A more detailed version of the homepage book listing'''
     posting_list = Posting.objects.all()
+    posting_image_list = []
+    for i in range(len(posting_list)):
+        #Right now only supports png, we need to use a regex here instead
+        img = finders.find(f'img/book_thumbnails/{posting_list[i].id}.png')
+        if img is not None:
+            img = img.split('/backend/app/static/')[1]
+
+        posting_image_list.append((posting_list[i] , img))
+        
     template = loader.get_template('browse.html')
     context = {
-        'posting_list': posting_list,
+        'posting_image_list': posting_image_list,
         }
     return HttpResponse(template.render(context, request))
 
 def get_posting(request, posting_id):
     '''Display an existing posting'''
+    template = loader.get_template('posting.html')
+    posting = Posting.objects.get(id=posting_id)
+    img = finders.find(f'img/book_thumbnails/{posting_id}.png')
+    if img is not None:
+        img = img.split('/backend/app/static/')[1]
+
+    context = {
+        "posting" : posting,
+        "image" : img
+    } 
+
+    return HttpResponse(template.render(context, request))
+
+
     return HttpResponse('Not implemented')
 
 def create_posting(request):
@@ -49,3 +70,4 @@ def profile(request):
     	'email': email
     }
     return HttpResponse(template.render(context, request))
+

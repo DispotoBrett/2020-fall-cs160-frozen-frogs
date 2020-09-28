@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="alert bg-light row">
+    <div class="col-3">
+        {% if image is None %}
+        <img src="{% static 'img/missing.png' %}" height="60" width="60">
+        {% else %}
+        <img src="{% static image  %}" height="200" width="200" class="img-fluid">
+        {% endif %}
+    </div>
+    <div class="col-9">
+        <ul class="list-group">
+            <li class="list-group-item active display-4"> 
+                <div class="row">
+                    <div class="col-10">
+                        {{ posting.title }}
+                    </div>
+                    <div class="col-2">
+                        <div class="btn-group" role="group" aria-label="Basic example">
+                          <a type="button" class="btn btn-light border border-dark">
+                            <img src="{% static 'icons/cart-plus.svg' %}" height=25 width=25>
+                          </a>                                  <a type="button" class="btn btn-light border border-dark">
+                            <img src="{% static 'icons/suit-heart.svg' %}" height=25 width=25></a>
+                          </a>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li class="list-group-item">Price: ${{ posting.price }}</li>
+            <li class="list-group-item">Description: {{ posting.description }}</li>
+            <li class="list-group-item">Seller: {{ posting.seller }}</li>
+    </div>
+</div>
+ 
+
+{% endblock %}
