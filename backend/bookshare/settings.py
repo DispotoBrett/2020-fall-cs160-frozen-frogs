@@ -86,6 +86,9 @@ DATABASES = {
 	'USER': 'frogs',
 	'PASSWORD': 'frogs',
 	'HOST': '',#Just use localhost
+        # For docker container:
+        #'HOST': '0.0.0.0',
+        #'PORT': 3306
     }
 }
 

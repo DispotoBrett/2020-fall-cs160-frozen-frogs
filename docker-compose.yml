@@ -1,0 +1,18 @@
+version: '3.8'
+services:
+  db:
+    image: 'mysql:8.0'
+    ports:
+      - '3306:3306'
+    env_file:
+      - ./database/mysql.env
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+      # Initially built with this, but later Django migrate complained about the
+      # table 'app_posting' already existing. Leaving for reference of how to 
+      # hook into the db initialization
+      #- ./database/scripts/loadBooks.sql:/docker-entrypoint-initdb.d/init.sql:ro
+
+volumes:
+  mysql-data:
