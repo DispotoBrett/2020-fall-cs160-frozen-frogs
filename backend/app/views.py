@@ -25,7 +25,7 @@ def browse(request):
         #Right now only supports png, we need to use a regex here instead
         img = finders.find(f'img/book_thumbnails/{posting_list[i].id}.png')
         if img is not None:
-            img = img.split('/backend/app/static/')[1]
+            img = img.split('/static/')[1]
 
         posting_image_list.append((posting_list[i] , img))
         
@@ -41,7 +41,7 @@ def get_posting(request, posting_id):
     posting = Posting.objects.get(id=posting_id)
     img = finders.find(f'img/book_thumbnails/{posting_id}.png')
     if img is not None:
-        img = img.split('/backend/app/static/')[1]
+        img = img.split('/static/')[1]
 
     context = {
         "posting" : posting,
