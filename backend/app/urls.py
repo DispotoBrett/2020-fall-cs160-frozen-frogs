@@ -11,7 +11,6 @@ urlpatterns = [
     path('createPosting', views.create_posting, name='create'),
     path('savePosting', views.save_posting, name='save'),
     path('posting/<int:posting_id>', views.get_posting, name='get'),
-    path('about', views.about, name='about'),
     path('browse', views.browse, name='browse'),
     path('login', views.login, name='login'),
     path('list_book', views.list_book, name='list_book'),
