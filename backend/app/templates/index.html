@@ -2,33 +2,43 @@
 {% load static %}
 {% block content %}
 <h1 class="display">Welcome to Spartan Bookshare!</h1>
-<h6 class="text-muted">The most trusted bookshare service for SJSU students<a href="/about"> Learn More</a></h6>
-<!-- <p>{{data.sjsu_id}} {{data.sjsu_pw}}</p> -->
-{% if posting_list %}
-    <table id='postings' class='display hover order-column striped bg-white border rounded'>
-        <thead>
-            <tr>
-                <th> Posting Title </th>
-                <th> Price </th>
-                <th> Seller </th>
-            </tr>
-        </thead>
-        {% for posting in posting_list %}
-        <tr>
-            <td> {{ posting.title }} </td>
-            <td> {{ posting.price }} </td>
-            <td> {{ posting.seller }} </td>
-        </tr>
-        {% endfor %}
-    </table>
-{% else %}
-    <p> No postings available. </p>
-{% endif %}
 
+<h5 class="ml-5 text-muted">The most trusted bookshare service for SJSU students.</h5>
+{% if posting_list %}
+<hr>
+<div class='alert alert-light'>
+    <div class='alert alert-light text-dark rounded mb-2'>
+        <h3> Checkout the latest listings 👇</h3>
+        <i class='text-muted'> Or <a href='/browse'>browse</a> all available books. </i>
+    </div>
+    <div class=''>
+        <table id='postings' class='display hover order-column striped bg-white border rounded'>
+            <thead>
+                <tr>
+                    <th> Posting Title </th>
+                    <th> Price </th>
+                    <th> Seller </th>
+                </tr>
+            </thead>
+            {% for posting in posting_list %}
+            <tr>
+                <td> <a href="posting/{{posting.id }}"> {{ posting.title }} </a></td>
+                <td> {{ posting.price }} </td>
+                <td> {{ posting.seller }} </td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% else %}
+        <p> No postings available. </p>
+        {% endif %}
+    </div>
+</div>
 <script>
     $(document).ready( function(){
         $('#postings').DataTable({
             "lengthChange": false,
+            "paging": false,
+            "bFilter": false,
         });
     });
 </script>

@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<h1 class="display">Browse all Books</h1>
+<p class="text-muted">Hint: use the search bar to filter by title, seller, et cetra.</p>
+{% if posting_image_list %}
+    <table id='postings' class='display hover order-column striped bg-white border rounded'>
+        <thead>
+            <tr>
+                <th> Image </th>
+                <th> Posting Title </th>
+                <th> Description </th>
+                <th> Price </th>
+                <th> Seller </th>
+                <th> Action </th>
+            </tr>
+        </thead>
+        {% for posting, image in posting_image_list %}
+        <tr>
+            <td>
+                <a href="posting/{{posting.id }}">
+                    {% if image is None %}
+                    <img src="{% static 'img/missing.png' %}" height="60" width="60">
+                    {% else %}
+                    <img src="{% static image  %}" height="200" width="200" class="img-fluid">
+                    {% endif %}
+                </a>
+            </td>
+            <td> <a href="posting/{{posting.id }}"> {{ posting.title }} </a></td>
+            <td> {{ posting.description }} </td>
+            <td> {{ posting.price }} </td>
+            <td> {{ posting.seller }} </td>
+            <td> 
+                <div class="btn-group" role="group" aria-label="Basic example">
+                  <a type="button" class="btn btn-light border border-dark">
+                    <img src="{% static 'icons/cart-plus.svg' %}" height=25 width=25>
+                  </a>                                  <a type="button" class="btn btn-light border border-dark">
+                    <img src="{% static 'icons/suit-heart.svg' %}" height=25 width=25></a>
+                  </a>
+                </div>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+{% else %}
+    <p> No postings available. </p>
+{% endif %}
+
+<script>
+    $(document).ready( function(){
+        $('#postings').DataTable({
+                //Customize datatable if we want
+        });
+    });
+</script>
+
+{% endblock %}
