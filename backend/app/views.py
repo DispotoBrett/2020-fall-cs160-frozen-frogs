@@ -1,12 +1,14 @@
 from time import sleep
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from datetime import datetime
 from .models import Posting
 from django.contrib.staticfiles import finders
+from .models import Posting, Login, List_Book, Register
+from .forms import LoginForm, BookForm, RegisterForm
 
-def index(request):
+def index(request): # detail view
     '''The app homepage'''
     posting_list = Posting.objects.all()
     template = loader.get_template('index.html')
@@ -61,7 +63,18 @@ def save_posting(request):
     #Create the posting here
     return HttpResponse('Not implemented')
 
+def login(request): 
+    '''Login page'''
+    context ={}
+    template = loader.get_template('login.html')
+    form = LoginForm(request.POST) 
+    if form.is_valid(): 
+        return HttpResponseRedirect("/") 
+    context["form"] = form
+    return HttpResponse(template.render(context, request))
+
 def profile(request): 
+    '''Profile page. Will replace hardcoded values with DB data'''
     name = "Jane Doe"
     email = "jane.doe@sjsu.edu"
     template = loader.get_template('profile.html')
@@ -71,3 +84,43 @@ def profile(request):
     }
     return HttpResponse(template.render(context, request))
 
+def list_book(request):
+    '''Form for listing a book for sale'''
+    context ={}
+    template = loader.get_template('list_book.html')
+    form = BookForm(request.POST) 
+    if form.is_valid(): 
+        return HttpResponseRedirect("/") 
+    context["form"] = form
+    return HttpResponse(template.render(context, request))
+
+
+def register(request):
+    '''Register a New User'''
+    context ={}
+    template = loader.get_template('register.html')
+    form = RegisterForm(request.POST) 
+    if form.is_valid(): 
+        return HttpResponseRedirect("/") 
+    context["form"] = form
+    return HttpResponse(template.render(context, request))
+
+def view_book(request, book_id): 
+    '''
+    Book page. Will replace hardcoded values with DB data
+    Book ID will be used to query for data
+    '''
+    name = "Structure and Interpretation of Computer Programs"
+    author = "Harold Abelson, Gerald Jay Sussman, Julie Sussman"
+    isbn = "0-262-51087-1"
+    subject = "Computer Science"
+    class_used = "CS146"
+    template = loader.get_template('book_view.html')
+    context = {
+        'name': name,
+        'author': author,
+        'isbn': isbn,
+        'subject': subject,
+        'class_used': class_used
+    }
+    return HttpResponse(template.render(context, request))

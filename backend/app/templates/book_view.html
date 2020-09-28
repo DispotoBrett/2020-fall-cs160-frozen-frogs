@@ -136,55 +136,53 @@ mark {
                 <div class="row align-items-center flex-row-reverse">
                     <div class="col-lg-6">
                         <div class="about-text go-to">
-                            <h3 class="dark-color">Hello {{name}}!</h3>
-                            <p>Welcome to your SpartanBooks profile. Here you are able to list a book, view your listings, and update account information</p>
+                            <h3 class="dark-color">{{name}}</h3>
                             <div class="row about-list">
-                                <div class="col-md-6">
+                                <div class="col-md-auto">
                                     <div class="media">
-                                        <label>Name</label>
-                                        <p>{{name}}</p>
+                                        <label>Author</label>
+                                        <p>{{author}}</p>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                              </div>
+                              <div class="row about-list">
+                                <div class="col-md-auto">
                                     <div class="media">
-                                        <label>E-mail</label>
-                                        <p>{{email}}</p>
+                                        <label>ISBN</label>
+                                        <p>{{isbn}}</p>
                                     </div>
                                 </div>
+                              </div>
                             </div>
+                            <div class="row about-list">
+                                <div class="col-md-auto">
+                                    <div class="media">
+                                        <label>Subject</label>
+                                        <p>{{subject}}</p>
+                                    </div>
+                                </div>
+                              </div>
+                              <div class="row about-list">
+                                <div class="col-md-auto">
+                                    <div class="media">
+                                        <label>Class</label>
+                                        <p>{{class_used}}</p>
+                                    </div>
+                                </div>
+                              </div>
+                              <div class='row about-list'>
+                                <div class="col-md-auto">
+                                  <button class='btn btn-primary' type='submit' id='buy'>Purchase Book</button>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-lg-6" style="text-align:center; margin-bottom: 10px;">
+                              <div class="about-avatar">
+                                  <img src="{% static 'img/sicp.jpg' %}">
+                              </div>
+                          </div>
                         </div>
                     </div>
-                    <div class="col-lg-6" style="text-align:center; margin-bottom: 10px;">
-                        <div class="about-avatar">
-                            <img src="{% static 'img/jane_doe.jpg' %}" style='border-radius:50%;'>
-                        </div>
-                    </div>
-                </div>
-                <div class="counter">
-                    <div class="row">
-                        <div class="col-6 col-lg-3">
-                            <div class="count-data text-center">
-                                <button class='btn btn-primary' type='submit' id='list' onclick="location.href = '/list_book'">List a Book for Sale</button>
-                            </div>
-                        </div>
-                        <div class="col-6 col-lg-3">
-                            <div class="count-data text-center">
-                               <button class='btn btn-primary' type='submit' id='view_books'>View your Books for Sale</button>
-                            </div>
-                        </div>
-                        <div class="col-6 col-lg-3">
-                            <div class="count-data text-center">
-                            	<button class='btn btn-primary' type='submit' id='edit_prof'>Edit Profile Information</button>
-                            </div>
-                        </div>
-                        <div class="col-6 col-lg-3">
-                            <div class="count-data text-center">
-                                <button class='btn btn-primary' type='submit' id='logout'>Logout</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </section>
 
 {% endblock %}
