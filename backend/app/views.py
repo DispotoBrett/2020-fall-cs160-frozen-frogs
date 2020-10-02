@@ -5,8 +5,8 @@ from django.template import loader
 from datetime import datetime
 from .models import Posting
 from django.contrib.staticfiles import finders
-from .models import Posting, List_Book
-from .forms import BookForm
+from .models import Posting, List_Book, Register
+from .forms import BookForm, RegisterForm
 
 def index(request): # detail view
     '''The app homepage'''
@@ -102,4 +102,14 @@ def view_book(request, book_id):
         'subject': subject,
         'class_used': class_used
     }
+    return HttpResponse(template.render(context, request))
+
+def register(request):
+    '''Register a New User'''
+    context ={}
+    template = loader.get_template('register.html')
+    form = RegisterForm(request.POST) 
+    if form.is_valid(): 
+        return HttpResponseRedirect("/") 
+    context["form"] = form
     return HttpResponse(template.render(context, request))

@@ -1,35 +1,50 @@
-{% extends "base.html" %}
-
+{% extends 'base.html' %}
+{% load static %}
 {% block content %}
-
-{% if form.errors %}
-<p>Your username and password didn't match. Please try again.</p>
-{% endif %}
-
-{% if next %}
-    {% if user.is_authenticated %}
-    <p>Your account doesn't have access to this page. To proceed,
-    please login with an account that has access.</p>
-    {% else %}
-    <p>Please login to see this page.</p>
-    {% endif %}
-{% endif %}
-
-<form method="post" action="{% url 'login' %}">
-{% csrf_token %}
-<table>
-<tr>
-    <td>{{ form.username.label_tag }}</td>
-    <td>{{ form.username }}</td>
-</tr>
-<tr>
-    <td>{{ form.password.label_tag }}</td>
-    <td>{{ form.password }}</td>
-</tr>
-</table>
-
-<input type="submit" value="login">
-<input type="hidden" name="next" value="{{ next }}">
-</form>
-
-{% endblock %}
+<div class="main"> 
+    <!-- Create a Form -->
+    <h2>Register</h2>
+    <form method="POST" action=''> 
+        <!-- Security token by Django -->
+        {% csrf_token %} 
+  
+        <!-- form as paragraph -->
+        <table class='table'>
+        	<tr>
+	        	<th>
+	        		<label for="id_sjsu_id">Name:</label>
+	        	</th>
+	        	<td>
+	        		<!-- <ul class="errorlist">
+	        			<li>This field is required.</li>
+	        		</ul> -->
+	        		<input type="text" name="name" maxlength="9" required id="name" class="form-control">
+	        	</td>
+	        </tr>
+        	<tr>
+	        	<th>
+	        		<label for="id_sjsu_id">SJSU ID:</label>
+	        	</th>
+	        	<td>
+	        		<!-- <ul class="errorlist">
+	        			<li>This field is required.</li>
+	        		</ul> -->
+	        		<input type="text" name="sjsu_id" maxlength="9" required id="id_sjsu_id" class="form-control">
+	        	</td>
+	        </tr>
+			<tr>
+				<th>
+					<label for="id_sjsu_pw">Password:</label>
+				</th>
+				<td>
+		<!-- 			<ul class="errorlist"><li>This field is required.</li>
+					</ul> -->
+					<input type="password" name="sjsu_pw" maxlength="50" required id="id_sjsu_pw" class="form-control">
+				</td>
+			</tr>
+        </table>
+  
+        <input type="submit" value="Register" class="btn btn-primary"> 
+    </form> 
+</div> 
+{% endblock%}

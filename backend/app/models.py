@@ -20,7 +20,6 @@ class Posting(models.Model):
     seller = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Seller', related_name='Seller')
     buyer = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Buyer', related_name='Buyer')
 
-
     def __str__(self):
         return f'{self.title} Posted by {self.seller}' 
 
@@ -33,3 +32,12 @@ class Message(models.Model):
  
     def __str__(self):
         return f'{from_user} said to {to_user}: {message_text}' 
+
+
+class Register(models.Model):
+    sjsu_id = models.CharField(max_length = 9) # ID max length
+    sjsu_pw = models.CharField(max_length = 50)
+    name = models.CharField(max_length=300)
+
+    def __str__(self):
+        return f'{self.sjsu_id},{self.sjsu_pw},{self.name}'

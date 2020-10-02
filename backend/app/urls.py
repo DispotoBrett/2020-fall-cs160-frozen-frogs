@@ -16,6 +16,8 @@ urlpatterns = [
     path('list_book', views.list_book, name='list_book'),
     path('view_book/<book_id>', views.view_book, name='view_book'),
     path('login', auth_views.LoginView.as_view()),
+    path('register', views.register, name='register')
+
 
 ] + static(settings.STATIC_URL)
 
