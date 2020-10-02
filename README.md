@@ -55,6 +55,11 @@ Ubuntu 20.04
 ## Notes
 - The django admin username and password are both `frogs`
 
+## Database Migrations
+- Upon any change to the models, you'll have to run:
+- `python manage.py makemigrations`
+- `python manage.py migrate --fake app`
+
 ## Run in development mode:
 To run the django app in deveopment mode:
 - Change to the `backend/` directory

@@ -5,8 +5,8 @@ from django.template import loader
 from datetime import datetime
 from .models import Posting
 from django.contrib.staticfiles import finders
-from .models import Posting, Login, List_Book, Register
-from .forms import LoginForm, BookForm, RegisterForm
+from .models import Posting, List_Book
+from .forms import BookForm
 
 def index(request): # detail view
     '''The app homepage'''
@@ -63,16 +63,6 @@ def save_posting(request):
     #Create the posting here
     return HttpResponse('Not implemented')
 
-def login(request): 
-    '''Login page'''
-    context ={}
-    template = loader.get_template('login.html')
-    form = LoginForm(request.POST) 
-    if form.is_valid(): 
-        return HttpResponseRedirect("/") 
-    context["form"] = form
-    return HttpResponse(template.render(context, request))
-
 def profile(request): 
     '''Profile page. Will replace hardcoded values with DB data'''
     name = "Jane Doe"
@@ -89,17 +79,6 @@ def list_book(request):
     context ={}
     template = loader.get_template('list_book.html')
     form = BookForm(request.POST) 
-    if form.is_valid(): 
-        return HttpResponseRedirect("/") 
-    context["form"] = form
-    return HttpResponse(template.render(context, request))
-
-
-def register(request):
-    '''Register a New User'''
-    context ={}
-    template = loader.get_template('register.html')
-    form = RegisterForm(request.POST) 
     if form.is_valid(): 
         return HttpResponseRedirect("/") 
     context["form"] = form

@@ -1,35 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import  User, Group
 
-class Posting(models.Model):
-    title = models.CharField(max_length=100)
-    price = models.IntegerField(default=100)
-    description = models.CharField(max_length=10000)
-    seller = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Seller', related_name='Seller')
-    buyer = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Buyer', related_name='Buyer')
-
-    def __str__(self):
-        return f'{self.title} Posted by {self.seller}'
-
-# Class for login. Trigger Login -> Logout
-class Login(models.Model):
-    '''will need to make this more specific later'''
-    sjsu_id = models.CharField(max_length = 9)
-    sjsu_pw = models.CharField(max_length = 50)
-    def __str__(self):
-        return f'{self.sjsu_id},{self.sjsu_pw}'
-
-# class for registration
-class Register(models.Model):
-    sjsu_id = models.CharField(max_length = 9) # ID max length
-    sjsu_pw = models.CharField(max_length = 50)
-    name = models.CharField(max_length=300)
-
-    def __str__(self):
-        return f'{self.sjsu_id},{self.sjsu_pw},{self.name}'
-
-# Class for login. Trigger Login -> Logout
 class List_Book(models.Model):
+    '''Represents a book'''
     title = models.CharField(max_length=300)
     author = models.CharField(max_length=300)
     isbn = models.CharField(max_length=300)
@@ -38,3 +11,25 @@ class List_Book(models.Model):
 
     def __str__(self):
         return f'{self.title}/{self.author}/{self.isbn}/{self.subject}/{self.class_used}'
+
+class Posting(models.Model):
+    '''epresents a book posting on the site '''
+    title = models.CharField(max_length=100)
+    price = models.IntegerField(default=100)
+    description = models.CharField(max_length=10000)
+    seller = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Seller', related_name='Seller')
+    buyer = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Buyer', related_name='Buyer')
+
+
+    def __str__(self):
+        return f'{self.title} Posted by {self.seller}' 
+
+
+class Message(models.Model):
+    ''' Represents a message between users '''
+    to_user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='ToUser', related_name='ToUser+')
+    from_user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='FromUser', related_name='FromUser+')
+    message_text = models.CharField(max_length=300)
+ 
+    def __str__(self):
+        return f'{from_user} said to {to_user}: {message_text}' 
