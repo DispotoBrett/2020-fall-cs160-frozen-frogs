@@ -19,6 +19,7 @@ class Posting(models.Model):
     description = models.CharField(max_length=10000)
     seller = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Seller', related_name='Seller')
     buyer = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Buyer', related_name='Buyer')
+    book = models.ForeignKey(List_Book, on_delete=models.CASCADE, verbose_name='Book', related_name='Book')
 
     def __str__(self):
         return f'{self.title} Posted by {self.seller}' 
