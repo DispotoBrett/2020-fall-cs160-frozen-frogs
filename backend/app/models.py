@@ -36,6 +36,7 @@ class Message(models.Model):
 
 
 class Register(models.Model):
+    '''Not to be saved to the database, but usefulf for creating forms'''
     sjsu_id = models.CharField(max_length = 9) # ID max length
     sjsu_pw = models.CharField(max_length = 50)
     name = models.CharField(max_length=300)
