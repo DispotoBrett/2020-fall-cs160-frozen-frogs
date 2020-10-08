@@ -61,6 +61,25 @@ Ubuntu 20.04
     - Then you can test commands such as `Posting.objects.All()` see the [django database api reference](https://docs.djangoproject.com/en/3.1/topics/db/queries/) for more info.
     - Django has also has a nice explanation of the ORM [here](https://docs.djangoproject.com/en/3.1/intro/tutorial02/)
 
+## Docker Setup
+- Install [Docker Desktop](https://www.docker.com/products/docker-desktop)
+- After installing, you will have access to the docker command line utility, `docker`
+- For this project, we will be using Docker Compose, which is a way to streamline running multiple Docker containers from a single config file, docker-compose.yml
+- To build and run the docker-compose.yml file, navigate to the project directory and run `docker-compose up -d --build`
+- The above command will build the container images as well as run them in the background (-d option specifies detached mode)
+- To start and stop the containers, you can use `docker-compose stop` and `docker-compose start`
+
+### Docker CLI Quick Reference
+- To display all containers on your system run `docker ps -a`
+- To log in to one of your containers run `docker exec -it <container_name> /bash`
+- NOTE: Not all containers use the same shell executable. Above we used bash, but depending on the container image, it may be different.
+
+### Configured Containers (docker-compose.yml)
+- MySQL container with env options specified in `database/mysql.env`
+
+## Notes
+- The django admin username and password are both `frogs`
+
 ## ⚠ Database migrations ⚠
 Upon database schema changes, you'll have to do the following.
 Warning: this will delete the data in your tables. 
@@ -73,6 +92,7 @@ If you dont want to lose your data, upon any change to the models, you can try t
 - `python manage.py makemigrations`
 - `python manage.py migrate --fake app`
 - When django asks, try to allow a None value in a new field
+
 ## Run in development mode:
 To run the django app in deveopment mode:
 - Change to the `backend/` directory
