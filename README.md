@@ -8,6 +8,7 @@
 	- [Building the dev environment](#building-the-dev-environment)
 	- [Database setup](#database-setup)
 	- [⚠ Database migrations ⚠](#-database-migrations-)
+	- [Docker Setup](#docker-setup)
 	- [Run in development mode:](#run-in-development-mode)
 	- [Deploy](#deploy)
 	- [Notes](#notes)
@@ -22,7 +23,6 @@
 - MySQL 8
 
 ## Building the dev environment
-
 
 - Clone the repository
 
@@ -61,6 +61,19 @@ Ubuntu 20.04
     - Then you can test commands such as `Posting.objects.All()` see the [django database api reference](https://docs.djangoproject.com/en/3.1/topics/db/queries/) for more info.
     - Django has also has a nice explanation of the ORM [here](https://docs.djangoproject.com/en/3.1/intro/tutorial02/)
 
+## ⚠ Database migrations ⚠
+Upon database schema changes, you'll have to do the following.
+Warning: this will delete the data in your tables. 
+- Make sure you have the latest version of the app. You must run `source install.sh` from `/backend`, because this procedure invovles using the `django-extensions` addon
+- `python manage.py reset_db --router=default`
+- `python manage.py makemigrations`
+- `python manage.py migrate`
+
+If you dont want to lose your data, upon any change to the models, you can try the following, but it will likley cause more issues:
+- `python manage.py makemigrations`
+- `python manage.py migrate --fake app`
+- When django asks, try to allow a None value in a new field
+
 ## Docker Setup
 - Install [Docker Desktop](https://www.docker.com/products/docker-desktop)
 - After installing, you will have access to the docker command line utility, `docker`
@@ -77,22 +90,6 @@ Ubuntu 20.04
 ### Configured Containers (docker-compose.yml)
 - MySQL container with env options specified in `database/mysql.env`
 
-## Notes
-- The django admin username and password are both `frogs`
-
-## ⚠ Database migrations ⚠
-Upon database schema changes, you'll have to do the following.
-Warning: this will delete the data in your tables. 
-- Make sure you have the latest version of the app. You must run `source install.sh` from `/backend`, because this procedure invovles using the `django-extensions` addon
-- `python manage.py reset_db --router=default`
-- `python manage.py makemigrations`
-- `python manage.py migrate`
-
-If you dont want to lose your data, upon any change to the models, you can try the following, but it will likley cause more issues:
-- `python manage.py makemigrations`
-- `python manage.py migrate --fake app`
-- When django asks, try to allow a None value in a new field
-
 ## Run in development mode:
 To run the django app in deveopment mode:
 - Change to the `backend/` directory
@@ -100,7 +97,6 @@ To run the django app in deveopment mode:
 - run `python manage.py runserver`
 
 - navigate to `localhost:8000` in your broswer
-
 
 ## Deploy
 To deploy the application on an apache web server:
