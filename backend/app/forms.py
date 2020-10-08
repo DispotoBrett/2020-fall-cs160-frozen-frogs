@@ -1,10 +1,5 @@
 from django import forms
-from .models import Login, List_Book, Register
-
-class LoginForm(forms.ModelForm):
-	class Meta:
-		model = Login
-		fields = ["sjsu_id", "sjsu_pw"]
+from .models import List_Book, Register
 
 class BookForm(forms.ModelForm):
 	class Meta:
