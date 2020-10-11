@@ -7,6 +7,7 @@ from .models import Posting
 from django.contrib.staticfiles import finders
 from .models import Posting, List_Book, Register
 from .forms import BookForm, RegisterForm
+from django.contrib.auth import logout
 
 def index(request): # detail view
     '''The app homepage'''
@@ -65,7 +66,11 @@ def save_posting(request):
 
 def profile(request): 
     '''Profile page. Will replace hardcoded values with DB data'''
-    name = "Jane Doe"
+    if not request.user.is_authenticated:
+        #TODO Redirct 
+        name = "Not Logged In"
+    else:
+        name =request.user.username
     email = "jane.doe@sjsu.edu"
     template = loader.get_template('profile.html')
     context = {
@@ -113,3 +118,7 @@ def register(request):
         return HttpResponseRedirect("/") 
     context["form"] = form
     return HttpResponse(template.render(context, request))
+
+def logout_view(request):
+    logout(request)
+    return index(request) 

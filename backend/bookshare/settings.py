@@ -25,7 +25,12 @@ SECRET_KEY = '&m^ex!(p@cdjj4mc=8fklfue@5uautvp8z&w_l%evn7io^5wna'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+        #For brett's dev env:
+        'ubuntu-server',
+        'localhost',
+        '127.0.0.1'
+        ]
 
 
 # Application definition
@@ -79,7 +84,6 @@ WSGI_APPLICATION = 'bookshare.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -92,7 +96,6 @@ DATABASES = {
         #'PORT': 3306
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators

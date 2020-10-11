@@ -38,14 +38,6 @@ class Message(models.Model):
     def __str__(self):
         return f'{from_user} said to {to_user}: {message_text}' 
 
-class SJSU_User(User):
-    '''
-    Extends the django user model.
-    Use this model instead of the django user model.
-    '''
-    balance = models.IntegerField(default=0)
-
-
 class Register(models.Model):
     ''' 
     We might not actually want this.
