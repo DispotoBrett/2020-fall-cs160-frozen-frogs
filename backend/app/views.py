@@ -1,3 +1,8 @@
+import os
+from .utils import upload_img
+from django.core.files.storage import default_storage
+from django.core.files.base import ContentFile
+from django.conf import settings
 from time import sleep
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
@@ -74,12 +79,14 @@ def profile(request):
     '''Profile page. Will replace hardcoded values with DB data'''
     if not request.user.is_authenticated:
         return HttpResponseRedirect("/")
+    profile_pic = f'{settings.MEDIA_URL}/profile_pics/{request.user.id}.jpg'
     name = request.user.username
     email = request.user.email
     template = loader.get_template('profile.html')
     context = {
         'name': name,
-        'email': email
+        'email': email,
+        'profile_pic': profile_pic
     }
     return HttpResponse(template.render(context, request))
 
@@ -124,6 +131,9 @@ def register(request):
             new_user = User.objects.create_user(request.POST['username'], request.POST['email'], request.POST['password'])
             new_user.save()
             login(request, new_user)
+            profile_pic = request.FILES['picture']
+            #The form only accepts jpg 
+            upload_img(profile_pic, f'profile_pics/{new_user.id}.jpg')
             return HttpResponseRedirect("/profile")
         else:
             context = {
@@ -156,8 +166,6 @@ def login_view(request):
         return HttpResponse(template.render(context, request))
 
 # Weird name because of name conflicts with django logout
-
-
 def logout_view(request):
     logout(request)
     return index(request)

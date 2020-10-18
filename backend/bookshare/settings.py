@@ -59,10 +59,6 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'bookshare.urls'
-
-# MEDIA_URL = '/media/'
-# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -135,3 +131,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (os.path.join(BASE_DIR, '../frontend/static'),)
 LOGIN_REDIRECT_URL = '/profile'
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, '../frontend/media')
+
