@@ -8,7 +8,6 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from datetime import datetime
-from .models import Posting
 from django.contrib.staticfiles import finders
 from .models import Posting, List_Book, Register
 from .forms import BookForm
@@ -93,14 +92,37 @@ def profile(request):
 
 def list_book(request):
     '''Form for listing a book for sale'''
-    context = {}
+    # context = {}
+    # template = loader.get_template('list_book.html')
+    # form = BookForm(request.POST)
+    # if form.is_valid():
+    #     return HttpResponseRedirect("/")
+    # context["form"] = form
+    # return HttpResponse(template.render(context, request))
     template = loader.get_template('list_book.html')
-    form = BookForm(request.POST)
-    if form.is_valid():
-        return HttpResponseRedirect("/")
-    context["form"] = form
-    return HttpResponse(template.render(context, request))
+    print('*******')
+    print(User.id)
+    print('*******')
+    if request.POST:
+        # title = request.POST['title']
+        title = request.POST.get('title')
+        author = request.POST.get('author')
+        isbn = request.POST.get('isbn')
+        subject = request.POST.get('subject')
+        class_used = request.POST.get('class_used')
+        des = request.POST.get('description')
+        price = request.POST.get('price')
+        if '' in (title, author, isbn, subject, class_used, des, price):
+            return HttpResponse(template.render({'error': 'Please fill out all fields.'}, request))
+        else:
+            # Post to Posting and List_Book
+            book = List_Book(title=title,author=author,isbn=isbn,subject=subject,class_used=class_used)
+            book.save()
+            print(book.id)
 
+            return HttpResponse(template.render({}, request))
+    else:
+        return HttpResponse(template.render({}, request))
 
 def view_book(request, book_id):
     '''
