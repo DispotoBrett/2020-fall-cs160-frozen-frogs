@@ -5,4 +5,4 @@
 **/__pycache__
 /frontend/static/img/book_thumbnails/**
 /frontend/media/profile_pics/**
-backend/app/migrations/**
+/backend/app/migrations/**
