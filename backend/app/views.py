@@ -4,7 +4,7 @@ from django.core.files.storage import default_storage
 from django.core.files.base import ContentFile
 from django.conf import settings
 from time import sleep
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from datetime import datetime
@@ -92,17 +92,7 @@ def profile(request):
 
 def list_book(request):
     '''Form for listing a book for sale'''
-    # context = {}
-    # template = loader.get_template('list_book.html')
-    # form = BookForm(request.POST)
-    # if form.is_valid():
-    #     return HttpResponseRedirect("/")
-    # context["form"] = form
-    # return HttpResponse(template.render(context, request))
     template = loader.get_template('list_book.html')
-    print('*******')
-    print(User.id)
-    print('*******')
     if request.POST:
         # title = request.POST['title']
         title = request.POST.get('title')
@@ -118,9 +108,14 @@ def list_book(request):
             # Post to Posting and List_Book
             book = List_Book(title=title,author=author,isbn=isbn,subject=subject,class_used=class_used)
             book.save()
-            print(book.id)
+            posting = Posting(title=title,price=price,description=des,book_id=book.id,buyer_id=1,seller_id=request.user.id)
+            posting.save()
 
-            return HttpResponse(template.render({}, request))
+            return redirect('view_book', book_id=book.id)
+
+
+            # template = loader.get_template('view_book');
+            # return HttpResponse(template.render({'posting': posting}, request))
     else:
         return HttpResponse(template.render({}, request))
 
@@ -129,20 +124,28 @@ def view_book(request, book_id):
     Book page. Will replace hardcoded values with DB data
     Book ID will be used to query for data
     '''
-    name = "Structure and Interpretation of Computer Programs"
-    author = "Harold Abelson, Gerald Jay Sussman, Julie Sussman"
-    isbn = "0-262-51087-1"
-    subject = "Computer Science"
-    class_used = "CS146"
+    # name = "Structure and Interpretation of Computer Programs"
+    # author = "Harold Abelson, Gerald Jay Sussman, Julie Sussman"
+    # isbn = "0-262-51087-1"
+    # subject = "Computer Science"
+    # class_used = "CS146"
+    # template = loader.get_template('book_view.html')
+    # context = {
+    #     'name': name,
+    #     'author': author,
+    #     'isbn': isbn,
+    #     'subject': subject,
+    #     'class_used': class_used
+    # }
+    book_id_rn = book_id
     template = loader.get_template('book_view.html')
-    context = {
-        'name': name,
-        'author': author,
-        'isbn': isbn,
-        'subject': subject,
-        'class_used': class_used
-    }
-    return HttpResponse(template.render(context, request))
+    book = List_Book.objects.get(pk=book_id)
+    post = Posting.objects.filter(book_id=book_id)
+    print("*****")
+    print(post)
+    print(book)
+    print("******")
+    return HttpResponse(template.render({}, request))
 
 
 def register(request):

@@ -10,19 +10,19 @@ class List_Book(models.Model):
     class_used = models.CharField(max_length=300)
 
     def __str__(self):
-        return f'{self.title}/{self.author}/{self.isbn}/{self.subject}/{self.class_used}'
+        return f'{self.title}/{self.author},{self.isbn},{self.subject},{self.class_used}'
 
 class Posting(models.Model):
-    '''epresents a book posting on the site'''
+    '''Represents a book posting on the site'''
     title = models.CharField(max_length=100)
     price = models.IntegerField(default=100)
     description = models.CharField(max_length=10000)
-    seller = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Seller', related_name='Seller')
-    buyer = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Buyer', related_name='Buyer')
-    book = models.ForeignKey(List_Book, on_delete=models.CASCADE, verbose_name='Book', related_name='Book')
+    seller_id = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Seller', related_name='Seller')
+    buyer_id = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Buyer', related_name='Buyer')
+    book_id = models.ForeignKey(List_Book, on_delete=models.CASCADE, verbose_name='Book', related_name='Book')
 
     def __str__(self):
-        return f'{self.title} Posted by {self.seller}' 
+        return f'{self.title},{self.price},{self.description}' 
 
 class Favorite(models.Model):
     '''Allows user to save a book for later'''
