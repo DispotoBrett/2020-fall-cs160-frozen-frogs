@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="jumbotron bg-light mt-5"> 
+    <h2>Login</h2>
+    <form method="POST" action=''> 
+        {% csrf_token %} 
+        <table class='table table-lg'>
+        	<tr>
+	        	<th>
+	        		<label for="username">Username:</label>
+	        	</th>
+	        	<td>
+	        		<input type="text" name="username" maxlength="9" id="username" class="form-control" required>
+	        	</td>
+	        </tr>
+			<tr>
+				<th>
+					<label for="password">Password:</label>
+				</th>
+				<td>
+					<input type="password" name="password" maxlength="50" id="password" class="form-control" required>
+				</td>
+			</tr>
+        </table>
+        <input type="submit" value="Login" class="btn btn-lg btn-primary" > 
+    </form> 
+</div> 
+{% endblock%}
