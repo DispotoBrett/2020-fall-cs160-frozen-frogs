@@ -1,5 +1,5 @@
 import os
-from .utils import upload_img
+from .utils import upload_img, get_favorites
 from django.core.files.storage import default_storage
 from django.core.files.base import ContentFile
 from django.conf import settings
@@ -9,7 +9,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from datetime import datetime
 from django.contrib.staticfiles import finders
-from .models import Posting, List_Book, Register
+from .models import Posting, List_Book, Register, Favorite
 from .forms import BookForm
 from django.contrib.auth import logout, login, authenticate
 from django.contrib.auth.models import User
@@ -40,6 +40,7 @@ def browse(request):
     template = loader.get_template('browse.html')
     context = {
         'posting_image_list': posting_image_list,
+        'user_favorites_list': get_favorites(request.user),
     }
     return HttpResponse(template.render(context, request))
 
@@ -49,12 +50,14 @@ def get_posting(request, posting_id):
     template = loader.get_template('posting.html')
     posting = Posting.objects.get(id=posting_id)
     img = finders.find(f'img/book_thumbnails/{posting_id}.png')
+    favorites = get_favorites(request.user)
     if img is not None:
         img = img.split('/static/')[1]
 
     context = {
         "posting": posting,
-        "image": img
+        "image": img,
+        "user_favorites_list": favorites
     }
 
     return HttpResponse(template.render(context, request))
@@ -78,6 +81,10 @@ def profile(request):
     '''Profile page. Will replace hardcoded values with DB data'''
     if not request.user.is_authenticated:
         return HttpResponseRedirect("/")
+    user_favorites_list = get_favorites(request.user)
+    favorites = []
+    for record in user_favorites_list:
+        favorites.append(Posting.objects.get(id=record))
     profile_pic = f'{settings.MEDIA_URL}/profile_pics/{request.user.id}.jpg'
     name = request.user.username
     email = request.user.email
@@ -85,7 +92,9 @@ def profile(request):
     context = {
         'name': name,
         'email': email,
-        'profile_pic': profile_pic
+        'profile_pic': profile_pic,
+        'favorites': favorites,
+        'user_favorites_list': user_favorites_list, #for the shared actions list
     }
     return HttpResponse(template.render(context, request))
 
@@ -194,3 +203,16 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     return index(request)
+
+
+def favorite(request, posting_id):
+    if request.user.is_authenticated:
+        is_favorited = Favorite.objects.filter(posting_id=posting_id, user=request.user)
+        if is_favorited.count() > 0:
+            is_favorited.delete()
+        else:
+            favorite = Favorite(user=request.user,  posting_id=posting_id)
+            favorite.save()
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+    else:
+        return HttpResponseRedirect("/login")

@@ -1,0 +1,17 @@
+<div class="btn-group" role="group" aria-label="Basic example">
+    <!--Cart-->
+    <a type="button" class="btn btn-light border border-dark">
+        <span class="text-dark fas fa-cart-plus" height=50 width=50>
+    </a>
+
+    <!--Favorites-->
+    {%if posting.id in user_favorites_list %}
+    <a type="button" href='/favorite/{{posting.id}}' class="btn btn-light border border-dark">
+        <span class="text-dark fas fa-ban" height=50 width=50>
+    </a>
+    {%else %}
+    <a type="button" href='/favorite/{{posting.id}}' class="btn btn-light border border-dark">
+        <span class="text-danger fas fa-heart" height=50 width=50>
+    </a>
+    {%endif%}
+</div>

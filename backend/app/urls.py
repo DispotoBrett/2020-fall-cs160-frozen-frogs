@@ -15,10 +15,10 @@ urlpatterns = [
     path('browse', views.browse, name='browse'),
     path('list_book', views.list_book, name='list_book'),
     path('view_book/<book_id>', views.view_book, name='view_book'),
-    #path('login', auth_views.LoginView.as_view()),
     path('login', views.login_view, name='login' ),
     path('register', views.register, name='register'),
     path('logout', views.logout_view, name='logout'),
+    path('favorite/<int:posting_id>', views.favorite, name='favorite'),
 ] + static(settings.STATIC_URL)
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

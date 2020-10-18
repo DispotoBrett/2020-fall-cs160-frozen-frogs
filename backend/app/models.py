@@ -27,7 +27,7 @@ class Posting(models.Model):
 class Favorite(models.Model):
     '''Allows user to save a book for later'''
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='User', related_name='User')
-    book = models.ForeignKey(List_Book, on_delete=models.CASCADE, verbose_name='FavoritedBook', related_name='FavoritedBook')
+    posting = models.ForeignKey(Posting, on_delete=models.CASCADE, verbose_name='FavoritedPost', related_name='FavoritedPost')
 
 class Message(models.Model):
     '''Represents a message between users'''
