@@ -3,7 +3,7 @@
 {% block content %}
 <div class="jumbotron bg-light mt-5"> 
     <h2>Register</h2>
-    <form method="POST" onsubmit="return validate()"> 
+    <form method="POST" onsubmit="return validate()" enctype="multipart/form-data"> 
 		{% csrf_token %} 
 		<div class='alert alert-danger' id='passwordError' style='display:none'>
 			Passwords do not match.
@@ -23,6 +23,14 @@
 	        	</th>
 	        	<td>
 	        		<input type="text" name="username" maxlength="9" required id="name" class="form-control">
+	        	</td>
+			</tr>
+        	<tr>
+	        	<th>
+	        		<label for="username">Profile picture:</label>
+	        	</th>
+	        	<td>
+	        		<input type="file" id='picture' name="picture" class="form-control" accept=".jpg" required>
 	        	</td>
 			</tr>
         	<tr>
