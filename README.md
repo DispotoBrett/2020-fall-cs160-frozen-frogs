@@ -8,7 +8,7 @@
 	- [Building the dev environment](#building-the-dev-environment)
 	- [Database setup](#database-setup)
 	- [⚠ Database migrations ⚠](#-database-migrations-)
-	- [Docker Setup](#docker-setup)
+	- [Docker Setup 🐳](#docker-setup)
 	- [Run in development mode:](#run-in-development-mode)
 	- [Deploy](#deploy)
 	- [Notes](#notes)
