@@ -12,20 +12,13 @@
     </div>
     <div class="col-9">
         <ul class="list-group">
-            <li class="list-group-item active display-4"> 
+            <li class="list-group-item active display-4">
                 <div class="row">
                     <div class="col-10">
                         {{ posting.title }}
                     </div>
                     <div class="col-2">
-                        <div class="btn-group" role="group" aria-label="Basic example">
-                          <a type="button" class="btn btn-light border border-dark">
-                            <span class="text-dark fas fa-cart-plus" height=50 width=50>
-                          </a>                                  
-                          <a type="button" class="btn btn-light border border-dark">
-                            <span class="text-danger fas fa-heart" height=50 width=50>
-                          </a>
-                        </div>
+                        {% include "book_actions.html" %}
                     </div>
                 </div>
             </li>
@@ -34,6 +27,6 @@
             <li class="list-group-item">Seller: {{ posting.seller }}</li>
     </div>
 </div>
- 
+
 
 {% endblock %}
