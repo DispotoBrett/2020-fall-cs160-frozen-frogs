@@ -88,7 +88,7 @@ If you dont want to lose your data, upon any change to the models, you can try t
 - `python manage.py migrate --fake app`
 - When django asks, try to allow a None value in a new field
 
-## Docker Setup
+## Docker Setup 🐳
 - Install [Docker Desktop](https://www.docker.com/products/docker-desktop)
 - After installing, you will have access to the docker command line utility, `docker`
 - For this project, we will be using Docker Compose, which is a way to streamline running multiple Docker containers from a single config file, docker-compose.yml
