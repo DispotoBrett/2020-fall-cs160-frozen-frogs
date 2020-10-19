@@ -1,23 +1,18 @@
-* 1. [Build Prerequisites:](#BuildPrerequisites:)
+# Frozen Frogs Campus Bookshare 📚
+***🚧This page is under construction🚧***
+* 1. [Build Prerequisites:](#BuildPrerequisites)
 * 2. [Building the dev environment](#Buildingthedevenvironment)
 * 3. [Database setup](#Databasesetup)
 * 4. [⚠ Database migrations ⚠](#Databasemigrations)
 * 5. [Docker Setup 🐳](#DockerSetup)
 	* 5.1. [Docker CLI Quick Reference](#DockerCLIQuickReference)
 	* 5.2. [Configured Containers (docker-compose.yml)](#ConfiguredContainersdocker-compose.yml)
-* 6. [Run in development mode:](#Runindevelopmentmode:)
+* 6. [Run in development mode](#Runindevelopmentmode)
 * 7. [Deploy](#Deploy)
 * 8. [Notes](#Notes)
 * 9. [Default Configurations](#Defaultconfigurations)
 
-<!-- vscode-markdown-toc-config
-	numbering=true
-	autoSave=true
-	/vscode-markdown-toc-config -->
-<!-- /vscode-markdown-toc -->
-# Frozen Frogs Campus Bookshare 📚
-***🚧This page is under construction🚧***
-##  1. <a name='BuildPrerequisites:'></a>Build Prerequisites:
+##  1. <a name='BuildPrerequisites'></a>Build Prerequisites:
 - Python 3.5+ installed
 
 - Python [venv](https://docs.python.org/3/library/venv.html) installed 
@@ -109,7 +104,7 @@ If you dont want to lose your data, upon any change to the models, you can try t
 ###  5.2. <a name='ConfiguredContainersdocker-compose.yml'></a>Configured Containers (docker-compose.yml)
 - MySQL container with env options specified in `database/mysql.env`
 
-##  6. <a name='Runindevelopmentmode:'></a>Run in development mode:
+##  6. <a name='Runindevelopmentmode'></a>Run in development mode:
 To run the django app in deveopment mode:
 - Change to the `backend/` directory
 
