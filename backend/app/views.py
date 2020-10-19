@@ -35,7 +35,7 @@ def browse(request):
         favorites_list =  []
     for i in range(len(posting_list)):
         # Right now only supports png, we need to use a regex here instead
-        img = finders.find(f'img/book_thumbnails/{posting_list[i].id}.png')
+        img = finders.find(f'img/listing_photos/{posting_list[i].id}.png')
         if img is not None:
             img = img.split('/static/')[1]
 
@@ -58,21 +58,18 @@ def get_posting(request, posting_id):
     book = model_to_dict(List_Book.objects.get(id=posting['book']))
     seller = model_to_dict(User.objects.get(id=posting['seller']))['username']
 
-    # Get book image -- maybe
-    img = finders.find(f'img/book_thumbnails/{posting_id}.png')
-
     # Get favorites
     favorites = get_favorites(request.user)
-    if img is not None:
-        img = img.split('/static/')[1]
+
+    book_thumbnail = f'{settings.MEDIA_URL}/listing_photos/{book["id"]}.jpg'
 
     # Generate context
     context = {
         "posting": posting,
         "book": book,
-        "image": img,
         "user_favorites_list": favorites,
-        "seller": seller
+        "seller": seller,
+        "book_thumbnail": book_thumbnail
     }
     return HttpResponse(template.render(context, request))
 
@@ -125,6 +122,7 @@ def list_book(request):
         des = request.POST.get('description')
         price = int(request.POST.get('price'))
 
+
         # Check if all fields filled in
         if '' in (title, author, isbn, subject, class_used, des, price):
             return HttpResponse(template.render({'error': 'Please fill out all fields.'}, request))
@@ -138,6 +136,10 @@ def list_book(request):
             book.save()
             posting = Posting(title=title,price=price,description=des,book=book,buyer=request.user,seller=request.user)
             posting.save()
+
+            profile_pic = request.FILES['picture']
+            upload_img(profile_pic, f'listing_photos/{book.id}.jpg')
+
             return redirect('posting', posting_id=posting.id)
     else:
         return HttpResponse(template.render({}, request))

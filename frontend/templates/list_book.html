@@ -8,7 +8,7 @@
 </head>
 <body>
 	<h2>List a Book</h2>	
-	<form method='POST' class='form'>
+	<form method='POST' class='form' enctype="multipart/form-data">
 		{% csrf_token %}
 		<table class='table'>
 			<tr>
@@ -17,6 +17,14 @@
 				</th>
 				<td>
 					<input id='title' name='title' type='text' class='form-control'>
+				</td>
+			</tr>
+			<tr>
+				<th>
+					<label for="title">Photo:</label>
+				</th>
+				<td>
+					<input id='picture' name='picture' type='file' accept=".jpg" class='form-control'>
 				</td>
 			</tr>
 			<tr>
