@@ -1,19 +1,23 @@
+* 1. [Build Prerequisites:](#BuildPrerequisites:)
+* 2. [Building the dev environment](#Buildingthedevenvironment)
+* 3. [Database setup](#Databasesetup)
+* 4. [⚠ Database migrations ⚠](#Databasemigrations)
+* 5. [Docker Setup 🐳](#DockerSetup)
+	* 5.1. [Docker CLI Quick Reference](#DockerCLIQuickReference)
+	* 5.2. [Configured Containers (docker-compose.yml)](#ConfiguredContainersdocker-compose.yml)
+* 6. [Run in development mode:](#Runindevelopmentmode:)
+* 7. [Deploy](#Deploy)
+* 8. [Notes](#Notes)
+* 9. [Default Configurations](#Defaultconfigurations)
+
+<!-- vscode-markdown-toc-config
+	numbering=true
+	autoSave=true
+	/vscode-markdown-toc-config -->
+<!-- /vscode-markdown-toc -->
 # Frozen Frogs Campus Bookshare 📚
 ***🚧This page is under construction🚧***
-
-## Table of contents
-- [Frozen Frogs Campus Bookshare 📚](#frozen-frogs-campus-bookshare-)
-	- [Table of contents](#table-of-contents)
-	- [Build Prerequisites:](#build-prerequisites)
-	- [Building the dev environment](#building-the-dev-environment)
-	- [Database setup](#database-setup)
-	- [⚠ Database migrations ⚠](#-database-migrations-)
-	- [Docker Setup 🐳](#docker-setup)
-	- [Run in development mode:](#run-in-development-mode)
-	- [Deploy](#deploy)
-	- [Notes](#notes)
-
-## Build Prerequisites:
+##  1. <a name='BuildPrerequisites:'></a>Build Prerequisites:
 - Python 3.5+ installed
 
 - Python [venv](https://docs.python.org/3/library/venv.html) installed 
@@ -22,7 +26,7 @@
 
 - MySQL 8
 
-## Building the dev environment
+##  2. <a name='Buildingthedevenvironment'></a>Building the dev environment
 
 - Clone the repository
 
@@ -31,7 +35,7 @@
 	2. activates the virtual environment for your shell session 
 	3. installs the app dependencies via `pip` from the `requirements.txt` file.
 
-## Database setup
+##  3. <a name='Databasesetup'></a>Database setup
 
 Ubuntu 20.04
 - Ensure you have the latest pip dependencies and are on the project venv
@@ -62,7 +66,7 @@ Ubuntu 20.04
     - Then you can test commands such as `Posting.objects.All()` see the [django database api reference](https://docs.djangoproject.com/en/3.1/topics/db/queries/) for more info.
     - Django has also has a nice explanation of the ORM [here](https://docs.djangoproject.com/en/3.1/intro/tutorial02/)
 
-## ⚠ Database migrations ⚠
+##  4. <a name='Databasemigrations'></a>⚠ Database migrations ⚠
 If something gets severely messed up or you just want to start with a fresh database:
 - `drop` your frogs database
 - Delete all the migrations  `rm -rf /backend/app/migrations/*`
@@ -89,7 +93,7 @@ If you dont want to lose your data, upon any change to the models, you can try t
 - `python manage.py migrate --fake app`
 - When django asks, try to allow a None value in a new field
 
-## Docker Setup 🐳
+##  5. <a name='DockerSetup'></a>Docker Setup 🐳
 - Install [Docker Desktop](https://www.docker.com/products/docker-desktop)
 - After installing, you will have access to the docker command line utility, `docker`
 - For this project, we will be using Docker Compose, which is a way to streamline running multiple Docker containers from a single config file, docker-compose.yml
@@ -97,15 +101,15 @@ If you dont want to lose your data, upon any change to the models, you can try t
 - The above command will build the container images as well as run them in the background (-d option specifies detached mode)
 - To start and stop the containers, you can use `docker-compose stop` and `docker-compose start`
 
-### Docker CLI Quick Reference
+###  5.1. <a name='DockerCLIQuickReference'></a>Docker CLI Quick Reference
 - To display all containers on your system run `docker ps -a`
 - To log in to one of your containers run `docker exec -it <container_name> /bash`
 - NOTE: Not all containers use the same shell executable. Above we used bash, but depending on the container image, it may be different.
 
-### Configured Containers (docker-compose.yml)
+###  5.2. <a name='ConfiguredContainersdocker-compose.yml'></a>Configured Containers (docker-compose.yml)
 - MySQL container with env options specified in `database/mysql.env`
 
-## Run in development mode:
+##  6. <a name='Runindevelopmentmode:'></a>Run in development mode:
 To run the django app in deveopment mode:
 - Change to the `backend/` directory
 
@@ -113,12 +117,20 @@ To run the django app in deveopment mode:
 
 - navigate to `localhost:8000` in your broswer
 
-## Deploy
+##  7. <a name='Deploy'></a>Deploy
 To deploy the application on an apache web server:
 - install and configure both `apache2` and `apache2-dev` (on debian and ubuntu) or equivalent packages
 
 - (Follow the instructions on installing and configuring [mod_wsgi](https://docs.djangoproject.com/en/3.1/howto/deployment/wsgi/modwsgi/). It will invovle installing a few packages and messing with a few config files. 
 
-## Notes
+##  8. <a name='Notes'></a>Notes
 - The django admin username and password are both `frogs`
 - Create an admin account by running `python manage.py createsuperuser` and following the prompt
+
+##  9. <a name='Defaultconfigurations'></a>Default Configurations
+- By default, there will be 5 books loaded into the tables with negative PKs
+	- These are for demo purposes.
+- There will also be 2 demo users you can login as:
+	1. Username: DemoSeller
+	2. Username: DemoBuyer
+	- The password for both is 'sjsu' (no quotes)

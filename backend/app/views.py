@@ -56,7 +56,10 @@ def get_posting(request, posting_id):
     seller = model_to_dict(User.objects.get(id=posting['seller']))['username']
 
     # Get favorites
-    favorites = get_favorites(request.user)
+    if request.user.is_authenticated:
+        favorites = get_favorites(request.user)
+    else:
+        favorites = []
 
     book_thumbnail = f'{settings.MEDIA_URL}/listing_photos/{book["id"]}.jpg'
 
