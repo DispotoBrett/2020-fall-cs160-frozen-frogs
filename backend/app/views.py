@@ -1,4 +1,6 @@
 import os
+import json
+from django.views.decorators.csrf import csrf_exempt
 from .utils import upload_img, get_favorites
 from django.core.files.storage import default_storage
 from django.core.files.base import ContentFile
@@ -9,7 +11,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from datetime import datetime
 from django.contrib.staticfiles import finders
-from .models import Posting, List_Book, Register, Favorite
+from .models import Posting, List_Book, Register, Favorite, Message
 from .forms import BookForm
 from django.contrib.auth import logout, login, authenticate
 from django.contrib.auth.models import User
@@ -227,3 +229,45 @@ def favorite(request, posting_id):
         return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
     else:
         return HttpResponseRedirect("/login")
+
+def chat(request, other_user_id):
+    template = loader.get_template('chat.html')
+    to_user = User.objects.get(id=other_user_id)
+
+    context = {
+        'to_user':  to_user
+    }
+
+    return HttpResponse(template.render(context, request))
+
+@csrf_exempt
+def message(request, other_user_id):
+    if request.POST:
+        #add the form data from the request to db
+        msg = Message(from_user=request.user, to_user_id=other_user_id, message_text=request.POST['message_text'])
+        msg.save()
+        return HttpResponse('OK')
+    else:
+        #Get all messages between the two users 
+        other_user = User.objects.get(id=other_user_id)
+        messages = {
+            'messages': []
+        }
+        from_to = Message.objects.filter(from_user=request.user, to_user_id=other_user_id)
+        to_from = Message.objects.filter(to_user=request.user, from_user_id=other_user_id)
+        for msg in from_to:
+            msg = model_to_dict(msg)
+            msg['from_user'] = 'Me:'
+            messages['messages'].append(msg)
+
+        for msg in to_from:
+            msg = model_to_dict(msg)
+            msg['from_user'] = f'{other_user.username}:'
+            messages['messages'].append(msg)
+
+        messages['messages'].sort(key=lambda m: m['id'])
+
+
+        json_messages = json.dumps(messages)
+
+        return HttpResponse(json_messages)

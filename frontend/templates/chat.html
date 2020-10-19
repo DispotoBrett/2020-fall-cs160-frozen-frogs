@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div class='jumbotron'>
+    <div class='card'>
+        <div class='card-header'>
+            <h3 class="display">Chat with {{ to_user.username }}</h3>
+            <p class="display text-muted">You can also email them at <a
+                    href='mailto:{{ user.email }}'>{{ to_user.email }}</a></p>
+        </div>
+        <div class='card-body'>
+            <div id='chatlog'></div>
+        </div>
+        <div class='card-footer'>
+            <div class='input-group mb-3'>
+                <form id='sendChat' style='width: 100%;'>
+                    <table>
+                        <tr>
+                            <td style='width:100%'>
+                                <input id='message_text' name='message_text' type='text' class='form-control'
+                                    placeholder="Message" />
+                            </td>
+                            <td>
+                                <input id='submitMsg' type="submit" class='btn btn-primary float-right' value="Send" />
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+            <i class='text-muted'>Remember: do not send any wire transfers, paypal payments, or any other online
+                payments.</i>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#submitMsg').click(() => {
+        $("#sendChat").submit(function (e) {
+            e.preventDefault();
+            var form = $(this);
+
+            $.ajax({
+                type: "POST",
+                url: '/message/{{to_user.id}}',
+                data: form.serialize(),
+                success: function (data) {
+                    $('#message_text').val('')
+                },
+                error: function (data) {
+                    alert(data);
+                }
+            });
+
+
+        });
+    })
+
+    setInterval(() => {
+        $.ajax({
+            type: "GET",
+            url: '/message/{{to_user.id}}',
+            success: function (data) {
+                messages = JSON.parse(data)['messages']
+                msg_chain = ''
+                for(i in messages){
+                    msg_chain += '<h6 class="font-italic my-0 py-0 ">'
+                    msg_chain += messages[i].from_user
+                    msg_chain += "</h6>"
+                    msg_chain += "<br>"
+                    msg_chain += messages[i].message_text
+                    msg_chain += "<br>"
+                    msg_chain += "<hr>"
+                    msg_chain += "</div>"
+                }
+                $('#chatlog').html(msg_chain)
+            },
+            error: function (data, a) {
+                alert(data);
+                alert(a);
+            }
+        });
+
+    }, 1000)
+</script>
+
+
+{% endblock %}
