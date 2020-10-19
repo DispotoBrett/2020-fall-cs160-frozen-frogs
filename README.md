@@ -66,6 +66,7 @@ Ubuntu 20.04
 If something gets severely messed up or you just want to start with a fresh database:
 - `drop` your frogs database
 - Delete all the migrations  `rm -rf /backend/app/migrations/*`
+- rerun the init db script
 - Make sure you're on the venv, as with everythign else we do
 - `./manage.py makemigrations`
 - `./manage.py migrate`
