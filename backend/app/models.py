@@ -10,7 +10,13 @@ class List_Book(models.Model):
     class_used = models.CharField(max_length=300)
 
     def __str__(self):
-        return f'{self.title}/{self.author},{self.isbn},{self.subject},{self.class_used}'
+        return f'''
+            title: {self.title},
+            author: {self.author},
+            isbn: {self.isbn},
+            subject: {self.subject},
+            class: {self.class_used}
+        '''
 
 class Posting(models.Model):
     '''Represents a book posting on the site'''
@@ -22,7 +28,12 @@ class Posting(models.Model):
     book_id = models.ForeignKey(List_Book, on_delete=models.CASCADE, verbose_name='Book', related_name='Book')
 
     def __str__(self):
-        return f'{self.title},{self.price},{self.description}' 
+        return f'''
+                book:{self.book_id},
+                title{self.title},
+                price: {self.price},
+                description: {self.description}
+                ''' 
 
 class Favorite(models.Model):
     '''Allows user to save a book for later'''

@@ -22,9 +22,15 @@
                     </div>
                 </div>
             </li>
+            <li class="list-group-item">Title: {{ posting.title }}</li>
+            <li class="list-group-item">Author: {{ book.author }}</li>
+            <li class="list-group-item">ISBN: {{ book.isbn }}</li>
+            <li class="list-group-item">Subject: {{ book.subject }}</li>
+            <li class="list-group-item">Class Used In: {{ book.class_used }}</li>
             <li class="list-group-item">Price: ${{ posting.price }}</li>
             <li class="list-group-item">Description: {{ posting.description }}</li>
-            <li class="list-group-item">Seller: {{ posting.seller }}</li>
+            <li class="list-group-item">Seller: {{ seller }}</li>
+            <button class='btn btn-primary' type='submit' id='buy'>Purchase Book</button>
     </div>
 </div>
 
