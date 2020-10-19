@@ -1,3 +1,5 @@
+# Frozen Frogs Campus Bookshare 📚
+***🚧This page is under construction🚧***
 * 1. [Build Prerequisites:](#BuildPrerequisites)
 * 2. [Building the dev environment](#Buildingthedevenvironment)
 * 3. [Database setup](#Databasesetup)
@@ -10,13 +12,6 @@
 * 8. [Notes](#Notes)
 * 9. [Default Configurations](#Defaultconfigurations)
 
-<!-- vscode-markdown-toc-config
-	numbering=true
-	autoSave=true
-	/vscode-markdown-toc-config -->
-<!-- /vscode-markdown-toc -->
-# Frozen Frogs Campus Bookshare 📚
-***🚧This page is under construction🚧***
 ##  1. <a name='BuildPrerequisites'></a>Build Prerequisites:
 - Python 3.5+ installed
 
