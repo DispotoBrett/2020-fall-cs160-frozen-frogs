@@ -15,7 +15,6 @@ from django.contrib.auth import logout, login, authenticate
 from django.contrib.auth.models import User
 from django.forms.models import model_to_dict
 
-
 def index(request):  # detail view
     '''The app homepage'''
     posting_list = Posting.objects.all()
