@@ -35,10 +35,7 @@ def browse(request):
         favorites_list =  []
     for i in range(len(posting_list)):
         # Right now only supports png, we need to use a regex here instead
-        img = finders.find(f'img/listing_photos/{posting_list[i].id}.png')
-        if img is not None:
-            img = img.split('/static/')[1]
-
+        img = f'{settings.MEDIA_URL}/listing_photos/{posting_list[i].id}.jpg'
         posting_image_list.append((posting_list[i], img))
 
     template = loader.get_template('browse.html')

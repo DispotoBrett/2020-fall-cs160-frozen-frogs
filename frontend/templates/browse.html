@@ -19,11 +19,7 @@
         <tr>
             <td>
                 <a href="posting/{{posting.id }}">
-                    {% if image is None %}
-                    <img src="{% static 'img/missing.png' %}" height="60" width="60">
-                    {% else %}
-                    <img src="{% static image  %}" height="200" width="200" class="img-fluid">
-                    {% endif %}
+                    <img width=200 height=200 src="{{image}}" alt="{{image}}">
                 </a>
             </td>
             <td> <a href="posting/{{posting.id }}"> {{ posting.title }} </a></td>
