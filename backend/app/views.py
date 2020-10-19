@@ -4,17 +4,16 @@ from django.core.files.storage import default_storage
 from django.core.files.base import ContentFile
 from django.conf import settings
 from time import sleep
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from datetime import datetime
-from .models import Posting
 from django.contrib.staticfiles import finders
 from .models import Posting, List_Book, Register, Favorite
 from .forms import BookForm
 from django.contrib.auth import logout, login, authenticate
 from django.contrib.auth.models import User
-
+from django.forms.models import model_to_dict
 
 def index(request):  # detail view
     '''The app homepage'''
@@ -30,6 +29,10 @@ def browse(request):
     '''A more detailed version of the homepage book listing'''
     posting_list = Posting.objects.all()
     posting_image_list = []
+    if request.user.is_authenticated:
+        favorites_list = get_favorites(request.user)
+    else:
+        favorites_list =  []
     for i in range(len(posting_list)):
         # Right now only supports png, we need to use a regex here instead
         img = finders.find(f'img/book_thumbnails/{posting_list[i].id}.png')
@@ -41,7 +44,7 @@ def browse(request):
     template = loader.get_template('browse.html')
     context = {
         'posting_image_list': posting_image_list,
-        'user_favorites_list': get_favorites(request.user),
+        'user_favorites_list': favorites_list,
     }
     return HttpResponse(template.render(context, request))
 
@@ -49,21 +52,29 @@ def browse(request):
 def get_posting(request, posting_id):
     '''Display an existing posting'''
     template = loader.get_template('posting.html')
-    posting = Posting.objects.get(id=posting_id)
+
+    # Get data from DB
+    posting = model_to_dict(Posting.objects.get(id=posting_id))
+    book = model_to_dict(List_Book.objects.get(id=posting['book']))
+    seller = model_to_dict(User.objects.get(id=posting['seller']))['username']
+
+    # Get book image -- maybe
     img = finders.find(f'img/book_thumbnails/{posting_id}.png')
+
+    # Get favorites
     favorites = get_favorites(request.user)
     if img is not None:
         img = img.split('/static/')[1]
 
+    # Generate context
     context = {
         "posting": posting,
+        "book": book,
         "image": img,
-        "user_favorites_list": favorites
+        "user_favorites_list": favorites,
+        "seller": seller
     }
-
     return HttpResponse(template.render(context, request))
-
-    return HttpResponse('Not implemented')
 
 
 def create_posting(request):
@@ -102,34 +113,57 @@ def profile(request):
 
 def list_book(request):
     '''Form for listing a book for sale'''
-    context = {}
     template = loader.get_template('list_book.html')
-    form = BookForm(request.POST)
-    if form.is_valid():
-        return HttpResponseRedirect("/")
-    context["form"] = form
-    return HttpResponse(template.render(context, request))
+    if request.POST:
+        
+        # Get data from form
+        title = request.POST.get('title')
+        author = request.POST.get('author')
+        isbn = request.POST.get('isbn')
+        subject = request.POST.get('subject')
+        class_used = request.POST.get('class_used')
+        des = request.POST.get('description')
+        price = int(request.POST.get('price'))
 
+        # Check if all fields filled in
+        if '' in (title, author, isbn, subject, class_used, des, price):
+            return HttpResponse(template.render({'error': 'Please fill out all fields.'}, request))
 
-def view_book(request, book_id):
-    '''
-    Book page. Will replace hardcoded values with DB data
-    Book ID will be used to query for data
-    '''
-    name = "Structure and Interpretation of Computer Programs"
-    author = "Harold Abelson, Gerald Jay Sussman, Julie Sussman"
-    isbn = "0-262-51087-1"
-    subject = "Computer Science"
-    class_used = "CS146"
-    template = loader.get_template('book_view.html')
-    context = {
-        'name': name,
-        'author': author,
-        'isbn': isbn,
-        'subject': subject,
-        'class_used': class_used
-    }
-    return HttpResponse(template.render(context, request))
+        # check if int
+        if not isinstance(price, int):
+            return HttpResponse(template.render({'error': 'Please choose a numeric price.'}, request))
+        else:
+            # Post to Posting and List_Book
+            book = List_Book(title=title,author=author,isbn=isbn,subject=subject,class_used=class_used)
+            book.save()
+            posting = Posting(title=title,price=price,description=des,book=book,buyer=request.user,seller=request.user)
+            posting.save()
+            return redirect('posting', posting_id=posting.id)
+    else:
+        return HttpResponse(template.render({}, request))
+
+# DEPRECATED --- use get_posting instead
+# def view_book(request, book_id):
+#     '''
+#     Book page. Will replace hardcoded values with DB data
+#     Book ID will be used to query for data
+#     '''
+#     book_id_rn = book_id
+#     template = loader.get_template('book_view.html')
+#     book = List_Book.objects.filter(id=book_id)
+#     post = Posting.objects.filter(book_id=book_id)
+#     book_data = str(book[0]).split(',')
+#     posting_data = str(post[0]).split(',')
+#     context = {
+#         'name': posting_data[0],
+#         'author': book_data[1],
+#         'isbn': book_data[2],
+#         'subject': book_data[3],
+#         'class_used': book_data[4],
+#         'price': posting_data[1],
+#         'des': posting_data[2]
+#     }
+#     return HttpResponse(template.render(context, request))
 
 
 def register(request):

@@ -8,7 +8,7 @@
 </head>
 <body>
 	<h2>List a Book</h2>	
-	<form method='POST'>
+	<form method='POST' class='form'>
 		{% csrf_token %}
 		<table class='table'>
 			<tr>
@@ -16,7 +16,7 @@
 					<label for="title">Title:</label>
 				</th>
 				<td>
-					<input id='title' type='text' class='form-control'>
+					<input id='title' name='title' type='text' class='form-control'>
 				</td>
 			</tr>
 			<tr>
@@ -24,7 +24,7 @@
 					<label for="author">Author:</label>
 				</th>
 				<td>
-					<input id='author' type='text' class='form-control'>
+					<input id='author' name='author' type='text' class='form-control'>
 				</td>
 			</tr>
 			<tr>
@@ -32,7 +32,7 @@
 					<label for="isbn">ISBN:</label>
 				</th>
 				<td>
-					<input id='isbn' type='text' class='form-control'>
+					<input id='isbn' name='isbn' type='text' class='form-control'>
 				</td>
 			</tr>
 			<tr>
@@ -40,7 +40,7 @@
 					<label for="subject">Subject:</label>
 				</th>
 				<td>
-					<input id='subject' type='text' class='form-control'>
+					<input id='subject'  name='subject' type='text' class='form-control'>
 				</td>
 			</tr>
 			<tr>
@@ -48,12 +48,29 @@
 					<label for="class_used">Class Used In:</label>
 				</th>
 				<td>
-					<input id='class_used' type='text' class='form-control'>
+					<input id='class_used' name='class_used' type='text' class='form-control'>
+				</td>
+			</tr>
+			<tr>
+				<th>
+					<label for="description">Description:</label>
+				</th>
+				<td>
+					<input id='description' name='description' type='text' class='form-control'>
+				</td>
+			</tr>
+			<tr>
+				<th>
+					<label for="price">Price:</label>
+				</th>
+				<td>
+					<input id='price' name='price' type='text' class='form-control'>
 				</td>
 			</tr>
 		</table>
 		<input type="submit" value="List Book" class="btn btn-primary"> 
 	</form>
+	{{error}}
 </body>
 </html>
 
