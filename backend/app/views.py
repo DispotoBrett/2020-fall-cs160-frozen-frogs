@@ -123,7 +123,7 @@ def list_book(request):
         subject = request.POST.get('subject')
         class_used = request.POST.get('class_used')
         des = request.POST.get('description')
-        price = request.POST.get('price')
+        price = int(request.POST.get('price'))
 
         # Check if all fields filled in
         if '' in (title, author, isbn, subject, class_used, des, price):
