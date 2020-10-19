@@ -23,13 +23,13 @@ class Posting(models.Model):
     title = models.CharField(max_length=100)
     price = models.IntegerField(default=100)
     description = models.CharField(max_length=10000)
-    seller_id = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Seller', related_name='Seller')
-    buyer_id = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Buyer', related_name='Buyer')
-    book_id = models.ForeignKey(List_Book, on_delete=models.CASCADE, verbose_name='Book', related_name='Book')
+    seller = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Seller', related_name='Seller')
+    buyer = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Buyer', related_name='Buyer')
+    book = models.ForeignKey(List_Book, on_delete=models.CASCADE, verbose_name='Book', related_name='Book')
 
     def __str__(self):
         return f'''
-                book:{self.book_id},
+                book:{self.book},
                 title{self.title},
                 price: {self.price},
                 description: {self.description}

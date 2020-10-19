@@ -29,6 +29,10 @@ def browse(request):
     '''A more detailed version of the homepage book listing'''
     posting_list = Posting.objects.all()
     posting_image_list = []
+    if request.user.is_authenticated:
+        favorites_list = get_favorites(request.user)
+    else:
+        favorites_list =  []
     for i in range(len(posting_list)):
         # Right now only supports png, we need to use a regex here instead
         img = finders.find(f'img/book_thumbnails/{posting_list[i].id}.png')
@@ -40,7 +44,7 @@ def browse(request):
     template = loader.get_template('browse.html')
     context = {
         'posting_image_list': posting_image_list,
-        'user_favorites_list': get_favorites(request.user),
+        'user_favorites_list': favorites_list,
     }
     return HttpResponse(template.render(context, request))
 
@@ -51,8 +55,8 @@ def get_posting(request, posting_id):
 
     # Get data from DB
     posting = model_to_dict(Posting.objects.get(id=posting_id))
-    book = model_to_dict(List_Book.objects.get(id=posting['book_id']))
-    seller = model_to_dict(User.objects.get(id=posting['seller_id']))['username']
+    book = model_to_dict(List_Book.objects.get(id=posting['book']))
+    seller = model_to_dict(User.objects.get(id=posting['seller']))['username']
 
     # Get book image -- maybe
     img = finders.find(f'img/book_thumbnails/{posting_id}.png')
@@ -132,7 +136,7 @@ def list_book(request):
             # Post to Posting and List_Book
             book = List_Book(title=title,author=author,isbn=isbn,subject=subject,class_used=class_used)
             book.save()
-            posting = Posting(title=title,price=price,description=des,book_id=book,buyer_id=request.user,seller_id=request.user)
+            posting = Posting(title=title,price=price,description=des,book=book,buyer=request.user,seller=request.user)
             posting.save()
             return redirect('posting', posting_id=posting.id)
     else:
