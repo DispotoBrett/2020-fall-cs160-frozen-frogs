@@ -3,26 +3,26 @@
 {% block content %}
 
 <div class='jumbotron'>
-    <div class='card'>
+    <div class='card' >
         <div class='card-header'>
             <h3 class="display">Chat with {{ to_user.username }}</h3>
             <p class="display text-muted">You can also email them at <a
                     href='mailto:{{ user.email }}'>{{ to_user.email }}</a></p>
         </div>
-        <div class='card-body'>
-            <div id='chatlog'></div>
+        <div class='card-body'  >
+            <div id='chatlog' style='overflow-y:auto; height: 40vh;'></div>
         </div>
         <div class='card-footer'>
             <div class='input-group mb-3'>
                 <form id='sendChat' style='width: 100%;'>
                     <table>
                         <tr>
-                            <td style='width:100%'>
+                            <td style='width:100%;'>
                                 <input id='message_text' name='message_text' type='text' class='form-control'
                                     placeholder="Message" />
                             </td>
                             <td>
-                                <input id='submitMsg' type="submit" class='btn btn-primary float-right' value="Send" />
+                                <button id='submitMsg'  class='btn btn-primary float-right'>Send</button>
                             </td>
                         </tr>
                     </table>
@@ -35,7 +35,6 @@
 </div>
 
 <script>
-    $('#submitMsg').click(() => {
         $("#sendChat").submit(function (e) {
             e.preventDefault();
             var form = $(this);
@@ -52,9 +51,11 @@
                 }
             });
 
+            var objDiv = document.getElementById('chatlog');
+            objDiv.scrollTop = objDiv.scrollHeight;
 
+            return false
         });
-    })
 
     setInterval(() => {
         $.ajax({
@@ -62,16 +63,22 @@
             url: '/message/{{to_user.id}}',
             success: function (data) {
                 messages = JSON.parse(data)['messages']
+                prev_messenger = ''
                 msg_chain = ''
                 for(i in messages){
-                    msg_chain += '<h6 class="font-italic my-0 py-0 ">'
-                    msg_chain += messages[i].from_user
-                    msg_chain += "</h6>"
+                    if(prev_messenger !== messages[i].from_user)
+                    {
+                        msg_chain += "<hr>"
+                        if(messages[i].from_user === 'Me:')
+                            msg_chain += '<text class="alert alert-warning font-italic my-0 py-0 ">'
+                        else
+                            msg_chain += '<text class="alert alert-primary font-italic my-0 py-0 ">'
+                        msg_chain += messages[i].from_user
+                        msg_chain += "</text>"
+                    }
                     msg_chain += "<br>"
                     msg_chain += messages[i].message_text
-                    msg_chain += "<br>"
-                    msg_chain += "<hr>"
-                    msg_chain += "</div>"
+                    prev_messenger = messages[i].from_user
                 }
                 $('#chatlog').html(msg_chain)
             },
