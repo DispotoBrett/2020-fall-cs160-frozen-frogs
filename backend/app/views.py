@@ -10,7 +10,7 @@ from django.template import loader
 from datetime import datetime
 from django.contrib.staticfiles import finders
 from .models import Posting, List_Book, Register, Favorite
-from .forms import BookForm
+from .forms import BookForm, ReportForm
 from django.contrib.auth import logout, login, authenticate
 from django.contrib.auth.models import User
 from django.forms.models import model_to_dict
@@ -227,3 +227,25 @@ def favorite(request, posting_id):
         return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
     else:
         return HttpResponseRedirect("/login")
+
+def report(request, posting_id):
+    '''Handle reporting of a posting'''
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect("/login")
+
+    try:
+        posting = Posting.objects.get(pk=posting_id)
+    except:
+        return render(request, 'report.html', {'error': 'Posting does not exist'})
+
+    if request.method == 'POST':
+        form = ReportForm(request.POST)
+        form.posting = posting
+
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect("/")
+    else:
+        form = ReportForm()
+
+    return render(request, 'report.html', {'form': form})

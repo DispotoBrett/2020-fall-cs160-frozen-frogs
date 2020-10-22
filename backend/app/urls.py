@@ -18,6 +18,7 @@ urlpatterns = [
     path('register', views.register, name='register'),
     path('logout', views.logout_view, name='logout'),
     path('favorite/<posting_id>', views.favorite, name='favorite'),
+    path('report/<posting_id>', views.report, name='report'),
 ] + static(settings.STATIC_URL)
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
