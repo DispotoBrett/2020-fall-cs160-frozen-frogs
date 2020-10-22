@@ -4,36 +4,31 @@
 
 <div class="alert bg-light row">
     <div class="col-3">
-        {% if image is None %}
-        <img src="{% static 'img/missing.png' %}" height="60" width="60">
-        {% else %}
-        <img src="{% static image  %}" height="200" width="200" class="img-fluid">
-        {% endif %}
+        <img width=250 height=300 src="{{book_thumbnail}}" alt="{{book_thumbnail}}">
     </div>
     <div class="col-9">
         <ul class="list-group">
-            <li class="list-group-item active display-4"> 
+            <li class="list-group-item active display-4">
                 <div class="row">
-                    <div class="col-10">
+                    <div class="col-9">
                         {{ posting.title }}
                     </div>
-                    <div class="col-2">
-                        <div class="btn-group" role="group" aria-label="Basic example">
-                          <a type="button" class="btn btn-light border border-dark">
-                            <span class="text-dark fas fa-cart-plus" height=50 width=50>
-                          </a>                                  
-                          <a type="button" class="btn btn-light border border-dark">
-                            <span class="text-danger fas fa-heart" height=50 width=50>
-                          </a>
-                        </div>
+                    <div class="col-3">
+                        {% include "book_actions.html" %}
                     </div>
                 </div>
             </li>
+            <li class="list-group-item">Title: {{ posting.title }}</li>
+            <li class="list-group-item">Author: {{ book.author }}</li>
+            <li class="list-group-item">ISBN: {{ book.isbn }}</li>
+            <li class="list-group-item">Subject: {{ book.subject }}</li>
+            <li class="list-group-item">Class Used In: {{ book.class_used }}</li>
             <li class="list-group-item">Price: ${{ posting.price }}</li>
             <li class="list-group-item">Description: {{ posting.description }}</li>
-            <li class="list-group-item">Seller: {{ posting.seller }}</li>
+            <li class="list-group-item">Seller: {{ seller }}</li>
+            <button class='btn btn-primary' type='submit' id='buy'>Purchase Book</button>
     </div>
 </div>
- 
+
 
 {% endblock %}

@@ -1,0 +1,201 @@
+[
+    {
+        "model": "app.posting",
+        "pk": -5,
+        "fields": {
+            "title": "CLRS Intro to Algorithms",
+            "price": 40,
+            "description": "A decent way to nail programming interviews",
+            "seller": -1,
+            "buyer": -2,
+            "book": -5
+        }
+    },
+    {
+        "model": "app.list_book",
+        "pk": -5,
+        "fields": {
+            "title": "Introduction To Algorithms",
+            "author": "CLRS",
+            "isbn": "12301419824031298",
+            "subject": "Comp Sci",
+            "class_used": "CS147"
+        }
+    },
+    {
+        "model": "app.posting",
+        "pk": -4,
+        "fields": {
+            "title": "Operating Systems: Three Easy Pieces",
+            "price": 72,
+            "description": "A pretty crazy book about operating system implementation",
+            "seller": -1,
+            "buyer": -2,
+            "book": -4
+        }
+    },
+    {
+        "model": "app.list_book",
+        "pk": -4,
+        "fields": {
+            "title": "Operating Systems: Three Easy Pieces",
+            "author": "Remzi and Andrea",
+            "isbn": "12301419824031298",
+            "subject": "Comp Sci",
+            "class_used": "CS149"
+        }
+    },
+    {
+        "model": "app.posting",
+        "pk": -3,
+        "fields": {
+            "title": "Struct. and Interp. of Comp. Prog. (SICP) ",
+            "price": 72,
+            "description": "OMGFG THIS IS TEH BEST BOOK EVER BUY IT NOW!!! Also im broke",
+            "seller": -1,
+            "buyer": -2,
+            "book": -3
+        }
+    },
+    {
+        "model": "app.list_book",
+        "pk": -3,
+        "fields": {
+            "title": "Structure and Interpertation of Computer Programs",
+            "author": "Some Wizzards",
+            "isbn": "12301419824098",
+            "subject": "Comp Sci",
+            "class_used": "CS152"
+        }
+    },
+    {
+        "model": "app.posting",
+        "pk": -2,
+        "fields": {
+            "title": "Struct. and Interp. of Comp. Prog. (SICP) ",
+            "price": 72,
+            "description": "OMGFG THIS IS TEH BEST BOOK EVER BUY IT NOW!!! Also im broke",
+            "seller": -1,
+            "buyer": -2,
+            "book": -3
+        }
+    },
+    {
+        "model": "app.list_book",
+        "pk": -2,
+        "fields": {
+            "title": "The C Programming Language ",
+            "author": "Dennis and Ritchie",
+            "isbn": "12301419824098",
+            "subject": "Comp Sci",
+            "class_used": "CS1000000"
+        }
+    },
+    {
+        "model": "app.posting",
+        "pk": -2,
+        "fields": {
+            "title": "My Old Copy of the C Programming Languge ",
+            "price": 12,
+            "description": "Bad condition....Learn an ancient language tho",
+            "seller": -1,
+            "buyer": -2,
+            "book": -2
+        }
+    },
+    {
+        "model": "app.list_book",
+        "pk": -1,
+        "fields": {
+            "title": "FreeBSD Mastery: Advanced ZFS ",
+            "author": "The one and only ZFS Master",
+            "isbn": "12301419824098",
+            "subject": "Comp Sci",
+            "class_used": "CS1000000"
+        }
+    },
+    {
+        "model": "app.posting",
+        "pk": -1,
+        "fields": {
+            "title": "FreeBSD Mastery: Advanced ZFS ",
+            "price": 123,
+            "description": "Learn an obscure os and fs",
+            "seller": -1,
+            "buyer": -2,
+            "book": -1
+        }
+    },
+    {
+        "model": "auth.user",
+        "pk": -1,
+        "fields": {
+            "password": "pbkdf2_sha256$216000$3VzTI8JDne5J$jerE5cWvGLBYKkKahmz/a26sGAyXmkTH7saow8OnBgE=",
+            "last_login": "2020-10-19T01:26:35.233Z",
+            "is_superuser": true,
+            "username": "Demo Seller",
+            "first_name": "",
+            "last_name": "",
+            "email": "seller@gmail.com",
+            "is_staff": false,
+            "is_active": true,
+            "date_joined": "2020-10-19T01:24:11.434Z",
+            "groups": [],
+            "user_permissions": []
+        }
+    },
+    {
+        "model": "auth.user",
+        "pk": -2,
+        "fields": {
+            "password": "pbkdf2_sha256$216000$EhI5ZfjcfdSr$q8VidDYUZs6wE8ECodk3mW0cqyHGg8yuNlrF5ZRQAGA=",
+            "last_login": "2020-10-19T02:33:07.358Z",
+            "is_superuser": true,
+            "username": "Demo Buyer",
+            "first_name": "",
+            "last_name": "",
+            "email": "buyer@gmail.com",
+            "is_staff": false,
+            "is_active": true,
+            "date_joined": "2020-10-19T02:33:07.158Z",
+            "groups": [],
+            "user_permissions": []
+        }
+    },
+    {
+        "model": "auth.user",
+        "pk": -1,
+        "fields": {
+            "password": "pbkdf2_sha256$216000$ddAN0r9gi63S$qEYuQi8FtcE2n7T9J/CDMp0qmtyfZMc6i0I5nBQNSIA=",
+            "last_login": "2020-10-19T03:45:02.915Z",
+            "is_superuser": false,
+            "username": "DemoSeller",
+            "first_name": "We dont use this field",
+            "last_name": "The password for this accoutn is sjsu",
+            "email": "president_pap@sjsu.edu",
+            "is_staff": false,
+            "is_active": true,
+            "date_joined": "2020-10-19T03:45:02.713Z",
+            "groups": [],
+            "user_permissions": []
+        }
+    },
+    {
+        "model": "auth.user",
+        "pk": -2,
+        "fields": {
+            "password": "pbkdf2_sha256$216000$MdkfLzdlymFw$xkp8LKYoJ5Gj0Y/jKhmkfyllRFAl/Sntv4FOI74bGNA=",
+            "last_login": "2020-10-19T03:47:59.253Z",
+            "is_superuser": false,
+            "username": "DemoBuyer",
+            "first_name": "We dont use this field",
+            "last_name": "The password for this accoutn is sjsu",
+            "email": "buyer@sjsu.edu",
+            "is_staff": false,
+            "is_active": true,
+            "date_joined": "2020-10-19T03:47:59.070Z",
+            "groups": [],
+            "user_permissions": []
+        }
+    }
+]

@@ -19,11 +19,7 @@
         <tr>
             <td>
                 <a href="posting/{{posting.id }}">
-                    {% if image is None %}
-                    <img src="{% static 'img/missing.png' %}" height="60" width="60">
-                    {% else %}
-                    <img src="{% static image  %}" height="200" width="200" class="img-fluid">
-                    {% endif %}
+                    <img width=150 height=200 src="{{image}}" alt="{{image}}">
                 </a>
             </td>
             <td> <a href="posting/{{posting.id }}"> {{ posting.title }} </a></td>
@@ -31,14 +27,7 @@
             <td> {{ posting.price }} </td>
             <td> {{ posting.seller }} </td>
             <td> 
-                <div class="btn-group" role="group" aria-label="Basic example">
-                  <a type="button" class="btn btn-light border border-dark">
-                    <span class="fas fa-cart-plus" height=50 width=50>
-                  </a>                                  
-                  <a type="button" class="btn btn-light border border-dark">
-                    <span class="text-danger fas fa-heart" height=50 width=50>
-                  </a>
-                </div>
+                {% include "book_actions.html" %}
             </td>
         </tr>
         {% endfor %}
