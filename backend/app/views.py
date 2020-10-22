@@ -1,5 +1,7 @@
 import os
 import json
+from itertools import chain
+from django.db.models import Q
 from django.views.decorators.csrf import csrf_exempt
 from .utils import upload_img, get_favorites
 from django.core.files.storage import default_storage
@@ -74,18 +76,6 @@ def get_posting(request, posting_id):
         "book_thumbnail": book_thumbnail
     }
     return HttpResponse(template.render(context, request))
-
-
-def create_posting(request):
-    '''Send the create post template for a seller'''
-    return HttpResponse('Not implemented')
-
-
-def save_posting(request):
-    '''Save the posting to the database'''
-    # Parse the form? Model binding is a thing tho.
-    # Create the posting here
-    return HttpResponse('Not implemented')
 
 
 def profile(request):
@@ -230,12 +220,58 @@ def favorite(request, posting_id):
     else:
         return HttpResponseRedirect("/login")
 
-def chat(request, other_user_id):
+def chat(request, other_user_id=None, posting_id=None):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect("/login")
+    if other_user_id is None:
+        template = loader.get_template('all_chats.html')
+        rs = Message.objects.filter(Q(to_user=request.user)|Q(from_user=request.user)).values_list('to_user', 'from_user').distinct()
+        other_user_set = set()
+        for to_id, from_id in rs:
+            if to_id != request.user.id:
+                other_user_set.add(to_id)
+            if from_id != request.user.id:
+                other_user_set.add(from_id)
+        msg_infos = []
+        for other_user_id in other_user_set:
+            other_user = User.objects.get(id=other_user_id)
+            other_profile_pic = f'{settings.MEDIA_URL}/profile_pics/{other_user_id}.jpg'
+            msg_count = Message.objects.filter(from_user_id=other_user, to_user=request.user).count()
+            msg_count += Message.objects.filter(to_user_id=other_user, from_user=request.user).count()
+            last_msg_preview = Message.objects.filter(from_user=other_user, to_user=request.user).order_by('-id').first()
+            if last_msg_preview is not None:
+                last_msg_preview = last_msg_preview.message_text
+                last_msg_preview = last_msg_preview[0:20]  + "...."
+            msg_infos.append({
+                'other_user' : other_user,
+                'msg_count'  : msg_count,
+                'last_msg_preview'  : last_msg_preview,
+                'other_profile_pic': other_profile_pic
+            })
+        context = {                
+            'msg_infos': msg_infos 
+        }
+        return HttpResponse(template.render(context, request))
+    if int(other_user_id) == int(request.user.id):
+        #You cant message yourself...
+        return HttpResponseRedirect("/")
+    is_first_msg = False
+    if posting_id is not None and \
+       Message.objects.filter(from_user=request.user, to_user=other_user_id).count() == 0:
+        #We only get the conversation started for the first msg
+        initial_msg = Message(from_user=request.user, to_user_id=other_user_id, 
+            message_text=f'Hi there! I\'m interested in buying {Posting.objects.get(id=posting_id).title}')
+        initial_msg.save()
+        is_first_msg = True
     template = loader.get_template('chat.html')
     to_user = User.objects.get(id=other_user_id)
-
+    my_profile_pic = f'{settings.MEDIA_URL}/profile_pics/{request.user.id}.jpg'
+    other_profile_pic = f'{settings.MEDIA_URL}/profile_pics/{other_user_id}.jpg'
     context = {
-        'to_user':  to_user
+        'to_user':  to_user,
+        'my_profile_pic': my_profile_pic,
+        'other_profile_pic': other_profile_pic,
+        'is_first_msg': is_first_msg
     }
 
     return HttpResponse(template.render(context, request))

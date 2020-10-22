@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div class='jumbotron bg-light'>
+    <h1 class='display-3'>Your Messages</h1>
+    <table id='chats' class='display hover order-column striped bg-white border rounded'>
+        <thead>
+            <tr>
+                <th> Photo</th>
+                <th> User</th>
+                <th> Email </th>
+                <th> # Messages </th>
+                <th> Most Recent Reply </th>
+                <th> Action </th>
+            </tr>
+        </thead>
+        {% for msg_info in msg_infos %}
+        <tr>
+            <th>
+                <img class='float-left' src='{{msg_info.other_profile_pic}}' height=75 width=75 />
+            </th>
+            <th> {{msg_info.other_user.username}} </th>
+            <th> {{msg_info.other_user.email}} </th>
+            <th> {{msg_info.msg_count}} </th>
+            {% if msg_info.last_msg_preview is not None %}
+            <th> {{ msg_info.last_msg_preview }} </th>
+            {% else %}
+            <th> <i class='text-muted'>No reply received</i> </th>
+            {% endif %}
+            <th>
+                <a type="button" href='/chat/{{msg_info.other_user.id}}' class="btn btn-primary border border-dark">
+                    Message
+                    <span class="text-light fas fa-envelope" height=75 width=75>
+                </a>
+            </th>
+        </tr>
+        {% endfor %}
+    </table>
+
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#chats').DataTable({
+            'bFilter': false,
+            'language': {
+                'emptyTable': 'No chats yet! Go <a href="/browse">browse</a> some books'
+            }
+        });
+    });
+</script>
+
+
+{% endblock %}

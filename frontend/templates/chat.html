@@ -3,13 +3,17 @@
 {% block content %}
 
 <div class='jumbotron'>
-    <div class='card' >
+    <div class='card'>
         <div class='card-header'>
+            <div class='float-left'>
+                <img src={{other_profile_pic}} width=75 height=75>
+            </div>
             <h3 class="display">Chat with {{ to_user.username }}</h3>
             <p class="display text-muted">You can also email them at <a
                     href='mailto:{{ user.email }}'>{{ to_user.email }}</a></p>
+
         </div>
-        <div class='card-body'  >
+        <div class='card-body'>
             <div id='chatlog' style='overflow-y:auto; height: 40vh;'></div>
         </div>
         <div class='card-footer'>
@@ -22,7 +26,7 @@
                                     placeholder="Message" />
                             </td>
                             <td>
-                                <button id='submitMsg'  class='btn btn-primary float-right'>Send</button>
+                                <button id='submitMsg' class='btn btn-danger float-right'>Send</button>
                             </td>
                         </tr>
                     </table>
@@ -34,61 +38,90 @@
     </div>
 </div>
 
+<div class="modal fade" id="firstMsgModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Your first message to {{to_user.username}}...</h5>
+            </div>
+            <div class="modal-body">
+                We've went ahead and sent your first message to break the ice. <br>
+                From here, its up to you to broker a deal! <br>
+                Remember to be safe.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Got it</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if is_first_msg %}
 <script>
-        $("#sendChat").submit(function (e) {
-            e.preventDefault();
-            var form = $(this);
+    $('#firstMsgModal').modal({});
+</script>
+{% endif %}
 
-            $.ajax({
-                type: "POST",
-                url: '/message/{{to_user.id}}',
-                data: form.serialize(),
-                success: function (data) {
-                    $('#message_text').val('')
-                },
-                error: function (data) {
-                    alert(data);
-                }
-            });
+<script>
+    this.previousChainMessageLength = -1
+    updateMessages()
+    setInterval(updateMessages, 1000)
 
-            var objDiv = document.getElementById('chatlog');
-            objDiv.scrollTop = objDiv.scrollHeight;
-
-            return false
-        });
-
-    setInterval(() => {
+    function updateMessages() {
         $.ajax({
             type: "GET",
             url: '/message/{{to_user.id}}',
             success: function (data) {
                 messages = JSON.parse(data)['messages']
+                if (previousChainMessageLength === messages.length) return
+                previousChainMessageLength = messages.length
                 prev_messenger = ''
-                msg_chain = ''
-                for(i in messages){
-                    if(prev_messenger !== messages[i].from_user)
-                    {
-                        msg_chain += "<hr>"
-                        if(messages[i].from_user === 'Me:')
-                            msg_chain += '<text class="alert alert-warning font-italic my-0 py-0 ">'
-                        else
-                            msg_chain += '<text class="alert alert-primary font-italic my-0 py-0 ">'
-                        msg_chain += messages[i].from_user
-                        msg_chain += "</text>"
+                msg_chain = '<ul class="list-group">'
+
+                for (i in messages) {
+                    if (prev_messenger !== messages[i].from_user) {
+                        msg_chain += "</blockquote>"
+                        if (messages[i].from_user === 'Me:') {
+                            msg_chain += '<li class="list-group-item list-group-item-light">'
+                        }
+                        else {
+                            msg_chain += '<li class="list-group-item list-group-item-primary">'
+                        }
+                        msg_chain += '<text style="font-size:x-large">' + messages[i].from_user + '</h6>'
+                        msg_chain += '<blockquote class="blockquote">'
                     }
-                    msg_chain += "<br>"
-                    msg_chain += messages[i].message_text
+                    msg_chain += messages[i].message_text + '<br>'
                     prev_messenger = messages[i].from_user
                 }
                 $('#chatlog').html(msg_chain)
+                var objDiv = document.getElementById('chatlog');
+                objDiv.scrollTop = objDiv.scrollHeight;
             },
-            error: function (data, a) {
-                alert(data);
-                alert(a);
+            error: function () {
             }
         });
+    }
 
-    }, 1000)
+    $("#sendChat").submit(function (e) {
+        e.preventDefault();
+        var form = $(this);
+        if (form.serializeArray()[0].value.trim(' ') !== '') {
+            $.ajax({
+                type: "POST",
+                url: '/message/{{to_user.id}}',
+                data: form.serialize(),
+                success: function (data) {
+                    var objDiv = document.getElementById('chatlog');
+                    objDiv.scrollTop = objDiv.scrollHeight;
+                },
+                error: function () {
+                }
+            });
+        }
+
+        $('#message_text').val('')
+        return false
+    });
 </script>
 
 
