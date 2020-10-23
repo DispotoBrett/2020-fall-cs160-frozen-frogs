@@ -66,16 +66,10 @@ class Report(models.Model):
     user = models.ForeignKey(User, on_delete=models.PROTECT)
     posting = models.ForeignKey(Posting, null=True, on_delete=models.SET_NULL)
     description = models.TextField()
-    posting_snapshot = models.JSONField(blank=True, null=True)
+    posting_snapshot = models.TextField(blank=True, null=True)
     is_resolved = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f'Report from {self.user}'
-
-    def on_save(self, *args, **kwargs):
-        if not self.pk:
-            posting_snapshot = posting
-
-        super(Report, self).save(*args, **kwargs)

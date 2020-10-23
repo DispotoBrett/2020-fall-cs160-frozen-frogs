@@ -1,4 +1,4 @@
-import os
+import os, json
 from .utils import upload_img, get_favorites
 from django.core.files.storage import default_storage
 from django.core.files.base import ContentFile
@@ -246,6 +246,8 @@ def report(request, posting_id):
             instance = form.save(commit=False)
             instance.user = request.user
             instance.posting = posting
+            instance.posting_snapshot = json.dumps(model_to_dict(posting))
+            instance.save()
             return HttpResponseRedirect(reverse('posting', args=[posting.id]) + '?reported=1')
     else:
         form = ReportForm()
