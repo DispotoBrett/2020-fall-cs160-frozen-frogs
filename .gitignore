@@ -4,6 +4,6 @@
 *.pyo
 **/__pycache__
 /frontend/static/img/book_thumbnails/[0-9]*
-/frontend/media/profile_pics/**
+/frontend/media/profile_pics/[0-9]*
 /backend/app/migrations/**
 frontend/media/listing_photos/[0-9]*

@@ -176,29 +176,34 @@
       </div>
       <div class="col-lg-6" style="text-align:center; margin-bottom: 10px;">
         <div class="about-avatar">
-          <img width=300 height=300 src="{{profile_pic}}" alt="{{profile_pic}}">
+          <img class='rounded' width=300 height=300 src="{{profile_pic}}" alt="{{profile_pic}}">
         </div>
       </div>
     </div>
     <div class="counter">
       <div class="row">
-        <div class="col-6 col-lg-3">
+        <div class="col-3 col-lg-3">
           <div class="count-data text-center">
             <button class='btn btn-warning' type='submit' id='list' onclick="location.href = '/list_book'">List a Book
               for Sale</button>
           </div>
         </div>
-        <div class="col-6 col-lg-3">
+        <div class="col-3 col-lg-3">
           <div class="count-data text-center">
             <button class='btn btn-primary' type='submit' id='view_books'>View your Books for Sale</button>
           </div>
         </div>
-        <div class="col-6 col-lg-3">
+        <div class="col-2 col-lg-2">
           <div class="count-data text-center">
-            <button class='btn btn-secondary' type='submit' id='edit_prof'>Edit Profile Information</button>
+            <button class='btn btn-success' type='submit' id='my_msg' onclick="location.href = '/chat'">My Messages</button>
           </div>
         </div>
-        <div class="col-6 col-lg-3">
+        <div class="col-2 col-lg-2">
+          <div class="count-data text-center">
+            <button class='btn btn-secondary' type='submit' id='edit_prof'>Edit Profile</button>
+          </div>
+        </div>
+        <div class="col-2 col-lg-2">
           <div class="count-data text-center">
             <a href='/logout' class='btn btn-danger' type='submit' id='logout'>Logout</a>
           </div>
@@ -215,7 +220,7 @@
             </h2>
           </button>
         </div>
-        <div id="favoritesCollapse" class="collapse" aria-labelledby="favoritesHeading" data-parent="#accordion">
+        <div id="favoritesCollapse" class="" aria-labelledby="favoritesHeading" data-parent="#accordion">
           <div class="card-body">
             <table id='favorites' class='display hover order-column striped bg-white border rounded'>
               <thead>
