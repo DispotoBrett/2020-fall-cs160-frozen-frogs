@@ -58,7 +58,6 @@ def get_posting(request, posting_id):
     book = model_to_dict(List_Book.objects.get(id=posting['book']))
     seller = model_to_dict(User.objects.get(id=posting['seller']))['username']
     seller_id = model_to_dict(User.objects.get(id=posting['seller']))['id']
-    print(seller_id)
 
     # Get favorites
     if request.user.is_authenticated:
@@ -142,7 +141,6 @@ def register(request):
     '''Register a New User'''
     template = loader.get_template('register.html')
     if request.POST:
-        print(request.POST)
         if User.objects.filter(username=request.POST['username']).count() == 0:
 
             # check for SJSU email
