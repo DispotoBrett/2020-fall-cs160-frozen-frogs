@@ -58,6 +58,8 @@ def get_posting(request, posting_id):
     posting = model_to_dict(Posting.objects.get(id=posting_id))
     book = model_to_dict(List_Book.objects.get(id=posting['book']))
     seller = model_to_dict(User.objects.get(id=posting['seller']))['username']
+    seller_id = model_to_dict(User.objects.get(id=posting['seller']))['id']
+    print(seller_id)
 
     # Get favorites
     if request.user.is_authenticated:
@@ -73,7 +75,8 @@ def get_posting(request, posting_id):
         "book": book,
         "user_favorites_list": favorites,
         "seller": seller,
-        "book_thumbnail": book_thumbnail
+        "book_thumbnail": book_thumbnail,
+        "seller_id": seller_id
     }
     return HttpResponse(template.render(context, request))
 
@@ -118,6 +121,9 @@ def list_book(request):
         # Check if all fields filled in
         if '' in (title, author, isbn, subject, class_used, des, price):
             return HttpResponse(template.render({'error': 'Please fill out all fields.'}, request))
+        # ISBN must be 13 chars
+        if len(isbin) != 13:
+            return HttpResponse(template.render({'error': 'Please supply a valid ISBN.'}, request))
         else:
             # Post to Posting and List_Book
             book = List_Book(title=title,author=author,isbn=isbn,subject=subject,class_used=class_used)
