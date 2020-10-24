@@ -26,7 +26,7 @@
             <li class="list-group-item">Price: ${{ posting.price }}</li>
             <li class="list-group-item">Description: {{ posting.description }}</li>
             <li class="list-group-item">Seller: {{ seller }}</li>
-            <button class='btn btn-primary' type='submit' id='buy'>Purchase Book</button>
+            <a class='btn btn-primary' type='button' id='buy' href='/chat/{{seller_id}}/{{posting.id}}'>Purchase Book</a>
     </div>
 </div>
 
