@@ -144,17 +144,19 @@ def register(request):
     if request.POST:
         print(request.POST)
         if User.objects.filter(username=request.POST['username']).count() == 0:
+            
             # check for SJSU email
             err = False
             email = request.POST['email']
             if len(email) >= 10:
-                print('fuck u')
+                if email[-9:] != "@sjsu.edu":
+                    err = True
             else:
                 err = True
 
             if err:
                 context = {
-                    'error': f'Username {request.POST["username"]} already exists'
+                    'error': 'Please supply a SJSU email.'
                 }
                 return HttpResponse(template.render(context, request))
 
