@@ -28,7 +28,6 @@ def index(request):  # detail view
     }
     return HttpResponse(template.render(context, request))
 
-
 def browse(request):
     '''A more detailed version of the homepage book listing'''
     posting_list = Posting.objects.all()
