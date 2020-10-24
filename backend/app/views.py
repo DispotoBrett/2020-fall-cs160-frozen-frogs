@@ -28,7 +28,6 @@ def index(request):  # detail view
     }
     return HttpResponse(template.render(context, request))
 
-
 def browse(request):
     '''A more detailed version of the homepage book listing'''
     posting_list = Posting.objects.all()
@@ -58,6 +57,7 @@ def get_posting(request, posting_id):
     posting = model_to_dict(Posting.objects.get(id=posting_id))
     book = model_to_dict(List_Book.objects.get(id=posting['book']))
     seller = model_to_dict(User.objects.get(id=posting['seller']))['username']
+    seller_id = model_to_dict(User.objects.get(id=posting['seller']))['id']
 
     # Get favorites
     if request.user.is_authenticated:
@@ -73,7 +73,8 @@ def get_posting(request, posting_id):
         "book": book,
         "user_favorites_list": favorites,
         "seller": seller,
-        "book_thumbnail": book_thumbnail
+        "book_thumbnail": book_thumbnail,
+        "seller_id": seller_id
     }
     return HttpResponse(template.render(context, request))
 
@@ -118,10 +119,9 @@ def list_book(request):
         # Check if all fields filled in
         if '' in (title, author, isbn, subject, class_used, des, price):
             return HttpResponse(template.render({'error': 'Please fill out all fields.'}, request))
-
-        # check if int
-        if not isinstance(price, int):
-            return HttpResponse(template.render({'error': 'Please choose a numeric price.'}, request))
+        # ISBN must be 13 chars
+        if len(isbin) != 13:
+            return HttpResponse(template.render({'error': 'Please supply a valid ISBN.'}, request))
         else:
             # Post to Posting and List_Book
             book = List_Book(title=title,author=author,isbn=isbn,subject=subject,class_used=class_used)
@@ -136,35 +136,45 @@ def list_book(request):
     else:
         return HttpResponse(template.render({}, request))
 
-# DEPRECATED --- use get_posting instead
-# def view_book(request, book_id):
-#     '''
-#     Book page. Will replace hardcoded values with DB data
-#     Book ID will be used to query for data
-#     '''
-#     book_id_rn = book_id
-#     template = loader.get_template('book_view.html')
-#     book = List_Book.objects.filter(id=book_id)
-#     post = Posting.objects.filter(book_id=book_id)
-#     book_data = str(book[0]).split(',')
-#     posting_data = str(post[0]).split(',')
-#     context = {
-#         'name': posting_data[0],
-#         'author': book_data[1],
-#         'isbn': book_data[2],
-#         'subject': book_data[3],
-#         'class_used': book_data[4],
-#         'price': posting_data[1],
-#         'des': posting_data[2]
-#     }
-#     return HttpResponse(template.render(context, request))
-
 
 def register(request):
     '''Register a New User'''
     template = loader.get_template('register.html')
     if request.POST:
         if User.objects.filter(username=request.POST['username']).count() == 0:
+
+            # check for SJSU email
+            err = False
+            email = request.POST['email']
+            if len(email) >= 10:
+                if email[-9:] != "@sjsu.edu":
+                    err = True
+            else:
+                err = True
+
+            if err:
+                context = {
+                    'error': 'Please supply a SJSU email.'
+                }
+                return HttpResponse(template.render(context, request))
+
+            # check for proper pw
+            pw = request.POST['password']
+            # idea form: https://stackoverflow.com/questions/17140408/if-statement-to-check-whether-a-string-has-a-capital-letter-a-lower-case-letter/17140466
+            spec = set("!#$%&'()*+,-./:;<=>?@[\\]^_`{|}~")
+            rules = [
+                lambda l: any(c.isupper() for c in pw) or 'no_upper',
+                lambda l: any(c.isdigit() for c in pw) or 'no_digit',
+                lambda l: any(c in spec for c in pw) or 'no_special',
+                lambda l: len(pw) >= 10 or 'length'
+            ]
+            res = [p for p in [r(pw) for r in rules] if p != True]
+            if len(res) > 0:
+                context = {
+                    'error': 'Passwords must be at least 10 characters long, with at least one special character and uppercase character'
+                }
+                return HttpResponse(template.render(context, request))
+
             new_user = User.objects.create_user(request.POST['username'], request.POST['email'], request.POST['password'])
             new_user.save()
             login(request, new_user)
