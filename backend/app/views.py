@@ -144,7 +144,7 @@ def register(request):
     if request.POST:
         print(request.POST)
         if User.objects.filter(username=request.POST['username']).count() == 0:
-            
+
             # check for SJSU email
             err = False
             email = request.POST['email']
@@ -157,6 +157,23 @@ def register(request):
             if err:
                 context = {
                     'error': 'Please supply a SJSU email.'
+                }
+                return HttpResponse(template.render(context, request))
+
+            # check for proper pw
+            pw = request.POST['password']
+            # idea form: https://stackoverflow.com/questions/17140408/if-statement-to-check-whether-a-string-has-a-capital-letter-a-lower-case-letter/17140466
+            spec = set("!#$%&'()*+,-./:;<=>?@[\\]^_`{|}~")
+            rules = [
+                lambda l: any(c.isupper() for c in pw) or 'no_upper',
+                lambda l: any(c.isdigit() for c in pw) or 'no_digit',
+                lambda l: any(c in spec for c in pw) or 'no_special',
+                lambda l: len(pw) >= 10 or 'length'
+            ]
+            res = [p for p in [r(pw) for r in rules] if p != True]
+            if len(res) > 0:
+                context = {
+                    'error': 'Passwords must be at least 10 characters long, with at least one special character and uppercase character'
                 }
                 return HttpResponse(template.render(context, request))
 
