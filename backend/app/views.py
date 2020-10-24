@@ -142,7 +142,22 @@ def register(request):
     '''Register a New User'''
     template = loader.get_template('register.html')
     if request.POST:
+        print(request.POST)
         if User.objects.filter(username=request.POST['username']).count() == 0:
+            # check for SJSU email
+            err = False
+            email = request.POST['email']
+            if len(email) >= 10:
+                print('fuck u')
+            else:
+                err = True
+
+            if err:
+                context = {
+                    'error': f'Username {request.POST["username"]} already exists'
+                }
+                return HttpResponse(template.render(context, request))
+
             new_user = User.objects.create_user(request.POST['username'], request.POST['email'], request.POST['password'])
             new_user.save()
             login(request, new_user)
