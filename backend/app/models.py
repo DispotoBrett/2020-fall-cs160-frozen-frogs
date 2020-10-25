@@ -47,7 +47,7 @@ class Message(models.Model):
     message_text = models.CharField(max_length=300)
  
     def __str__(self):
-        return f'{from_user} said to {to_user}: {message_text}' 
+        return f'{self.from_user} said to {self.to_user}: {self.message_text}' 
 
 class Register(models.Model):
     ''' 
