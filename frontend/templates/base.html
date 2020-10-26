@@ -1,49 +1,205 @@
 {% load static %}
-<html>
-    <head>
-        <title>Spartan Bookshare</title>
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.css">
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
-        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-        crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-        crossorigin="anonymous"></script>
-        <script type="text/javascript" charset="utf8" 
-        src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.js"></script>
+<!-- Styling attribution: https://www.bootdey.com/snippets/view/about-me#css -->
+<style>
+  body {
+    color: #6F8BA4;
+    margin-top: 20px;
+  }
 
-    </head>
-    <body>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" href="/">
-            <img src="{% static 'img/sjsu.png' %}" height="60" width="60">
-            <strong>Spartan Bookshare</strong></a>
-          <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <div class="navbar-nav mr-auto">
-                <a class="nav-item nav-link active" href="/">Home</a>
-                <a class="nav-item nav-link active" href="/browse">Browse</a>
-              </div>
-                {% if user.is_authenticated %}
-                <div class="navbar-nav">
-                    <a class="nav-item nav-link active" href="/profile">Profile</a>
-                    <a class="nav-item nav-link active" href="/logout">Logout</a>
-                {% else %}
-                <div class="navbar-nav">
-                <a class="nav-item nav-link active" href="/register">Register</a>
-                <a class="nav-item nav-link active" href="/login">Login</a>
-                {% endif %}
-              </div>
-            </div>
-        </nav>
-       <div class="container bg-white">
-            {% block content %}
-            {% endblock %}
+  .section {
+    padding: 100px 0;
+    position: relative;
+    margin-top: 20px;
+  }
+
+  .gray-bg {
+    background-color: #f5f5f5;
+  }
+
+  img {
+    max-width: 100%;
+  }
+
+  img {
+    vertical-align: middle;
+    border-style: none;
+  }
+
+  /* About Me 
+---------------------*/
+  .about-text h3 {
+    font-size: 45px;
+    font-weight: 700;
+    margin: 0 0 6px;
+  }
+
+  @media (max-width: 767px) {
+    .about-text h3 {
+      font-size: 35px;
+    }
+  }
+
+  .about-text h6 {
+    font-weight: 600;
+    margin-bottom: 15px;
+  }
+
+  @media (max-width: 767px) {
+    .about-text h6 {
+      font-size: 18px;
+    }
+  }
+
+  .about-text p {
+    font-size: 18px;
+    max-width: 450px;
+  }
+
+  .about-text p mark {
+    font-weight: 600;
+    color: #20247b;
+  }
+
+  .about-list {
+    padding-top: 10px;
+  }
+
+  .about-list .media {
+    padding: 5px 0;
+  }
+
+  .about-list label {
+    color: #20247b;
+    font-weight: 600;
+    width: 88px;
+    margin: 0;
+    position: relative;
+  }
+
+  .about-list label:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 11px;
+    width: 1px;
+    height: 12px;
+    background: #20247b;
+    -moz-transform: rotate(15deg);
+    -o-transform: rotate(15deg);
+    -ms-transform: rotate(15deg);
+    -webkit-transform: rotate(15deg);
+    transform: rotate(15deg);
+    margin: auto;
+    opacity: 0.5;
+  }
+
+  .about-list p {
+    margin: 0;
+    font-size: 15px;
+  }
+
+  @media (max-width: 991px) {
+    .about-avatar {
+      margin-top: 30px;
+      justify-content: center;
+      text-align: center;
+    }
+  }
+
+  .about-section .counter {
+    padding: 22px 20px;
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 0 30px rgba(31, 45, 61, 0.125);
+  }
+
+  .about-section .counter .count-data {
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+  .about-section .counter .count {
+    font-weight: 700;
+    color: #20247b;
+    margin: 0 0 5px;
+  }
+
+  .about-section .counter p {
+    font-weight: 600;
+    margin: 0;
+  }
+
+  mark {
+    background-image: linear-gradient(rgba(252, 83, 86, 0.6), rgba(252, 83, 86, 0.6));
+    background-size: 100% 3px;
+    background-repeat: no-repeat;
+    background-position: 0 bottom;
+    background-color: transparent;
+    padding: 0;
+    color: currentColor;
+  }
+
+  .theme-color {
+    color: #fc5356;
+  }
+
+  .dark-color {
+    color: #20247b;
+  }
+</style>
+<html>
+
+<head>
+  <title>Spartan Bookshare</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
+    integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.js"
+    integrity="sha512-WNLxfP/8cVYL9sj8Jnp6et0BkubLP31jhTG9vhL/F5uEZmg5wEzKoXp1kJslzPQWwPT1eyMiSxlKCgzHLOTOTQ=="
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>
+  <script type="text/javascript" charset="utf8"
+    src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.js"></script>
+
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="/">
+      <img src="{% static 'img/sjsu.png' %}" height="60" width="60">
+      <strong>Spartan Bookshare</strong></a>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav mr-auto">
+        <a class="nav-item nav-link active" href="/">Home</a>
+        <a class="nav-item nav-link active" href="/browse">Browse</a>
+      </div>
+      {% if user.is_authenticated %}
+      <div class="navbar-nav">
+        <a class="nav-item nav-link active" href="/profile">Profile</a>
+        <a class="nav-item nav-link active" href="/logout">Logout</a>
+        <a class="nav-item nav-link active" href='/chat'>
+          <span class="text-primary fas fa-envelope" height=75 width=75>
+        </a>
+        {% else %}
+        <div class="navbar-nav">
+          <a class="nav-item nav-link active" href="/register">Register</a>
+          <a class="nav-item nav-link active" href="/login">Login</a>
+          {% endif %}
         </div>
-    </body>
+      </div>
+  </nav>
+  <div class="container bg-white">
+    {% block content %}
+    {% endblock %}
+  </div>
+</body>
+
 </html>

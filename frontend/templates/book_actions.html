@@ -1,24 +1,22 @@
 <div class="btn-group" role="group">
-    <!--Cart-->
-    <a type="button" class="btn btn-light border border-dark">
-        <span class="text-dark fas fa-cart-plus" height=50 width=50>
-    </a>
-
     <!--Favorites-->
     {%if posting.id in user_favorites_list %}
     <a type="button" href='/favorite/{{posting.id}}' class="btn btn-light border border-dark">
-        <span class="text-dark fas fa-ban" height=50 width=50>
+        <span class="text-dark fas fa-ban" height=75 width=75>
     </a>
     {%else %}
     <a type="button" href='/favorite/{{posting.id}}' class="btn btn-light border border-dark">
-        <span class="text-danger fas fa-heart" height=50 width=50>
+        <span class="text-danger fas fa-heart" height=75 width=75>
     </a>
     {%endif%}
 
-    <!--Message-->
-    <a type="button" class="btn btn-light border border-dark">
-        <span class="text-primary fas fa-envelope" height=50 width=50>
-    </a>
+    {% if posting.seller.id is not None %}
+    <a type="button" href='/chat/{{posting.seller.id}}/{{posting.id}}' class="btn btn-light border border-dark">
+        {% else %}
+        <a type="button" href='/chat/{{posting.seller}}/{{posting.id}}' class="btn btn-light border border-dark">
+            {% endif %}
+            <span class="text-primary fas fa-envelope" height=75 width=75>
+        </a>
 
     <a href="{% url 'report' posting.id %}" type="button" class="btn btn-light border border-dark">
         <span class="text-danger fas fa-flag" height=50 width=50>

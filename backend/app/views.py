@@ -1,4 +1,8 @@
-import os, json
+import os
+import json
+from itertools import chain
+from django.db.models import Q
+from django.views.decorators.csrf import csrf_exempt
 from .utils import upload_img, get_favorites
 from django.core.files.storage import default_storage
 from django.core.files.base import ContentFile
@@ -9,8 +13,8 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from datetime import datetime
 from django.contrib.staticfiles import finders
-from .models import Posting, List_Book, Register, Favorite
 from .forms import BookForm, ReportForm
+from .models import Posting, List_Book, Register, Favorite, Message
 from django.contrib.auth import logout, login, authenticate
 from django.contrib.auth.models import User
 from django.forms.models import model_to_dict
@@ -24,7 +28,6 @@ def index(request):  # detail view
         'posting_list': posting_list[0:5],
     }
     return HttpResponse(template.render(context, request))
-
 
 def browse(request):
     '''A more detailed version of the homepage book listing'''
@@ -55,6 +58,7 @@ def get_posting(request, posting_id):
     posting = model_to_dict(Posting.objects.get(id=posting_id))
     book = model_to_dict(List_Book.objects.get(id=posting['book']))
     seller = model_to_dict(User.objects.get(id=posting['seller']))['username']
+    seller_id = model_to_dict(User.objects.get(id=posting['seller']))['id']
 
     # Get favorites
     if request.user.is_authenticated:
@@ -70,21 +74,10 @@ def get_posting(request, posting_id):
         "book": book,
         "user_favorites_list": favorites,
         "seller": seller,
-        "book_thumbnail": book_thumbnail
+        "book_thumbnail": book_thumbnail,
+        "seller_id": seller_id
     }
     return HttpResponse(template.render(context, request))
-
-
-def create_posting(request):
-    '''Send the create post template for a seller'''
-    return HttpResponse('Not implemented')
-
-
-def save_posting(request):
-    '''Save the posting to the database'''
-    # Parse the form? Model binding is a thing tho.
-    # Create the posting here
-    return HttpResponse('Not implemented')
 
 
 def profile(request):
@@ -127,10 +120,9 @@ def list_book(request):
         # Check if all fields filled in
         if '' in (title, author, isbn, subject, class_used, des, price):
             return HttpResponse(template.render({'error': 'Please fill out all fields.'}, request))
-
-        # check if int
-        if not isinstance(price, int):
-            return HttpResponse(template.render({'error': 'Please choose a numeric price.'}, request))
+        # ISBN must be 13 chars
+        if len(isbin) != 13:
+            return HttpResponse(template.render({'error': 'Please supply a valid ISBN.'}, request))
         else:
             # Post to Posting and List_Book
             book = List_Book(title=title,author=author,isbn=isbn,subject=subject,class_used=class_used)
@@ -145,35 +137,45 @@ def list_book(request):
     else:
         return HttpResponse(template.render({}, request))
 
-# DEPRECATED --- use get_posting instead
-# def view_book(request, book_id):
-#     '''
-#     Book page. Will replace hardcoded values with DB data
-#     Book ID will be used to query for data
-#     '''
-#     book_id_rn = book_id
-#     template = loader.get_template('book_view.html')
-#     book = List_Book.objects.filter(id=book_id)
-#     post = Posting.objects.filter(book_id=book_id)
-#     book_data = str(book[0]).split(',')
-#     posting_data = str(post[0]).split(',')
-#     context = {
-#         'name': posting_data[0],
-#         'author': book_data[1],
-#         'isbn': book_data[2],
-#         'subject': book_data[3],
-#         'class_used': book_data[4],
-#         'price': posting_data[1],
-#         'des': posting_data[2]
-#     }
-#     return HttpResponse(template.render(context, request))
-
 
 def register(request):
     '''Register a New User'''
     template = loader.get_template('register.html')
     if request.POST:
         if User.objects.filter(username=request.POST['username']).count() == 0:
+
+            # check for SJSU email
+            err = False
+            email = request.POST['email']
+            if len(email) >= 10:
+                if email[-9:] != "@sjsu.edu":
+                    err = True
+            else:
+                err = True
+
+            if err:
+                context = {
+                    'error': 'Please supply a SJSU email.'
+                }
+                return HttpResponse(template.render(context, request))
+
+            # check for proper pw
+            pw = request.POST['password']
+            # idea form: https://stackoverflow.com/questions/17140408/if-statement-to-check-whether-a-string-has-a-capital-letter-a-lower-case-letter/17140466
+            spec = set("!#$%&'()*+,-./:;<=>?@[\\]^_`{|}~")
+            rules = [
+                lambda l: any(c.isupper() for c in pw) or 'no_upper',
+                lambda l: any(c.isdigit() for c in pw) or 'no_digit',
+                lambda l: any(c in spec for c in pw) or 'no_special',
+                lambda l: len(pw) >= 10 or 'length'
+            ]
+            res = [p for p in [r(pw) for r in rules] if p != True]
+            if len(res) > 0:
+                context = {
+                    'error': 'Passwords must be at least 10 characters long, with at least one special character and uppercase character'
+                }
+                return HttpResponse(template.render(context, request))
+
             new_user = User.objects.create_user(request.POST['username'], request.POST['email'], request.POST['password'])
             new_user.save()
             login(request, new_user)
@@ -253,3 +255,92 @@ def report(request, posting_id):
         form = ReportForm()
 
     return render(request, 'report.html', {'form': form})
+
+def chat(request, other_user_id=None, posting_id=None):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect("/login")
+    if other_user_id is None:
+        template = loader.get_template('all_chats.html')
+        rs = Message.objects.filter(Q(to_user=request.user)|Q(from_user=request.user)).values_list('to_user', 'from_user').distinct()
+        other_user_set = set()
+        for to_id, from_id in rs:
+            if to_id != request.user.id:
+                other_user_set.add(to_id)
+            if from_id != request.user.id:
+                other_user_set.add(from_id)
+        msg_infos = []
+        for other_user_id in other_user_set:
+            other_user = User.objects.get(id=other_user_id)
+            other_profile_pic = f'{settings.MEDIA_URL}/profile_pics/{other_user_id}.jpg'
+            msg_count = Message.objects.filter(from_user_id=other_user, to_user=request.user).count()
+            msg_count += Message.objects.filter(to_user_id=other_user, from_user=request.user).count()
+            last_msg_preview = Message.objects.filter(from_user=other_user, to_user=request.user).order_by('-id').first()
+            if last_msg_preview is not None:
+                last_msg_preview = last_msg_preview.message_text
+                last_msg_preview = last_msg_preview[0:20]  + "...."
+            msg_infos.append({
+                'other_user' : other_user,
+                'msg_count'  : msg_count,
+                'last_msg_preview'  : last_msg_preview,
+                'other_profile_pic': other_profile_pic
+            })
+        context = {                
+            'msg_infos': msg_infos 
+        }
+        return HttpResponse(template.render(context, request))
+    if int(other_user_id) == int(request.user.id):
+        #You cant message yourself...
+        return HttpResponseRedirect("/")
+    is_first_msg = False
+    if posting_id is not None and \
+       Message.objects.filter(from_user=request.user, to_user=other_user_id).count() == 0:
+        #We only get the conversation started for the first msg
+        initial_msg = Message(from_user=request.user, to_user_id=other_user_id, 
+            message_text=f'Hi there! I\'m interested in buying {Posting.objects.get(id=posting_id).title}')
+        initial_msg.save()
+        is_first_msg = True
+    template = loader.get_template('chat.html')
+    to_user = User.objects.get(id=other_user_id)
+    my_profile_pic = f'{settings.MEDIA_URL}/profile_pics/{request.user.id}.jpg'
+    other_profile_pic = f'{settings.MEDIA_URL}/profile_pics/{other_user_id}.jpg'
+    context = {
+        'to_user':  to_user,
+        'my_profile_pic': my_profile_pic,
+        'other_profile_pic': other_profile_pic,
+        'is_first_msg': is_first_msg
+    }
+
+    return HttpResponse(template.render(context, request))
+
+@csrf_exempt
+def message(request, other_user_id):
+    if request.POST:
+        #add the form data from the request to db
+        msg = Message(from_user=request.user, to_user_id=other_user_id, message_text=request.POST['message_text'])
+        msg.save()
+        return HttpResponse('OK')
+    else:
+        #Get all messages between the two users 
+        other_user = User.objects.get(id=other_user_id)
+        messages = {
+            'messages': []
+        }
+        from_to = Message.objects.filter(from_user=request.user, to_user_id=other_user_id)
+        to_from = Message.objects.filter(to_user=request.user, from_user_id=other_user_id)
+        for msg in from_to:
+            msg = model_to_dict(msg)
+            msg['from_user'] = 'Me:'
+            messages['messages'].append(msg)
+
+        for msg in to_from:
+            msg = model_to_dict(msg)
+            msg['from_user'] = f'{other_user.username}:'
+            messages['messages'].append(msg)
+
+        messages['messages'].sort(key=lambda m: m['id'])
+
+
+        json_messages = json.dumps(messages)
+
+        return HttpResponse(json_messages)
+
