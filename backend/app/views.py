@@ -48,11 +48,6 @@ def browse(request):
     }
     return HttpResponse(template.render(context, request))
 
-def my_postings(request):
-    '''Displays a list of the logged in user\'s books for sale'''
-    context = {'postings': Posting.objects.filter(seller=request.user)}
-    template = loader.get_template('my_postings.html')
-    return HttpResponse(template.render(context, request))
 
 def get_posting(request, posting_id):
     '''Display an existing posting'''

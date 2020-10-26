@@ -9,9 +9,6 @@ from django.contrib.auth import views as auth_views
 urlpatterns = [ 
     path('', views.index, name='index'),
     path('profile', views.profile, name='profile'),
-    path('createPosting', views.create_posting, name='create'),
-    path('savePosting', views.save_posting, name='save'),
-    path('posting', views.my_postings, name='my_postings'),
     path('posting/<posting_id>', views.get_posting, name='posting'),
     path('browse', views.browse, name='browse'),
     path('list_book', views.list_book, name='list_book'),
