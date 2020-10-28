@@ -13,11 +13,12 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from datetime import datetime
 from django.contrib.staticfiles import finders
+from .forms import BookForm, ReportForm
 from .models import Posting, List_Book, Register, Favorite, Message
-from .forms import BookForm
 from django.contrib.auth import logout, login, authenticate
 from django.contrib.auth.models import User
 from django.forms.models import model_to_dict
+from django.urls import reverse
 
 def index(request):  # detail view
     '''The app homepage'''
@@ -232,6 +233,31 @@ def favorite(request, posting_id):
         return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
     else:
         return HttpResponseRedirect("/login")
+
+def report(request, posting_id):
+    '''Handle reporting of a posting'''
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect("/login")
+
+    try:
+        posting = Posting.objects.get(pk=posting_id)
+    except:
+        return render(request, 'report.html', {'error': 'Posting does not exist'})
+
+    if request.method == 'POST':
+        form = ReportForm(request.POST)
+
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.user = request.user
+            instance.posting = posting
+            instance.posting_snapshot = json.dumps(model_to_dict(posting))
+            instance.save()
+            return HttpResponseRedirect(reverse('posting', args=[posting.id]) + '?reported=1')
+    else:
+        form = ReportForm()
+
+    return render(request, 'report.html', {'form': form})
 
 def chat(request, other_user_id=None, posting_id=None):
     if not request.user.is_authenticated:

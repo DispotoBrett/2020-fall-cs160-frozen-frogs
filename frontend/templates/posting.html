@@ -1,7 +1,11 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-
+{% if 'reported' in request.GET %}
+    <div class="alert alert-success" role="alert">
+        This posting has been reported successfully. Thank you for reporting it to us.
+    </div>
+{% endif %}
 <div class="alert bg-light row">
     <div class="col-3">
         <img width=250 height=300 src="{{book_thumbnail}}" alt="{{book_thumbnail}}">
