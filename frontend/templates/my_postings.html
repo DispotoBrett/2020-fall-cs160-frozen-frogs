@@ -1,23 +1,25 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-    {% if postings %}
-        <h1>My Book Postings</h1>
-        <table class="table table-bordered table-striped table-hover">
-            <caption>List of books for sale</caption>
-            <th>Title</th>
-            <th>Price</th>
-            <th>Actions</th>
-            {% for posting in postings %}
-                <tr>
-                    <td>{{ posting.title }}</td>
-                    <td>${{ posting.price }}</td>
-                    <td><a href="{% url 'posting' posting.id %}">View</a></td>
-                </tr>
-            {% endfor %}
-        </table>
+{% if postings %}
+<div class='jumbotron bg-light'>
+    <h1 class='display-4'>My Book Postings</h1>
+    <table class="table table-bordered table-striped table-hover">
+        <caption>List of books for sale</caption>
+        <th>Title</th>
+        <th>Price</th>
+        <th>Actions</th>
+        {% for posting in postings %}
+        <tr>
+            <td>{{ posting.title }}</td>
+            <td>${{ posting.price }}</td>
+            <td><a class='btn btn-primary' href="{% url 'posting' posting.id %}">View</a></td>
+        </tr>
+        {% endfor %}
+    </table>
     {% else %}
-        <h1>No postings found!</h1>
-        <h5 class="text-muted">Go create some <a href="{% url 'list_book' %}">here</a></h2>
-    {% endif %}
+    <h1>No postings found!</h1>
+    <h5 class="text-muted">Go create some <a href="{% url 'list_book' %}">here</a></h2>
+</div>
+{% endif %}
 {% endblock %}
