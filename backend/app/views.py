@@ -115,25 +115,23 @@ def list_book(request):
         class_used = request.POST.get('class_used')
         des = request.POST.get('description')
         price = int(request.POST.get('price'))
-
-
-        # Check if all fields filled in
-        if '' in (title, author, isbn, subject, class_used, des, price):
+        
+        if len(isbn) == 0:
+            isbn = 'N/A'
+        
+        if '' in (title, author, subject, class_used, des, price):
             return HttpResponse(template.render({'error': 'Please fill out all fields.'}, request))
-        # ISBN must be 13 chars
-        if len(isbin) != 13:
-            return HttpResponse(template.render({'error': 'Please supply a valid ISBN.'}, request))
-        else:
-            # Post to Posting and List_Book
-            book = List_Book(title=title,author=author,isbn=isbn,subject=subject,class_used=class_used)
-            book.save()
-            posting = Posting(title=title,price=price,description=des,book=book,buyer=request.user,seller=request.user)
-            posting.save()
 
-            profile_pic = request.FILES['picture']
-            upload_img(profile_pic, f'listing_photos/{book.id}.jpg')
+        # Post to Posting and List_Book
+        book = List_Book(title=title,author=author,isbn=isbn,subject=subject,class_used=class_used)
+        book.save()
+        posting = Posting(title=title,price=price,description=des,book=book,buyer=request.user,seller=request.user)
+        posting.save()
 
-            return redirect('posting', posting_id=posting.id)
+        profile_pic = request.FILES['picture']
+        upload_img(profile_pic, f'listing_photos/{book.id}.jpg')
+
+        return redirect('posting', posting_id=posting.id)
     else:
         return HttpResponse(template.render({}, request))
 
@@ -343,4 +341,3 @@ def message(request, other_user_id):
         json_messages = json.dumps(messages)
 
         return HttpResponse(json_messages)
-
