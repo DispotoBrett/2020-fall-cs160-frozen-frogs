@@ -22,7 +22,7 @@
             {% for posting in posting_list %}
             <tr>
                 <td> <a href="posting/{{posting.id }}"> {{ posting.title }} </a></td>
-                <td> {{ posting.price }} </td>
+                <td> ${{ posting.price }} </td>
                 <td> {{ posting.seller }} </td>
             </tr>
             {% endfor %}

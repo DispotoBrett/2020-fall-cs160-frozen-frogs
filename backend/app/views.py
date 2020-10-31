@@ -13,11 +13,12 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from datetime import datetime
 from django.contrib.staticfiles import finders
+from .forms import BookForm, ReportForm
 from .models import Posting, List_Book, Register, Favorite, Message
-from .forms import BookForm
 from django.contrib.auth import logout, login, authenticate
 from django.contrib.auth.models import User
 from django.forms.models import model_to_dict
+from django.urls import reverse
 
 def index(request):  # detail view
     '''The app homepage'''
@@ -27,7 +28,6 @@ def index(request):  # detail view
         'posting_list': posting_list[0:5],
     }
     return HttpResponse(template.render(context, request))
-
 
 def browse(request):
     '''A more detailed version of the homepage book listing'''
@@ -49,6 +49,11 @@ def browse(request):
     }
     return HttpResponse(template.render(context, request))
 
+def my_postings(request):
+    '''Displays a list of the logged in user\'s books for sale'''
+    context = {'postings': Posting.objects.filter(seller=request.user)}
+    template = loader.get_template('my_postings.html')
+    return HttpResponse(template.render(context, request))
 
 def get_posting(request, posting_id):
     '''Display an existing posting'''
@@ -58,6 +63,7 @@ def get_posting(request, posting_id):
     posting = model_to_dict(Posting.objects.get(id=posting_id))
     book = model_to_dict(List_Book.objects.get(id=posting['book']))
     seller = model_to_dict(User.objects.get(id=posting['seller']))['username']
+    seller_id = model_to_dict(User.objects.get(id=posting['seller']))['id']
 
     # Get favorites
     if request.user.is_authenticated:
@@ -73,7 +79,8 @@ def get_posting(request, posting_id):
         "book": book,
         "user_favorites_list": favorites,
         "seller": seller,
-        "book_thumbnail": book_thumbnail
+        "book_thumbnail": book_thumbnail,
+        "seller_id": seller_id
     }
     return HttpResponse(template.render(context, request))
 
@@ -113,51 +120,25 @@ def list_book(request):
         class_used = request.POST.get('class_used')
         des = request.POST.get('description')
         price = int(request.POST.get('price'))
-
-
-        # Check if all fields filled in
-        if '' in (title, author, isbn, subject, class_used, des, price):
+        
+        if len(isbn) == 0:
+            isbn = 'N/A'
+        
+        if '' in (title, author, subject, class_used, des, price):
             return HttpResponse(template.render({'error': 'Please fill out all fields.'}, request))
 
-        # check if int
-        if not isinstance(price, int):
-            return HttpResponse(template.render({'error': 'Please choose a numeric price.'}, request))
-        else:
-            # Post to Posting and List_Book
-            book = List_Book(title=title,author=author,isbn=isbn,subject=subject,class_used=class_used)
-            book.save()
-            posting = Posting(title=title,price=price,description=des,book=book,buyer=request.user,seller=request.user)
-            posting.save()
+        # Post to Posting and List_Book
+        book = List_Book(title=title,author=author,isbn=isbn,subject=subject,class_used=class_used)
+        book.save()
+        posting = Posting(title=title,price=price,description=des,book=book,buyer=request.user,seller=request.user)
+        posting.save()
 
-            profile_pic = request.FILES['picture']
-            upload_img(profile_pic, f'listing_photos/{book.id}.jpg')
+        profile_pic = request.FILES['picture']
+        upload_img(profile_pic, f'listing_photos/{book.id}.jpg')
 
-            return redirect('posting', posting_id=posting.id)
+        return redirect('posting', posting_id=posting.id)
     else:
         return HttpResponse(template.render({}, request))
-
-# DEPRECATED --- use get_posting instead
-# def view_book(request, book_id):
-#     '''
-#     Book page. Will replace hardcoded values with DB data
-#     Book ID will be used to query for data
-#     '''
-#     book_id_rn = book_id
-#     template = loader.get_template('book_view.html')
-#     book = List_Book.objects.filter(id=book_id)
-#     post = Posting.objects.filter(book_id=book_id)
-#     book_data = str(book[0]).split(',')
-#     posting_data = str(post[0]).split(',')
-#     context = {
-#         'name': posting_data[0],
-#         'author': book_data[1],
-#         'isbn': book_data[2],
-#         'subject': book_data[3],
-#         'class_used': book_data[4],
-#         'price': posting_data[1],
-#         'des': posting_data[2]
-#     }
-#     return HttpResponse(template.render(context, request))
 
 
 def register(request):
@@ -165,6 +146,39 @@ def register(request):
     template = loader.get_template('register.html')
     if request.POST:
         if User.objects.filter(username=request.POST['username']).count() == 0:
+
+            # check for SJSU email
+            err = False
+            email = request.POST['email']
+            if len(email) >= 10:
+                if email[-9:] != "@sjsu.edu":
+                    err = True
+            else:
+                err = True
+
+            if err:
+                context = {
+                    'error': 'Please supply a SJSU email.'
+                }
+                return HttpResponse(template.render(context, request))
+
+            # check for proper pw
+            pw = request.POST['password']
+            # idea form: https://stackoverflow.com/questions/17140408/if-statement-to-check-whether-a-string-has-a-capital-letter-a-lower-case-letter/17140466
+            spec = set("!#$%&'()*+,-./:;<=>?@[\\]^_`{|}~")
+            rules = [
+                lambda l: any(c.isupper() for c in pw) or 'no_upper',
+                lambda l: any(c.isdigit() for c in pw) or 'no_digit',
+                lambda l: any(c in spec for c in pw) or 'no_special',
+                lambda l: len(pw) >= 10 or 'length'
+            ]
+            res = [p for p in [r(pw) for r in rules] if p != True]
+            if len(res) > 0:
+                context = {
+                    'error': 'Passwords must be at least 10 characters long, with at least one special character and uppercase character'
+                }
+                return HttpResponse(template.render(context, request))
+
             new_user = User.objects.create_user(request.POST['username'], request.POST['email'], request.POST['password'])
             new_user.save()
             login(request, new_user)
@@ -225,6 +239,30 @@ def aboutus(request):
     context = dict()
     return HttpResponse(template.render(context, request))
 
+def report(request, posting_id):
+    '''Handle reporting of a posting'''
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect("/login")
+
+    try:
+        posting = Posting.objects.get(pk=posting_id)
+    except:
+        return render(request, 'report.html', {'error': 'Posting does not exist'})
+
+    if request.method == 'POST':
+        form = ReportForm(request.POST)
+
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.user = request.user
+            instance.posting = posting
+            instance.posting_snapshot = json.dumps(model_to_dict(posting))
+            instance.save()
+            return HttpResponseRedirect(reverse('posting', args=[posting.id]) + '?reported=1')
+    else:
+        form = ReportForm()
+
+    return render(request, 'report.html', {'form': form})
 
 def chat(request, other_user_id=None, posting_id=None):
     if not request.user.is_authenticated:

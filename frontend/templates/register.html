@@ -3,6 +3,7 @@
 {% block content %}
 <div class="jumbotron bg-light mt-5"> 
     <h2>Register</h2>
+    <p><i>Note:</i> A SJSU email address is required.</p>
     <form method="POST" onsubmit="return validate()" enctype="multipart/form-data"> 
 		{% csrf_token %} 
 		<div class='alert alert-danger' id='passwordError' style='display:none'>
@@ -59,10 +60,36 @@
 				</td>
 			</tr>
         </table>
-  
-        <input type="submit" value="Register" class="btn btn-primary"> 
+  		<div id='pwdNoMatch'></div>
+        <input id='submit_btn' type="submit" value="Register" class="btn btn-primary"> 
     </form> 
 </div> 
+<script>
+	function checkPwdMatch() {
+		const pw = $('#password').val();
+		const c_pw = $('#confirm-password').val();
+
+		if (c_pw === '') return;
+
+		 if (pw === ''){
+		 	$('#submit_btn').attr('disabled', false);
+			$('#pwdNoMatch').html('');
+		} else if (pw !== c_pw) {
+			$('#pwdNoMatch').html('<p style="color:red;">Passwords do not match.</p>');
+			$('#submit_btn').attr('disabled', true);
+
+		} else {
+			$('#pwdNoMatch').html('<p>Passwords match.</p>');
+			$('#submit_btn').attr('disabled', false);
+		}
+	}
+
+	window.onload = function(){
+		document.getElementById('confirm-password').addEventListener('keyup', checkPwdMatch);
+		document.getElementById('password').addEventListener('keyup', checkPwdMatch);
+	}
+
+</script>
 
 <script>
 	window.validate = function(){
@@ -83,6 +110,7 @@
 		//https://stackoverflow.com/users/3880/sectrean
 		const regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 		email = $('#email').val()
+
 		if(!regex.test(email)){
 			p = $('#emailError').show()
 			submit = false;
@@ -90,6 +118,16 @@
 		else{
 			p = $('#emailError').hide()
 		}
+
+		// if (email.length >= 10) {
+		// 	if (email.splice(email.length-9) !== '@sjsu.edu') {
+		// 		p = $('#emailError').show()
+		// 		submit = false;
+		// 	}
+		// } else {
+		// 	p = $('#emailError').show()
+		// 	submit = false;
+		// }
 
 		return submit
 	}
