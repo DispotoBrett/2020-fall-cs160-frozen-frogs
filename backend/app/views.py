@@ -254,6 +254,11 @@ def favorite(request, posting_id):
     else:
         return HttpResponseRedirect("/login")
 
+def aboutus(request):
+    template = loader.get_template('aboutus.html')
+    context = dict()
+    return HttpResponse(template.render(context, request))
+
 def report(request, posting_id):
     '''Handle reporting of a posting'''
     if not request.user.is_authenticated:
