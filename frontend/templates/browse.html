@@ -11,25 +11,12 @@
             <th> Price </th>
             <th> Seller </th>
             <th> Action </th>
-            <td>
-                <a href="posting/{{posting.id }}">
-                    <img width=175 height=175 src="{{image}}" alt="{{image}}">
-                </a>
-            </td>
-            <td> <a href="posting/{{posting.id }}"> {{ posting.title }} </a></td>
-            <td> {{ posting.description }} </td>
-            <td> ${{ posting.price }} </td>
-            <td> {{ posting.seller }} </td>
-            <td> 
-                {% include "book_actions.html" %}
-            </td>
-        </tr>
     </thead>
     {% for posting, image in posting_image_list %}
     <tr>
         <td>
             <a href="posting/{{posting.id }}">
-                <img width=150 height=200 src="{{image}}" alt="{{image}}">
+                <img width=200 height=159 src="{{image}}" alt="{{image}}">
             </a>
         </td>
         <td> <a href="posting/{{posting.id }}"> {{ posting.title }} </a></td>
