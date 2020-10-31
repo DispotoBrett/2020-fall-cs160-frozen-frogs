@@ -220,6 +220,12 @@ def favorite(request, posting_id):
     else:
         return HttpResponseRedirect("/login")
 
+def aboutus(request):
+    template = loader.get_template('aboutus.html')
+    context = dict()
+    return HttpResponse(template.render(context, request))
+
+
 def chat(request, other_user_id=None, posting_id=None):
     if not request.user.is_authenticated:
         return HttpResponseRedirect("/login")

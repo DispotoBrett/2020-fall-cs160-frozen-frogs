@@ -1,45 +1,43 @@
-{% extends 'base.html' %}
-{% load static %}
-{% block content %}
-<h1 class="display-3">Browse all Books</h1>
-<h5 class="text-muted ml-5">Hint: use the search bar to filter by title, seller, et cetra.</h5>
+{% extends 'base.html' %} {% load static %} {% block content %}
+<h1 class="display-3" style="font-family:'Courier New', Courier, monospace">Browse all Books</h1>
+<h5 class="text-muted ml-5" style="font-family:'Courier New', Courier, monospace">Hint: use the search bar to filter by title, seller, et cetra.</h5>
 {% if posting_image_list %}
-    <table id='postings' class='display hover order-column striped bg-white border rounded'>
-        <thead>
-            <tr>
-                <th> Image </th>
-                <th> Posting Title </th>
-                <th> Description </th>
-                <th> Price </th>
-                <th> Seller </th>
-                <th> Action </th>
-            </tr>
-        </thead>
-        {% for posting, image in posting_image_list %}
+<table id='postings' class='display hover order-column striped bg-white border rounded' style="font-family:'Courier New', Courier, monospace">
+    <thead>
         <tr>
-            <td>
-                <a href="posting/{{posting.id }}">
-                    <img width=150 height=200 src="{{image}}" alt="{{image}}">
-                </a>
-            </td>
-            <td> <a href="posting/{{posting.id }}"> {{ posting.title }} </a></td>
-            <td> {{ posting.description }} </td>
-            <td> {{ posting.price }} </td>
-            <td> {{ posting.seller }} </td>
-            <td> 
-                {% include "book_actions.html" %}
-            </td>
+            <th> Image </th>
+            <th> Posting Title </th>
+            <th> Description </th>
+            <th> Price </th>
+            <th> Seller </th>
+            <th> Action </th>
         </tr>
-        {% endfor %}
-    </table>
+    </thead>
+    {% for posting, image in posting_image_list %}
+    <tr>
+        <td>
+            <a href="posting/{{posting.id }}">
+                <img width=150 height=200 src="{{image}}" alt="{{image}}">
+            </a>
+        </td>
+        <td> <a href="posting/{{posting.id }}"> {{ posting.title }} </a></td>
+        <td> {{ posting.description }} </td>
+        <td> {{ posting.price }} </td>
+        <td> {{ posting.seller }} </td>
+        <td>
+            {% include "book_actions.html" %}
+        </td>
+    </tr>
+    {% endfor %}
+</table>
 {% else %}
-    <p> No postings available. </p>
+<p> No postings available. </p>
 {% endif %}
 
 <script>
-    $(document).ready( function(){
+    $(document).ready(function() {
         $('#postings').DataTable({
-                //Customize datatable if we want
+            //Customize datatable if we want
         });
     });
 </script>

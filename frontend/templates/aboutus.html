@@ -1,166 +1,117 @@
-<!doctype html>
-<html lang="en">
-
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=yes">
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
-    <title>About Us </title>
-</head>
+{% extends 'base.html' %} {% load static %} {% block content %}
 
 
-<body>
 
+<div class="container-fluid ">
+    <div class="row h-80 align-items-center py-3">
+        <!-- Column to add text and data-->
+        <div class="bg-light border border-dark py-5 col-lg-12">
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-light py-3">
-        <div class="container">
-            <a href="#" class="navbar-brand d-flex align-items-center"> <i class="fa fa-snowflake-o fa-lg text-primary mr-2"></i><strong>SpartanBooks</strong></a>
-            <button type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"><span class="navbar-toggler-icon"></span></button>
-            <div id="navbarSupportedContent" class="collapse navbar-collapse">
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item active"><a href="#" class="nav-link font-italic"> Home </a></li>
-                    <li class="nav-item active"><a href="#" class="nav-link font-italic"> About </a></li>
-                    <li class="nav-item active"><a href="#" class="nav-link font-italic"> Services </a></li>
-                    <li class="nav-item active"><a href="#" class="nav-link font-italic"> Contact</a></li>
-                </ul>
-            </div>
+            <h1 class="text-primary font-weight-bold" style="font-family: 'Courier New', Courier, monospace"> About Us</h1>
+            <p class="text-dark" style="font-family: 'Courier New', Courier, monospace">SpartanBooks is an efficient and cost-effective bookselling platform that connects thousands of San Jose students. We exist to provide student the ability expedite their search for textbooks by connecting with them other students on campus.
+                Our program provides consumers with immediate responses and feedback on product availability. SpartanBooks allows sellers and clients to meet on campus in risk-free zones, which removes all shipping costs from final price. SpartanBooks
+                is here to create easy access to school materials and value your time, money, and safety.</p>
         </div>
-    </nav>
+    </div>
+</div>
 
-    <div class="bg-light">
-        <div class="container py-5">
-            <div class="row h-100 align-items-center py-5">
-                <div class="col-lg-6">
-                    <h1 class="display-4">About us page</h1>
-                    <p class="lead text-muted mb-0">SpartanBooks is a bookselling platform connecting thousands of San Jose Students. We exist to provide student the ability expedite student's search for their textbooks by connecting with other Students!! </p>
-                    <p class="lead text-muted">Snippet by
-                        <a href="https://bootstrapious.com/snippets" class="text-muted">
-                            <u>Bootstrapious</u></a>
-                    </p>
-                </div>
-                <div class="col-lg-6 d-none d-lg-block"><img src="https://res.cloudinary.com/mhmd/image/upload/v1556834136/illus_kftyh4.png" alt="" class="img-fluid"></div>
+
+<!-- Here i will be listing out the features we offer-->
+<div class="bg-light py-5 ">
+    <div class="container-fluid py-4">
+        <div class="row align-items-center">
+            <!-- text column-->
+            <div class="col-lg-8">
+                <h2 style="font-family: 'Courier New', Courier, monospace">No Shipping Wait!!</h2>
+                <p style="font-family: 'Courier New', Courier, monospace"> Add description for elements here</p>
+            </div>
+            <!-- Here place the image to the right
+            Switch it up for the next feature-->
+            <div class="col-lg-2 align-left">
+                <img src="{% static 'img/buyBook.jpeg' %} " alt="">
             </div>
         </div>
     </div>
-
-    <div class="bg-white py-5">
-        <div class="container py-5">
-            <div class="row align-items-center mb-5">
-                <div class="col-lg-6 order-2 order-lg-1"><i class="fa fa-bar-chart fa-2x mb-3 text-primary"></i>
-                    <h2 class="font-weight-light">No Shipping Wait!!</h2>
-                    <p class="font-italic text-muted mb-4">Get your books now! No shipping fee or wait! Simply confirm order and stop by the Library!</p><a href="#" class="btn btn-light px-5 rounded-pill shadow-sm">Learn More</a>
-                </div>
-                <div class="col-lg-5 px-5 mx-auto order-1 order-lg-2"><img src="https://res.cloudinary.com/mhmd/image/upload/v1556834139/img-1_e25nvh.jpg" alt="" class="img-fluid mb-4 mb-lg-0"></div>
+</div>
+<!-- feature numbre two-->
+<div class="bg-light py-5 border border-info">
+    <div class="container-fluid py-4">
+        <div class="row align-items-center">
+            <!-- text column-->
+            <div class="col-lg-3">
+                <img src="{% static 'img/bestfriends.jpeg' %} " alt="">
             </div>
-            <div class="row align-items-center">
-                <div class="col-lg-5 px-5 mx-auto"><img src="https://res.cloudinary.com/mhmd/image/upload/v1556834136/img-2_vdgqgn.jpg" alt="" class="img-fluid mb-4 mb-lg-0"></div>
-                <div class="col-lg-6"><i class="fa fa-leaf fa-2x mb-3 text-primary"></i>
-                    <h2 class="font-weight-light">Find Bundles for your Major!</h2>
-                    <p class="font-italic text-muted mb-4">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p><a href="#" class="btn btn-light px-5 rounded-pill shadow-sm">Learn More</a>
-                </div>
+            <!-- Here place the image to the right
+            Switch it up for the next feature-->
+            <div class="col-lg-9">
+                <h2 style="font-family: 'Courier New', Courier, monospace">Connect With Peers!!</h2>
+                <p style="font-family: 'Courier New', Courier, monospace"> Add description for elements here</p>
             </div>
         </div>
     </div>
-
-    <div class="bg-light py-5">
-        <div class="container py-5">
-            <div class="row mb-4">
-                <div class="col-lg-5">
-                    <h2 class="display-4 font-weight-light">Our team</h2>
-                    <p class="font-italic text-muted">Frozen Frogs the creators of Spartan Books!!</p>
-                </div>
+</div>
+<!-- Here i will be listing out the features we offer-->
+<div class="bg-light py-5 ">
+    <div class="container-fluid py-4">
+        <div class="row align-items-center">
+            <!-- text column-->
+            <div class="col-lg-8">
+                <h2 style="font-family: 'Courier New', Courier, monospace">No Shipping Wait!!</h2>
+                <p style="font-family: 'Courier New', Courier, monospace"> Add description for elements here</p>
             </div>
-
-            <div class="row text-center">
-                <!-- Team item-->
-                <div class="col-xl-2 col-sm-6 mb-5">
-                    <div class="bg-white rounded shadow-sm py-5 px-4"><img src="https://res.cloudinary.com/mhmd/image/upload/v1556834132/avatar-4_ozhrib.png" alt="" width="100" class="img-fluid rounded-circle mb-3 img-thumbnail shadow-sm">
-                        <h5 class="mb-0">Tanisha Babic</h5><span class="small text-uppercase text-muted">CEO - Founder</span>
-                        <ul class="social mb-0 list-inline mt-3">
-                            <li class="list-inline-item"><a href="#" class="social-link"><i class="fa fa-facebook-f"></i></a></li>
-                            <li class="list-inline-item"><a href="#" class="social-link"><i class="fa fa-twitter"></i></a></li>
-                            <li class="list-inline-item"><a href="#" class="social-link"><i class="fa fa-instagram"></i></a></li>
-                            <li class="list-inline-item"><a href="#" class="social-link"><i class="fa fa-linkedin"></i></a></li>
-                        </ul>
-                    </div>
-                </div>
-                <!-- End-->
-
-                <!-- Team item-->
-                <div class="col-xl-2 col-sm-6 mb-5">
-                    <div class="bg-white rounded shadow-sm py-5 px-4"><img src="https://res.cloudinary.com/mhmd/image/upload/v1556834130/avatar-3_hzlize.png" alt="" width="100" class="img-fluid rounded-circle mb-3 img-thumbnail shadow-sm">
-                        <h5 class="mb-0">Brett Dispoto</h5><span class="small text-uppercase text-muted">CEO - Founder</span>
-                        <ul class="social mb-0 list-inline mt-3">
-                            <li class="list-inline-item"><a href="#" class="social-link"><i class="fa fa-facebook-f"></i></a></li>
-                            <li class="list-inline-item"><a href="#" class="social-link"><i class="fa fa-twitter"></i></a></li>
-                            <li class="list-inline-item"><a href="#" class="social-link"><i class="fa fa-instagram"></i></a></li>
-                            <li class="list-inline-item"><a href="#" class="social-link"><i class="fa fa-linkedin"></i></a></li>
-                        </ul>
-                    </div>
-                </div>
-                <!-- End-->
-
-                <!-- Team item-->
-                <div class="col-xl-2 col-sm-6 mb-5">
-                    <div class="bg-white rounded shadow-sm py-5 px-4"><img src="https://res.cloudinary.com/mhmd/image/upload/v1556834133/avatar-2_f8dowd.png" alt="" width="100" class="img-fluid rounded-circle mb-3 img-thumbnail shadow-sm">
-                        <h5 class="mb-0">Steven Myers</h5><span class="small text-uppercase text-muted">CEO - Founder</span>
-                        <ul class="social mb-0 list-inline mt-3">
-                            <li class="list-inline-item"><a href="#" class="social-link"><i class="fa fa-facebook-f"></i></a></li>
-                            <li class="list-inline-item"><a href="#" class="social-link"><i class="fa fa-twitter"></i></a></li>
-                            <li class="list-inline-item"><a href="#" class="social-link"><i class="fa fa-instagram"></i></a></li>
-                            <li class="list-inline-item"><a href="#" class="social-link"><i class="fa fa-linkedin"></i></a></li>
-                        </ul>
-                    </div>
-                </div>
-                <!-- End-->
-
-                <!-- Team item-->
-                <div class="col-xl-2 col-sm-6 mb-5">
-                    <div class="bg-white rounded shadow-sm py-5 px-4"><img src="https://res.cloudinary.com/mhmd/image/upload/v1556834133/avatar-1_s02nlg.png" alt="" width="100" class="img-fluid rounded-circle mb-3 img-thumbnail shadow-sm">
-                        <h5 class="mb-0">Zhenrong Zhang</h5><span class="small text-uppercase text-muted">CEO - Founder</span>
-                        <ul class="social mb-0 list-inline mt-3">
-                            <li class="list-inline-item"><a href="#" class="social-link"><i class="fa fa-facebook-f"></i></a></li>
-                            <li class="list-inline-item"><a href="#" class="social-link"><i class="fa fa-twitter"></i></a></li>
-                            <li class="list-inline-item"><a href="#" class="social-link"><i class="fa fa-instagram"></i></a></li>
-                            <li class="list-inline-item"><a href="#" class="social-link"><i class="fa fa-linkedin"></i></a></li>
-                        </ul>
-                    </div>
-                </div>
-
-                <!-- Team item-->
-                <div class="col-xl-2 col-sm-6 mb-5">
-                    <div class="bg-white rounded shadow-sm py-5 px-4"><img src="https://res.cloudinary.com/mhmd/image/upload/v1556834133/avatar-1_s02nlg.png" alt="" width="100" class="img-fluid rounded-circle mb-3 img-thumbnail shadow-sm">
-                        <h5 class="mb-0">Anmol Singh</h5><span class="small text-uppercase text-muted">CEO - Founder</span>
-                        <ul class="social mb-0 list-inline mt-3">
-                            <li class="list-inline-item"><a href="#" class="social-link"><i class="fa fa-facebook-f"></i></a></li>
-                            <li class="list-inline-item"><a href="#" class="social-link"><i class="fa fa-twitter"></i></a></li>
-                            <li class="list-inline-item"><a href="#" class="social-link"><i class="fa fa-instagram"></i></a></li>
-                            <li class="list-inline-item"><a href="#" class="social-link"><i class="fa fa-linkedin"></i></a></li>
-                        </ul>
-                    </div>
-                </div>
-                <!-- End-->
-
+            <!-- Here place the image to the right
+            Switch it up for the next feature-->
+            <div class="col-lg-2 align-left">
+                <img src="{% static 'img/buyBook.jpeg' %} " alt="">
             </div>
         </div>
     </div>
+</div>
+<!-- Here will be the code for the sqaud (THE TEAM)-->
 
 
-    <footer class="bg-light pb-5">
-        <div class="container text-center">
-            <p class="font-italic text-muted mb-0">&copy; Copyrights Company.com All rights reserved.</p>
+<div class="bg-light py-5 border border-info">
+    <div class="container-fluid py-4">
+        <div class="row h-80 align-items-center">
+            <div class="col ">
+                <img src="{% static 'img/ang.jpeg' %} " alt="" class="img-fluid rounded-circle mb-3 img-thumbnail shadow-l">
+
+                <h5 style="font-family: 'Courier New', Courier, monospace">Brett Dispoto</h5>
+                <span class="small" style="font-family: 'Courier New', Courier, monospace">Group Member<br>AVATAR</span>
+            </div>
+            <div class="col">
+                <img src="{% static 'img/toph.jpeg' %} " alt="" class="img-fluid rounded-circle mb-3 img-thumbnail shadow-l">
+
+                <h5 style="font-family: 'Courier New', Courier, monospace">Tanisha Babic</h5>
+                <span class="small" style="font-family: 'Courier New', Courier, monospace">Group Member<br>EARTH BENDER</span>
+            </div>
+            <div class="col">
+                <img src="{% static 'img/zuko.jpeg' %} " alt="" class="img-fluid rounded-circle mb-3 img-thumbnail shadow-l">
+
+                <h5 style="font-family: 'Courier New', Courier, monospace">Steven Myers</h5>
+                <span class="small" style="font-family: 'Courier New', Courier, monospace">Group Member<br>FIRE BENDER</span>
+            </div>
+
+            <div class="col">
+                <img src="{% static 'img/iroh.jpeg' %} " alt="" class="img-fluid rounded-circle mb-3 img-thumbnail shadow-l">
+
+                <h5 style="font-family: 'Courier New', Courier, monospace">Zhenrong Zhang </h5>
+                <span class="small" style="font-family: 'Courier New', Courier, monospace">Group Member<br>Dragon of the West</span>
+            </div>
+
+            <div class="col">
+                <img src="{% static 'img/sokka.jpeg' %} " alt="" class="img-fluid rounded-circle mb-3 img-thumbnail shadow-l">
+
+                <h5 style="font-family: 'Courier New', Courier, monospace">Anmol Singh </h5>
+                <span class="small" style="font-family: 'Courier New', Courier, monospace">Group Member<br>Boomerang</span>
+            </div>
         </div>
-    </footer>
+    </div>
+</div>
 
 
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+
 </body>
 
-</html>
+{% endblock %}
