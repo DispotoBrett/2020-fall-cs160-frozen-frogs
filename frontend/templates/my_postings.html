@@ -1,6 +1,11 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
+{% if 'deleted' in request.GET %}
+    <div class="alert alert-success" role="alert">
+        Your posting has been deleted successfully.
+    </div>
+{% endif %}
 {% if postings %}
 <div class='jumbotron bg-light'>
     <h1 class='display-4'>My Book Postings</h1>
@@ -13,7 +18,10 @@
         <tr>
             <td>{{ posting.title }}</td>
             <td>${{ posting.price }}</td>
-            <td><a class='btn btn-primary' href="{% url 'posting' posting.id %}">View</a></td>
+            <td>
+                <a class='btn btn-primary' href="{% url 'posting' posting.id %}">View</a>
+                <a class='btn btn-danger' href="{% url 'del_posting' posting.id %}">Delete</a>
+            </td>
         </tr>
         {% endfor %}
     </table>

@@ -85,6 +85,26 @@ def get_posting(request, posting_id):
     return HttpResponse(template.render(context, request))
 
 
+def del_posting(request, posting_id):
+    '''Displays a form asking user to confirm deletion of the posting'''
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect("/login")
+
+    try:
+        posting = Posting.objects.get(pk=posting_id)
+    except:
+        return render(request, 'del_posting.html', {'error': 'Posting does not exist'})
+
+    if posting.seller.id != request.user.id:
+        return render(request, 'del_posting.html', {'error': 'Permission denied. This is not your posting!'})
+
+    if request.method == 'POST':
+        posting.delete()
+        return HttpResponseRedirect(reverse('my_postings') + '?deleted=1')
+
+    return render(request, 'del_posting.html', {'posting': posting})
+
+
 def profile(request):
     '''Profile page. Will replace hardcoded values with DB data'''
     if not request.user.is_authenticated:

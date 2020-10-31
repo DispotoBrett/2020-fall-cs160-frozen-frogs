@@ -11,6 +11,7 @@ urlpatterns = [
     path('profile', views.profile, name='profile'),
     path('posting', views.my_postings, name='my_postings'),
     path('posting/<posting_id>', views.get_posting, name='posting'),
+    path('posting/<posting_id>/delete', views.del_posting, name='del_posting'),
     path('browse', views.browse, name='browse'),
     path('list_book', views.list_book, name='list_book'),
     path('login', views.login_view, name='login' ),
