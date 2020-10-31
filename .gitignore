@@ -7,3 +7,5 @@
 /frontend/media/profile_pics/[0-9]*
 /backend/app/migrations/**
 frontend/media/listing_photos/[0-9]*
+/.venv/**
+/frontend/static/img/anmol_files/**
