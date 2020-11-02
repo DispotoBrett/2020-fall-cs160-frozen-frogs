@@ -10,6 +10,7 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('aboutus', views.aboutus, name='aboutus'),
     path('profile', views.profile, name='profile'),
+    path('profile/edit', views.profile_edit, name='profile_edit'),
     path('posting', views.my_postings, name='my_postings'),
     path('posting/<posting_id>', views.get_posting, name='posting'),
     path('posting/<posting_id>/delete', views.del_posting, name='del_posting'),
