@@ -1,0 +1,113 @@
+{% extends 'base.html' %} {% load static %} {% block content %}
+
+
+
+<div class="container-fluid ">
+    <div class="row h-80 align-items-center py-3">
+        <!-- Column to add text and data-->
+        <div class="bg-light border border-dark py-5 col-lg-12">
+
+            <h1 class="text-primary font-weight-bold" style="font-family: 'Courier New', Courier, monospace"> About Us</h1>
+            <p class="text-dark" style="font-family: 'Courier New', Courier, monospace">SpartanBooks is an efficient and cost-effective bookselling platform that connects thousands of San Jose students. We exist to provide student the ability expedite their search for textbooks by connecting with them other students on campus.
+                Our program provides consumers with immediate responses and feedback on product availability. SpartanBooks allows sellers and clients to meet on campus in risk-free zones, which removes all shipping costs from final price. SpartanBooks
+                is here to create easy access to school materials and value your time, money, and safety.</p>
+        </div>
+    </div>
+</div>
+
+
+<!-- feature numbre two-->
+<div class="bg-light py-5 border border-info">
+    <div class="container-fluid py-4">
+        <div class="row align-items-center">
+            <!-- text column-->
+            <div class="col-lg-3">
+                <img src="{% static 'img/bestfriends.jpeg' %} " alt="">
+            </div>
+            <!-- Here place the image to the right
+            Switch it up for the next feature-->
+            <div class="col-lg-9">
+                <h2 style="font-family: 'Courier New', Courier, monospace">Connect With Peers!!</h2>
+                <p style="font-family: 'Courier New', Courier, monospace"> 
+                    <ul>
+                        <li>Socialize with fellow students</li>
+                        <li>Connect with peers in your major</li>
+                        <li>Make lifelong friends </li>
+                    </ul>
+                
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Here i will be listing out the features we offer-->
+<div class="bg-light py-5 border border-dark my-3">
+    <div class="container-fluid py-4">
+        <div class="row align-items-center">
+            <!-- text column-->
+            <div class="col-lg-8">
+                <h2 style="font-family: 'Courier New', Courier, monospace">No Shipping Wait!!</h2>
+                <p style="font-family: 'Courier New', Courier, monospace"> 
+                    <ul>
+                            <li>Meet up at your leisure </li>
+                            <li>Get your books without leaving campus </li>
+                            <li>Exercise your freedom with a voluntary contract </li>
+                    </ul>
+                </p>
+            </div>
+            <!-- Here place the image to the right
+            Switch it up for the next feature-->
+            <div class="col-lg-2 align-left">
+                <img src="{% static 'img/buyBook.jpeg' %} " alt="">
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Here will be the code for the sqaud (THE TEAM)-->
+
+
+<div class="bg-light mb-3 py-5 border border-info">
+    <div class="container-fluid mb-3 py-4">
+        <div class="row h-80 align-items-center">
+            <div class="col ">
+                <img src="{% static 'img/ang.jpeg' %} " alt="" class="img-fluid rounded-circle mb-3 img-thumbnail shadow-l">
+
+                <h5 style="font-family: 'Courier New', Courier, monospace">Brett Dispoto</h5>
+                <span class="small" style="font-family: 'Courier New', Courier, monospace">Group Member<br>AVATAR</span>
+            </div>
+            <div class="col">
+                <img src="{% static 'img/toph.jpeg' %} " alt="" class="img-fluid rounded-circle mb-3 img-thumbnail shadow-l">
+
+                <h5 style="font-family: 'Courier New', Courier, monospace">Tanisha Babic</h5>
+                <span class="small" style="font-family: 'Courier New', Courier, monospace">Group Member<br>EARTH BENDER</span>
+            </div>
+            <div class="col">
+                <img src="{% static 'img/zuko.jpeg' %} " alt="" class="img-fluid rounded-circle mb-3 img-thumbnail shadow-l">
+
+                <h5 style="font-family: 'Courier New', Courier, monospace">Steven Myers</h5>
+                <span class="small" style="font-family: 'Courier New', Courier, monospace">Group Member<br>FIRE BENDER</span>
+            </div>
+
+            <div class="col">
+                <img src="{% static 'img/iroh.jpeg' %} " alt="" class="img-fluid rounded-circle mb-3 img-thumbnail shadow-l">
+
+                <h5 style="font-family: 'Courier New', Courier, monospace">Zhenrong Zhang </h5>
+                <span class="small" style="font-family: 'Courier New', Courier, monospace">Group Member<br>Dragon of the West</span>
+            </div>
+
+            <div class="col">
+                <img src="{% static 'img/sokka.jpeg' %} " alt="" class="img-fluid rounded-circle mb-3 img-thumbnail shadow-l">
+
+                <h5 style="font-family: 'Courier New', Courier, monospace">Anmol Singh </h5>
+                <span class="small" style="font-family: 'Courier New', Courier, monospace">Group Member<br>Boomerang</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+</body>
+
+{% endblock %}

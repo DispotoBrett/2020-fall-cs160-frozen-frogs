@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+{% if error %}
+    <h2>{{ error }}</h2>
+{% else %}
+    <h1>Report a Posting</h1>
+    <h5 class="text-muted">Please describe why the post and/or user is being reported below</h5>
+    <form action="" method="post">
+        {% csrf_token %}
+        {{ form }}
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+{% endif %}
+{% endblock %}

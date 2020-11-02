@@ -1,7 +1,11 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-
+{% if 'reported' in request.GET %}
+    <div class="alert alert-success" role="alert">
+        This posting has been reported successfully. Thank you for reporting it to us.
+    </div>
+{% endif %}
 <div class="alert bg-light row">
     <div class="col-3">
         <img width=250 height=300 src="{{book_thumbnail}}" alt="{{book_thumbnail}}">
@@ -10,10 +14,10 @@
         <ul class="list-group">
             <li class="list-group-item active display-4">
                 <div class="row">
-                    <div class="col-10">
+                    <div class="col-9">
                         {{ posting.title }}
                     </div>
-                    <div class="col-2">
+                    <div class="col-3">
                         {% include "book_actions.html" %}
                     </div>
                 </div>
@@ -29,6 +33,4 @@
             <a class='btn btn-primary' type='button' id='buy' href='/chat/{{seller_id}}/{{posting.id}}'>Purchase Book</a>
     </div>
 </div>
-
-
 {% endblock %}

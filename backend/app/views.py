@@ -13,11 +13,12 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from datetime import datetime
 from django.contrib.staticfiles import finders
+from .forms import BookForm, ReportForm
 from .models import Posting, List_Book, Register, Favorite, Message
-from .forms import BookForm
 from django.contrib.auth import logout, login, authenticate
 from django.contrib.auth.models import User
 from django.forms.models import model_to_dict
+from django.urls import reverse
 
 def index(request):  # detail view
     '''The app homepage'''
@@ -48,6 +49,11 @@ def browse(request):
     }
     return HttpResponse(template.render(context, request))
 
+def my_postings(request):
+    '''Displays a list of the logged in user\'s books for sale'''
+    context = {'postings': Posting.objects.filter(seller=request.user)}
+    template = loader.get_template('my_postings.html')
+    return HttpResponse(template.render(context, request))
 
 def get_posting(request, posting_id):
     '''Display an existing posting'''
@@ -77,6 +83,26 @@ def get_posting(request, posting_id):
         "seller_id": seller_id
     }
     return HttpResponse(template.render(context, request))
+
+
+def del_posting(request, posting_id):
+    '''Displays a form asking user to confirm deletion of the posting'''
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect("/login")
+
+    try:
+        posting = Posting.objects.get(pk=posting_id)
+    except:
+        return render(request, 'del_posting.html', {'error': 'Posting does not exist'})
+
+    if posting.seller.id != request.user.id:
+        return render(request, 'del_posting.html', {'error': 'Permission denied. This is not your posting!'})
+
+    if request.method == 'POST':
+        posting.delete()
+        return HttpResponseRedirect(reverse('my_postings') + '?deleted=1')
+
+    return render(request, 'del_posting.html', {'posting': posting})
 
 
 def profile(request):
@@ -114,25 +140,23 @@ def list_book(request):
         class_used = request.POST.get('class_used')
         des = request.POST.get('description')
         price = int(request.POST.get('price'))
-
-
-        # Check if all fields filled in
-        if '' in (title, author, isbn, subject, class_used, des, price):
+        
+        if len(isbn) == 0:
+            isbn = 'N/A'
+        
+        if '' in (title, author, subject, class_used, des, price):
             return HttpResponse(template.render({'error': 'Please fill out all fields.'}, request))
-        # ISBN must be 13 chars
-        if len(isbin) != 13:
-            return HttpResponse(template.render({'error': 'Please supply a valid ISBN.'}, request))
-        else:
-            # Post to Posting and List_Book
-            book = List_Book(title=title,author=author,isbn=isbn,subject=subject,class_used=class_used)
-            book.save()
-            posting = Posting(title=title,price=price,description=des,book=book,buyer=request.user,seller=request.user)
-            posting.save()
 
-            profile_pic = request.FILES['picture']
-            upload_img(profile_pic, f'listing_photos/{book.id}.jpg')
+        # Post to Posting and List_Book
+        book = List_Book(title=title,author=author,isbn=isbn,subject=subject,class_used=class_used)
+        book.save()
+        posting = Posting(title=title,price=price,description=des,book=book,buyer=request.user,seller=request.user)
+        posting.save()
 
-            return redirect('posting', posting_id=posting.id)
+        profile_pic = request.FILES['picture']
+        upload_img(profile_pic, f'listing_photos/{book.id}.jpg')
+
+        return redirect('posting', posting_id=posting.id)
     else:
         return HttpResponse(template.render({}, request))
 
@@ -229,6 +253,36 @@ def favorite(request, posting_id):
         return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
     else:
         return HttpResponseRedirect("/login")
+
+def aboutus(request):
+    template = loader.get_template('aboutus.html')
+    context = dict()
+    return HttpResponse(template.render(context, request))
+
+def report(request, posting_id):
+    '''Handle reporting of a posting'''
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect("/login")
+
+    try:
+        posting = Posting.objects.get(pk=posting_id)
+    except:
+        return render(request, 'report.html', {'error': 'Posting does not exist'})
+
+    if request.method == 'POST':
+        form = ReportForm(request.POST)
+
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.user = request.user
+            instance.posting = posting
+            instance.posting_snapshot = json.dumps(model_to_dict(posting))
+            instance.save()
+            return HttpResponseRedirect(reverse('posting', args=[posting.id]) + '?reported=1')
+    else:
+        form = ReportForm()
+
+    return render(request, 'report.html', {'form': form})
 
 def chat(request, other_user_id=None, posting_id=None):
     if not request.user.is_authenticated:
