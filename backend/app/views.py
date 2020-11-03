@@ -204,12 +204,13 @@ def profile_edit(request):
                     profile_pic = request.FILES['picture']
 
                     path = f'profile_pics/{request.user.id}.jpg'
+                    path1 = f'{settings.MEDIA_URL}/profile_pics/{request.user.id}.jpg'
 
                     # delete old file
                     default_storage.delete(path)
 
                     # upload new picture
-                    upload_img(profile_pic, path)
+                    upload_img(profile_pic, path1)
 
                 # update
                 if name != '':
