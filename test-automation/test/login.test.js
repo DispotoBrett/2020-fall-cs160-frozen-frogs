@@ -9,14 +9,22 @@ let ProfileFactory = require('../pages/profile.js');
 
 /* TEST STUFF */
 let assert = require('assert');
-let setup = () => {}
-let teardown = () => {}
+const { doesNotMatch } = require('assert');
+const TIMEOUT = 350000000;
+
+let setup = () => { }
+let teardown = () => { }
 
 describe('Login Tests', () => {
-    describe('Logging in with a non-existent user', () => {
-    it('Should return to the login page', () => {
 
-    });
+  describe('Logging in with a non-existent user', async () => {
+    it('Should return to the login page', async () => {
+      loginPage = await LoginFactory.build();
+      await loginPage.login('D-N-E', 'DOES NOT EXIST');
+    }).timeout(TIMEOUT);
+
+    //Make sure we are still on the same pager
+    //Check a loggedIn() method, to get the  uanme. If it throws an error we're happy.
   });
 
   describe('Logging in with an existing user', () => {
@@ -27,7 +35,7 @@ describe('Login Tests', () => {
 });
 
 describe('Profile Functionality Tests', () => {
-    describe('Liking a book', () => {
+  describe('Liking a book', () => {
     it('Should be rendered on a user\'s profile', () => {
 
     });
