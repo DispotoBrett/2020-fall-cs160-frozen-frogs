@@ -18,19 +18,19 @@ let teardown = () => { }
 describe('Login Tests', () => {
 
   describe('Logging in with a non-existent user', async () => {
-    it('Should return to the login page', async () => {
+    it('Should display an error', async () => {
       loginPage = await LoginFactory.build();
-      await loginPage.login('D-N-E', 'DOES NOT EXIST');
+      assert(!(await loginPage.login('FAKE_USER', 'DOES NOT EXIST')));
+      loginPage.destroy();
     }).timeout(TIMEOUT);
-
-    //Make sure we are still on the same pager
-    //Check a loggedIn() method, to get the  uanme. If it throws an error we're happy.
   });
 
-  describe('Logging in with an existing user', () => {
-    it('Should prompt the user\'s profile', () => {
-
-    });
+  describe('Logging in with an existing user', async () => {
+    it('Should prompt the user\'s profile', async () => {
+      loginPage = await LoginFactory.build();
+      assert((await loginPage.login('DemoBuyer', 'sjsu')));
+      loginPage.destroy();
+    }).timeout(TIMEOUT);
   });
 });
 

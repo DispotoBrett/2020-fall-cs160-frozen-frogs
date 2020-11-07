@@ -227,7 +227,7 @@ def login_view(request):
             return HttpResponseRedirect("/profile")
         else:
             context = {
-                'auth_failed': True
+                'err': 'Login Failed!'
             }
             return HttpResponse(template.render(context, request))
     else:

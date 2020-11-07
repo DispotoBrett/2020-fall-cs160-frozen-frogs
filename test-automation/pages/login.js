@@ -18,12 +18,24 @@ exports.build = async () => {
     await logout();
     (await (await driver.findElement(By.xpath('//*[@id="username"]'))).sendKeys(username));
     (await (await driver.findElement(By.xpath('//*[@id="password"]'))).sendKeys(password));
-    (await (await driver.findElement(By.xpath('/html/body/div[1]/div/form/input[2]'))).click());
+    (await (await driver.findElement(By.xpath('//*[@id="submit"]'))).click());
+
+    try { //Check if login worked
+      await driver.findElement(By.xpath('//*[@id="error"]'));
+      return false;
+    } catch (ex) {
+      return true;
+    }
   };
+
+  destroy = async () => {
+    await driver.close()    
+  }
 
   return {
     logout: logout,
-    login: login
+    login: login,
+    destroy: destroy
   }
 }
 
