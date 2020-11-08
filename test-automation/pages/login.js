@@ -11,7 +11,13 @@ exports.build = async () => {
     await driver.close();
   }
   logout = async () => {
-    console.log("hi");
+    try {
+      (await (await driver.findElement(By.xpath('//*[@id="logout"]'))).click());
+      return true;
+    } catch (ex) {
+      //No one was logged in. 
+      return false;
+    }
   };
 
   login = async (username, password) => {
@@ -29,13 +35,15 @@ exports.build = async () => {
   };
 
   destroy = async () => {
-    await driver.close()    
+    await driver.sleep(1000); //Its nice to see the final page sometimes
+    await driver.close();
   }
 
   return {
     logout: logout,
     login: login,
-    destroy: destroy
+    destroy: destroy,
+    _driver: driver
   }
 }
 
