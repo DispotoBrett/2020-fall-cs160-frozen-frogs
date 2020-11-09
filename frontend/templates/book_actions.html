@@ -1,11 +1,11 @@
 <div class="btn-group" role="group">
     <!--Favorites-->
     {%if posting.id in user_favorites_list %}
-    <a type="button" href='/favorite/{{posting.id}}' class="btn btn-light border border-dark">
+    <a type="button" id='unfavortie{{posting.id}}' href='/favorite/{{posting.id}}' class="btn btn-light border border-dark">
         <span class="text-dark fas fa-ban" height=75 width=75>
     </a>
     {%else %}
-    <a type="button" href='/favorite/{{posting.id}}' class="btn btn-light border border-dark">
+    <a type="button" id='favortie{{posting.id}}' href='/favorite/{{posting.id}}' class="btn btn-light border border-dark">
         <span class="text-danger fas fa-heart" height=75 width=75>
     </a>
     {%endif%}

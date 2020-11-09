@@ -4,7 +4,7 @@ LoginFactory = require('./login')
 //Factory function
 exports.build = async () => {
   try {
-    var driver =  (await LoginFactory.build())._driver;
+    var driver = (await LoginFactory.build())._driver;
     await driver.get('localhost:8000/register')
   }
   catch (e) {
@@ -12,7 +12,7 @@ exports.build = async () => {
     await driver.close();
   }
 
-  register = async (username,  email, password, confirm_password) => {
+  register = async (username, email, password, confirm_password) => {
     await logout();
     (await (await driver.findElement(By.xpath('//*[@id="name"]'))).sendKeys(username));
     (await (await driver.findElement(By.xpath('//*[@id="email"]'))).sendKeys(email));
@@ -24,7 +24,7 @@ exports.build = async () => {
   };
 
   destroy = async () => {
-    await driver.close()    
+    await driver.close()
   }
 
   return {

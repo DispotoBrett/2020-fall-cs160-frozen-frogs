@@ -73,16 +73,37 @@ describe('Login Tests', () => {
   });
 });
 
-describe('Favoriting a book Tests', () => {
-  describe('Liking a book', async () => {
+describe('Browse Tests', () => {
+  describe('Liking several books', async () => {
     it('Should update the liked state of the book', async () => {
-      //TODO
-    });
-  });
-
-  describe('Unliking a book', async () => {
-    it('Should update the liked state of the book', async () => {
-      //TODO
-    });
+      for (cnt = 0; cnt < 2; cnt++) {
+        browsePage = await BrowseFactory.build();
+        originalLikes = []
+        for (i = -5; i < 0; i++) if (browsePage.isLiked(i)) originalLikes.push(i);
+        for (i = -5; i < 0; i++) await browsePage.toggleLike(i);
+        for (i = -5; i < 0; i++) assert(!(i in originalLikes));
+        browsePage.destroy();
+      }
+    }).timeout(TIMEOUT);
   });
 });
+
+describe('Profile Tests', () => {
+  describe('Liking several books', async () => {
+    it('Should shold show the books on the user\'s profile', async () => {
+      browsePage = await BrowseFactory.build();
+      for (i = -5; i < 0; i++) await browsePage.toggleLike(i);
+      expectedLikes = []
+      for (i = -5; i < 0; i++) if (browsePage.isLiked(i)) originalLikes.push(i);
+      browsePage.destroy();
+
+      profilePage = await ProfileFactory.build();
+      actualLikes = profilePage.getLikes();
+      for (i in expectedLikes)
+        assert(expectedLikes[i] in actualLikes);
+
+      browsePage.destroy();
+    }).timeout(TIMEOUT);
+  });
+});
+
