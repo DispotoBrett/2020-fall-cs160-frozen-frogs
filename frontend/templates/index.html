@@ -1,6 +1,6 @@
 {% extends 'base.html' %} {% load static %} {% block content %}
 
-<h1 class="display-3" style="">Welcome to Spartan Bookshare!</h1>
+<h1 class="display-3">Welcome to Spartan Bookshare!</h1>
 
 <h5 class="ml-5 text-muted" style="font-family:'Courier New', Courier, monospace">The most trusted bookshare service for SJSU students.</h5>
 {% if posting_list %}
@@ -27,11 +27,11 @@
             </tr>
             {% endfor %}
         </table>
-        {% else %}
-        <p> No postings available. </p>
-        {% endif %}
     </div>
 </div>
+{% else %}
+<p> No postings available. </p>
+{% endif %}
 
 <div class="padding">
 
