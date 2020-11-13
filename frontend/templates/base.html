@@ -186,7 +186,7 @@
 
 <body>
 
-    <nav class="navbar navbar-expand-lg navbar-white  border border-dark " style="background-color: #ffc107;">
+    <nav class="navbar navbar-expand navbar-white  border border-dark " style="background-color: #ffc107;">
 
         <a class="navbar-brand " href="/ ">
             <img src="{% static 'img/sjsu.png' %} " height="60 " width="60 ">
@@ -201,7 +201,7 @@
             {% if user.is_authenticated %}
             <div class="navbar-nav ">
                 <a class="nav-item nav-link active " style="color:black !important; " href="/profile ">Profile</a>
-                <a class="nav-item nav-link active " style="color:black !important; " href="/logout ">Logout</a>
+                <a class="nav-item nav-link active " style="color:black !important; " id='logout' href="/logout ">Logout</a>
                 <a class="nav-item nav-link active " style="color:black !important; " href='/chat'>
                     <span class="text-primary fas fa-envelope text-white"  height=75 width=75>
         </a>

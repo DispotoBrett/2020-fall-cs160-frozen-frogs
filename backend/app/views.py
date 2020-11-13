@@ -19,7 +19,7 @@ from django.contrib.auth import logout, login, authenticate
 from django.contrib.auth.models import User
 from django.forms.models import model_to_dict
 from django.urls import reverse
-import re
+from shutil import copyfile
 
 def index(request):  # detail view
     '''The app homepage'''
@@ -262,9 +262,15 @@ def register(request):
             new_user = User.objects.create_user(request.POST['username'], request.POST['email'], request.POST['password'])
             new_user.save()
             login(request, new_user)
-            profile_pic = request.FILES['picture']
-            #The form only accepts jpg 
-            upload_img(profile_pic, f'profile_pics/{new_user.id}.jpg')
+            try:
+                profile_pic = request.FILES['picture']
+                #The form only accepts jpg 
+                upload_img(profile_pic, f'profile_pics/{new_user.id}.jpg')
+            except:
+                #Bad/ no image provided. Use the default.
+                copyfile(f'../frontend{settings.MEDIA_URL}profile_pics/default.jpg', f'../frontend{settings.MEDIA_URL}profile_pics/{new_user.id}.jpg')
+
+
             return HttpResponseRedirect("/profile")
         else:
             context = {
@@ -287,7 +293,7 @@ def login_view(request):
             return HttpResponseRedirect("/profile")
         else:
             context = {
-                'auth_failed': True
+                'err': 'Login Failed!'
             }
             return HttpResponse(template.render(context, request))
     else:

@@ -9,3 +9,4 @@
 frontend/media/listing_photos/[0-9]*
 /.venv/**
 /frontend/static/img/anmol_files/**
+/test-automation/node_modules/**

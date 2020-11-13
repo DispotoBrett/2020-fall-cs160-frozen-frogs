@@ -1,8 +1,8 @@
 {% extends 'base.html' %} {% load static %} {% block content %}
-<h1 class="display-3" style="font-family:'Courier New', Courier, monospace">Browse all Books</h1>
+<h1 class="display-3" >Browse all Books</h1>
 <h5 class="text-muted ml-5" style="font-family:'Courier New', Courier, monospace">Hint: use the search bar to filter by title, seller, et cetra.</h5>
 {% if posting_image_list %}
-<table id='postings' class='display hover order-column striped bg-white border rounded' style="font-family:'Courier New', Courier, monospace">
+<table id='postings' class='display hover order-column striped bg-white border rounded'>
     <thead>
         <tr>
             <th> Image </th>
@@ -16,7 +16,7 @@
     <tr>
         <td>
             <a href="posting/{{posting.id }}">
-                <img width=200 height=159 src="{{image}}" alt="{{image}}">
+                <img class='img-fluid' width=200 height=159 src="{{image}}" alt="{{image}}">
             </a>
         </td>
         <td> <a href="posting/{{posting.id }}"> {{ posting.title }} </a></td>

@@ -5,6 +5,12 @@
     <h2>Login</h2>
     <form method="POST" action=''> 
         {% csrf_token %} 
+	{% if err is not None %}
+		<div id='error' class='alert alert-danger'>
+				{{ err }}
+		</div>
+	{% endif %}
+
         <table class='table table-lg'>
         	<tr>
 	        	<th>
@@ -23,7 +29,7 @@
 				</td>
 			</tr>
         </table>
-        <input type="submit" value="Login" class="btn btn-lg btn-primary" > 
+        <input id="submit" type="submit" value="Login" class="btn btn-lg btn-primary" > 
     </form> 
 </div> 
 {% endblock%}
