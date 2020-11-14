@@ -1,8 +1,8 @@
-from django.contrib.auth.models import User
 from django.test import TestCase
 from unittest import TestCase as UnitTestCase
 
 from app.models import *
+from .utils import *
 
 # Note: Once tests start accumulating in this file, it is a good practice
 # to make tests its own python package (i.e. directory) for organization
@@ -99,35 +99,3 @@ class ReportTestCase(TestCase):
             posting_snapshot=''
         )
         self.assertIs(report is not None, True)
-
-
-def create_test_user(name='tester'):
-    user = User.objects.create_user(
-        username=name,
-        password='{name}123456',
-        email='{name}@spam.la'
-    )
-    return user
-
-
-def create_test_book():
-    book = List_Book.objects.create(
-        title='Hello World',
-        author='Bob Smith',
-        isbn='123456789',
-        subject='Computer Programming',
-        class_used='CS49J'
-    )
-    return book
-
-
-def create_test_posting(user, book):
-    posting = Posting.objects.create(
-        title='Intro to Programming',
-        price=50,
-        description='Used programming book for sale',
-        seller=user,
-        buyer=user,
-        book=book
-    )
-    return posting

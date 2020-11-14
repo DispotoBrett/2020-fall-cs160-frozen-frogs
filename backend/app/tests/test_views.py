@@ -1,9 +1,10 @@
-from django.contrib.auth.models import AnonymousUser, User
+from django.contrib.auth.models import AnonymousUser
 from django.test import RequestFactory, TestCase
 from django.urls import reverse
 from http import HTTPStatus
 
 from app.views import *
+from .utils import create_test_user
 
 
 class IndexViewTestCase(TestCase):
@@ -112,12 +113,3 @@ class ChatViewTestCase(TestCase):
         response = chat(request)
 
         self.assertEqual(response.status_code, HTTPStatus.OK)
-
-
-def create_test_user(name='tester'):
-    user = User.objects.create_user(
-        username=name,
-        password='{name}123456',
-        email='{name}@spam.la'
-    )
-    return user
