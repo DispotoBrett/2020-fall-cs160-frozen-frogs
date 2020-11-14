@@ -48,14 +48,11 @@ class LoginViewTestCase(TestCase):
 
 class LogoutViewTestCase(TestCase):
     def setUp(self):
-        self.factory = RequestFactory()
         self.user = create_test_user()
 
     def test_get(self):
-        request = self.factory.get(reverse('logout'))
-        request.user = self.user
-
-        response = logout_view(request)
+        self.client.force_login(user=self.user)
+        response = self.client.get(reverse('logout'))
 
         self.assertEqual(response.status_code, HTTPStatus.OK)
 
