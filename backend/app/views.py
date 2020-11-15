@@ -21,7 +21,6 @@ from django.forms.models import model_to_dict
 from django.urls import reverse
 from shutil import copyfile
 
-
 def index(request):  # detail view
     '''The app homepage'''
     posting_list = Posting.objects.all()
@@ -116,6 +115,12 @@ def profile(request):
     for record in user_favorites_list:
         favorites.append(Posting.objects.get(id=record))
     profile_pic = f'{settings.MEDIA_URL}/profile_pics/{request.user.id}.jpg'
+
+    print('******')
+    print(request.user.id)
+    print(profile_pic)
+    print('******')
+
     name = request.user.username
     email = request.user.email
     template = loader.get_template('profile.html')
@@ -143,9 +148,6 @@ def list_book(request):
         des = request.POST.get('description')
         price = int(request.POST.get('price'))
         
-        if len(isbn) == 0:
-            isbn = 'N/A'
-        
         if '' in (title, author, subject, class_used, des, price):
             return HttpResponse(template.render({'error': 'Please fill out all fields.'}, request))
 
@@ -161,6 +163,59 @@ def list_book(request):
         return redirect('posting', posting_id=posting.id)
     else:
         return HttpResponse(template.render({}, request))
+
+def profile_edit(request):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect("/")
+    else:
+        template = loader.get_template('profile_edit.html')
+        if not request.POST:
+            context = {}
+            return HttpResponse(template.render(context, request))
+        else:
+            # POST
+            error = None
+
+            # check for SJSU email
+            email = request.POST['email']
+            if email != '':
+                if len(email) >= 10:
+                    if email[-9:] != "@sjsu.edu":
+                        error = 'Please supply a SJSU email.'
+                else:
+                    error = 'Please supply a SJSU email.'
+
+            # check name
+            name = request.POST['name']
+            if name != '':
+                if len(name) <= 1 or any(not c.isalnum() for c in name):
+                    error = 'Please supply a valid name.'
+
+            if error:
+                context = {
+                    'error': error
+                }
+                return HttpResponse(template.render(context, request))
+            else:
+                if 'picture' in request.FILES:
+                    profile_pic = request.FILES['picture']
+
+                    path = f'profile_pics/{request.user.id}.jpg'
+                    path1 = f'{settings.MEDIA_URL}/profile_pics/{request.user.id}.jpg'
+
+                    # delete old file
+                    default_storage.delete(path)
+
+                    # upload new picture
+                    upload_img(profile_pic, path1)
+
+                # update
+                if name != '':
+                    User.objects.filter(pk=request.user.id).update(username=name)
+                if email != '':
+                    User.objects.filter(pk=request.user.id).update(email=email)
+                return HttpResponseRedirect("/profile")
+
 
 
 def register(request):

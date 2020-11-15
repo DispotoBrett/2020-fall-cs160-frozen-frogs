@@ -5,10 +5,10 @@ LoginFactory = require('./login')
 exports.build = async () => {
   try {
     var driver = (await LoginFactory.build())._driver;
-    await driver.get('localhost:8000/register')
+    await driver.get('http://127.0.0.1:8000/register')
   }
   catch (e) {
-    console.log(bgRed + "Connection refused. Please startup the django server at localhost:8000. EXITING." + reset);
+    console.log(bgRed + "Connection refused. Please startup the django server at 127.0.0.1:8000. EXITING." + reset);
     await driver.close();
   }
 

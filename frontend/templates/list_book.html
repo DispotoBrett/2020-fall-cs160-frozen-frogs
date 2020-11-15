@@ -40,7 +40,7 @@
 					<label for="isbn">ISBN:</label>
 				</th>
 				<td>
-					<input id='isbn' name='isbn' type='text' class='form-control'>
+					<input id='isbn' name='isbn' type='text' class='form-control' required>
 				</td>
 			</tr>
 			<tr>
@@ -76,7 +76,7 @@
 				</td>
 			</tr>
 		</table>
-		<input type="submit" value="List Book" class="btn btn-primary"> 
+		<input type="submit" value="List Book" class="btn btn-primary" id='submit_btn'> 
 	</form>
 	{{error}}
 </body>

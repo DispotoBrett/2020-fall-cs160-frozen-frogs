@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html><!DOCTYPE html>
+<html>
+<head>
+	<title>Update Profile Information</title>
+</head>
+<body>
+	<h2>Update Profile Information</h2>	
+	{% if error is not None %}
+	<div class='alert alert-danger'>
+		<p>{{error}}</p>
+	</div>
+	{% endif %}
+	<form method='POST' class='form' enctype="multipart/form-data">
+		{% csrf_token %}
+		<table class='table'>
+			<tr>
+				<th>
+					<label for="name">Name:</label>
+				</th>
+				<td>
+					<input id='name' name='name' type='text' class='form-control'>
+				</td>
+			</tr>
+			<tr>
+				<th>
+					<label for="email">Email:</label>
+				</th>
+				<td>
+					<input id='email' name='email' type='text' class='form-control'>
+				</td>
+			</tr>
+			<tr>
+				<th>
+					<label for="title">Photo:</label>
+				</th>
+				<td>
+					<input id='picture' name='picture' type='file' accept=".jpg" class='form-control'>
+				</td>
+			</tr>
+		</table>
+		<input type="submit" class="btn btn-primary"> 
+	</form>
+</body>
+</html>
+
+{% endblock %}

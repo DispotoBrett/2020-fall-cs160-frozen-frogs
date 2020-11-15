@@ -3,6 +3,7 @@ let LoginFactory = require('../pages/login.js');
 let RegisterFactory = require('../pages/register.js');
 let BrowseFactory = require('../pages/browse.js');
 let ProfileFactory = require('../pages/profile.js');
+let PostingFactory = require('../pages/posting.js');
 
 /* TEST STUFF */
 let assert = require('assert');
@@ -103,6 +104,88 @@ describe('Profile Tests', () => {
         assert(expectedLikes[i] in actualLikes);
 
       browsePage.destroy();
+    }).timeout(TIMEOUT);
+  });
+});
+
+describe('Posting Tests', () => {
+  describe('Valid posting', async () => {
+    it('Should make a successful book posting', async () => {
+      postingPage = await PostingFactory.build();
+      assert((await postingPage.posting('test','test','test', 'test', 'test', 'test',10)));
+      postingPage.destroy();
+    }).timeout(TIMEOUT);
+  });
+
+  describe('Invalid posting: No Title', async () => {
+    it('Should make an unsuccessful book posting', async () => {
+      postingPage = await PostingFactory.build();
+      assert(!(await postingPage.posting('','test','test', 'test', 'test', 'test',10)));
+      postingPage.destroy();
+    }).timeout(TIMEOUT);
+  });
+
+  describe('Invalid posting: No Author', async () => {
+    it('Should make an unsuccessful book posting', async () => {
+      postingPage = await PostingFactory.build();
+      assert(!(await postingPage.posting('test','','test', 'test', 'test', 'test',10)));
+      postingPage.destroy();
+    }).timeout(TIMEOUT);
+  });
+
+  describe('Invalid posting: No ISBN', async () => {
+    it('Should make an unsuccessful book posting', async () => {
+      postingPage = await PostingFactory.build();
+      assert(!(await postingPage.posting('test','test','', 'test', 'test', 'test',10)));
+      postingPage.destroy();
+    }).timeout(TIMEOUT);
+  });
+
+  describe('Invalid posting: No Subject', async () => {
+    it('Should make an unsuccessful book posting', async () => {
+      postingPage = await PostingFactory.build();
+      assert(!(await postingPage.posting('test','test','test', '', 'test', 'test',10)));
+      postingPage.destroy();
+    }).timeout(TIMEOUT);
+  });
+
+  describe('Invalid posting: No Class Used In', async () => {
+    it('Should make an unsuccessful book posting', async () => {
+      postingPage = await PostingFactory.build();
+      assert(!(await postingPage.posting('test','test','test', 'test', '', 'test',10)));
+      postingPage.destroy();
+    }).timeout(TIMEOUT);
+  });
+
+  describe('Invalid posting: No Description', async () => {
+    it('Should make an unsuccessful book posting', async () => {
+      postingPage = await PostingFactory.build();
+      assert(!(await postingPage.posting('test','test','test', 'test', 'test', '',10)));
+      postingPage.destroy();
+    }).timeout(TIMEOUT);
+  });
+
+  describe('Invalid posting: No Price', async () => {
+    it('Should make an unsuccessful book posting', async () => {
+      postingPage = await PostingFactory.build();
+      assert(!(await postingPage.posting('test','test','test', 'test', 'test', 'test','')));
+      postingPage.destroy();
+    }).timeout(TIMEOUT);
+  });
+
+  describe('Invalid posting: Non integer Price', async () => {
+    it('Should make an unsuccessful book posting', async () => {
+      postingPage = await PostingFactory.build();
+      assert(!(await postingPage.posting('test','test','test', 'test', 'test', 'test','bad')));
+      postingPage.destroy();
+    }).timeout(TIMEOUT);
+  });
+
+  describe('Invalid posting: No Image', async () => {
+    it('Should make an unsuccessful book posting', async () => {
+      postingPage = await PostingFactory.build();
+      assert(!(await postingPage.posting_no_img('test','test','test', 'test', 'test', 'test',10)));
+      postingPage.destroy();
     }).timeout(TIMEOUT);
   });
 });

@@ -10,7 +10,7 @@ exports.build = async () => {
         await driver.sleep(1000);
     }
     catch (e) {
-        console.log(bgRed + "Connection refused. Please startup the django server at localhost:8000. EXITING." + reset);
+        console.log(bgRed + "Connection refused. Please startup the django server at 127.0.0.1:8000. EXITING." + reset);
         await driver.close();
     }
 
