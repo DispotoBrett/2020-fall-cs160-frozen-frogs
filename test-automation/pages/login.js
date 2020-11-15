@@ -3,8 +3,8 @@ const { Builder, By, Key, until } = require('selenium-webdriver');
 //Factory function
 exports.build = async () => {
   try {
-    var driver = new Builder().forBrowser('MicrosoftEdge').build();
-    await driver.get('localhost:8000/login')
+    var driver = new Builder().forBrowser('chrome').build();
+    await driver.get('http://127.0.0.1:8000/login')
   }
   catch (e) {
     console.log(bgRed + "Connection refused. Please startup the django server at localhost:8000. EXITING." + reset);
