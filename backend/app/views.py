@@ -148,9 +148,6 @@ def list_book(request):
         des = request.POST.get('description')
         price = int(request.POST.get('price'))
         
-        if len(isbn) == 0:
-            isbn = 'N/A'
-        
         if '' in (title, author, subject, class_used, des, price):
             return HttpResponse(template.render({'error': 'Please fill out all fields.'}, request))
 
