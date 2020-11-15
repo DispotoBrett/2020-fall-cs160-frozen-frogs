@@ -7,7 +7,7 @@ exports.build = async () => {
         var basePage = await LoginFactory.build();
         await basePage.login('DemoBuyer', 'sjsu'); //Our default test person
         driver = basePage._driver;
-        await driver.get('localhost:8000/browse');
+        await driver.get('http://localhost:8000/browse');
         await driver.sleep(1000);
     }
     catch (e) {
