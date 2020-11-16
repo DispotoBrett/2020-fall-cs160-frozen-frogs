@@ -9,7 +9,7 @@
 	* 5.2. [Configured Containers (docker-compose.yml)](#ConfiguredContainersdocker-compose.yml)
 * 6. [Run in development mode](#Runindevelopmentmode)
 * 7. [Deploy](#Deploy)
-* 8. [Default Configurations](#Notes)
+* 8. [Tips and Tricks](#Notes)
 * 9. [Default Configurations](#Defaultconfigurations)
 * 10. [Unit Tests](#UnitTests)
 * 11. [Regression Tests](#RegressionTests)
@@ -120,7 +120,7 @@ To deploy the application on an apache web server:
 
 - (Follow the instructions on installing and configuring [mod_wsgi](https://docs.djangoproject.com/en/3.1/howto/deployment/wsgi/modwsgi/). It will invovle installing a few packages and messing with a few config files. 
 
-##  8. <a name='Notes'></a>Default Configurations
+##  8. <a name='Notes'></a>Tips and Tricks
 - The django admin username and password are both `frogs`
 - Create an admin account by running `python manage.py createsuperuser` and following the prompt
 
