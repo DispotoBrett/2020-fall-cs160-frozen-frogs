@@ -132,7 +132,7 @@ To deploy the application on an apache web server:
 	2. Username: DemoBuyer
 	- The password for both is 'sjsu' (no quotes)
 ##  10. <a name='UnitTests'></a>Unit Tests
-
+To run unit tests for the models and views, you can run `./manage.py test`.
 ##  11. <a name='RegressionTests'></a>Regression Tests
 - The system-level automated tests use the following tools:
 	- `npm` and `node` for most things
