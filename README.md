@@ -11,7 +11,8 @@
 * 7. [Deploy](#Deploy)
 * 8. [Notes](#Notes)
 * 9. [Default Configurations](#Defaultconfigurations)
-* 10. [Regression Tests](#RegressionTests)
+* 10. [Unit Tests](#UnitTests)
+* 11. [Regression Tests](#RegressionTests)
 
 ##  1. <a name='BuildPrerequisites'></a>Build Prerequisites:
 - Python 3.5+ installed
@@ -130,8 +131,9 @@ To deploy the application on an apache web server:
 	1. Username: DemoSeller
 	2. Username: DemoBuyer
 	- The password for both is 'sjsu' (no quotes)
-	
-##  10. <a name='RegressionTests'></a>Regression Tests
+##  10. <a name='UnitTests'></a>Unit Tests
+
+##  11. <a name='RegressionTests'></a>Regression Tests
 - The system-level automated tests use the following tools:
 	- `npm` and `node` for most things
 	- `mocha` for the test framework
