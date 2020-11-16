@@ -153,4 +153,6 @@ To run unit tests for the models and views, you can run `./manage.py test`.
 7. Liking a book and having that reflected on the “browse books” page
 8. Un-liking a book and having that reflected
 9. Liking books and making sure they show up on the users profile page
+10. Posting a valid book listing
+11. Posting an invalid book listing (all cases)
 
