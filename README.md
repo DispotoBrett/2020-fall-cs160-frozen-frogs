@@ -121,7 +121,6 @@ To deploy the application on an apache web server:
 - (Follow the instructions on installing and configuring [mod_wsgi](https://docs.djangoproject.com/en/3.1/howto/deployment/wsgi/modwsgi/). It will invovle installing a few packages and messing with a few config files. 
 
 ##  8. <a name='Notes'></a>Tips and Tricks
-- The django admin username and password are both `frogs`
 - Create an admin account by running `python manage.py createsuperuser` and following the prompt
 
 ##  9. <a name='Defaultconfigurations'></a>Default Configurations
