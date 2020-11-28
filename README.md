@@ -1,5 +1,5 @@
 # Frozen Frogs Campus Bookshare 📚
-***🚧This page is under construction🚧***
+**Note the docker image `tar` file is in the google docs**
 * 1. [Build Prerequisites:](#BuildPrerequisites)
 * 2. [Building the dev environment](#Buildingthedevenvironment)
 * 3. [Database setup](#Databasesetup)
