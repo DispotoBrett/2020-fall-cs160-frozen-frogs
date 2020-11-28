@@ -62,7 +62,7 @@ ROOT_URLCONF = 'bookshare.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.dirname(__file__), '../frontend/templates'],
+        'DIRS': [os.path.dirname(__file__), '../frontend/templates', '/app/frontend/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -82,11 +82,18 @@ WSGI_APPLICATION = 'bookshare.wsgi.application'
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 DATABASES = {
     'default': {
+        # FOR SQLITE
+        #'ENGINE': 'django.db.backends.sqlite3',
+        #'NAME': 'frogs',
+        
+        # FOR FULLY CONTAINERIZED APPLICATION  
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'frogs',
-	'USER': 'frogs',
-	'PASSWORD': 'frogs',
-	'HOST': '',#Just use localhost
+        'USER': 'frogs',
+        'PASSWORD': 'frogs',
+        'HOST': 'db',
+        'PORT': 3306,
+        
         # For docker container:
         #'HOST': '0.0.0.0',
         #'PORT': 3306

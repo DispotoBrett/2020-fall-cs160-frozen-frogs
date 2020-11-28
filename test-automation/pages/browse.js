@@ -8,7 +8,6 @@ exports.build = async () => {
         await basePage.login('DemoBuyer', 'sjsu'); //Our default test person
         driver = basePage._driver;
         await driver.get('http://127.0.0.1:8000/browse');
-        await driver.sleep(1000);
     }
     catch (e) {
         console.log(bgRed + "Connection refused. Please startup the django server at 127.0.0.1:8000. EXITING." + reset);

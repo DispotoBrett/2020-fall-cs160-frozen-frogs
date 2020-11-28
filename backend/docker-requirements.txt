@@ -1,0 +1,7 @@
+Django
+django-extensions
+mysqlclient
+Pillow
+pytz
+sqlparse
+django_extensions
