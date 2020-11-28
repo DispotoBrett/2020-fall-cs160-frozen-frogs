@@ -1,5 +1,5 @@
 # Frozen Frogs Campus Bookshare 📚
-**Note the docker image `tar` file is in the google docs**
+**Note: the docker image `tar` file is in the google docs. Alternatively you can follow the docker build guide in [SETUP.md](https://github.com/DispotoBrett/2020-fall-cs160-frozen-frogs/blob/master/SETUP.md)**
 * 1. [Build Prerequisites:](#BuildPrerequisites)
 * 2. [Building the dev environment](#Buildingthedevenvironment)
 * 3. [Database setup](#Databasesetup)
