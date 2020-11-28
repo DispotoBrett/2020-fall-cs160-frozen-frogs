@@ -94,7 +94,7 @@ If you dont want to lose your data, upon any change to the models, you can try t
 - Install [Docker Desktop](https://www.docker.com/products/docker-desktop)
 - After installing, you will have access to the docker command line utility, `docker`
 - Change to the project root, and run `docker build .`
-- Once the container builds, note the image name, and run: `docker run -d -p 8000:8000 &ltimage&gt'
+- Once the container builds, note the image name, and run: `docker run -d -p 8000:8000 <image>`
 - Now the app will be running at `localhost:8000`
 
 
