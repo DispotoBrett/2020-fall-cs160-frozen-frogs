@@ -16,9 +16,10 @@ RUN apt -y install python3  python3-pip libmysqlclient-dev mysql-client
 RUN /app/backend/docker-install.sh
 
 #Setup DB
-#RUN python3 /app/backend/manage.py makemigrations 
-#RUN python3 /app/backend/manage.py migrate 
-#RUN python3 /app/backend/manage.py makemigrations app
-#RUN python3 /app/backend/manage.py migrate app
-#RUN python3 /app/backend/manage.py migrate 
-#RUN python3 /app/backend/manage.py loaddata /app/backend/app/fixtures/defaults.json
+RUN python3 /app/backend/manage.py makemigrations 
+RUN python3 /app/backend/manage.py migrate 
+RUN python3 /app/backend/manage.py makemigrations app
+RUN python3 /app/backend/manage.py migrate app
+RUN python3 /app/backend/manage.py migrate 
+RUN python3 /app/backend/manage.py loaddata /app/backend/app/fixtures/defaults.json
+ENTRYPOINT ["python3", "/app/backend/manage.py", "runserver", "0.0.0.0:8000"]

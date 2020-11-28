@@ -83,16 +83,16 @@ WSGI_APPLICATION = 'bookshare.wsgi.application'
 DATABASES = {
     'default': {
         # FOR SQLITE
-        #'ENGINE': 'django.db.backends.sqlite3',
-        #'NAME': 'frogs',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'frogs',
         
         # FOR FULLY CONTAINERIZED APPLICATION  
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'frogs',
-        'USER': 'frogs',
-        'PASSWORD': 'frogs',
-        'HOST': 'db',
-        'PORT': 3306,
+        #'ENGINE': 'django.db.backends.mysql',
+        #'NAME': 'frogs',
+        #'USER': 'frogs',
+        #'PASSWORD': 'frogs',
+        #'HOST': 'db',
+        #'PORT': 3308,
         
         # For docker container:
         #'HOST': '0.0.0.0',
