@@ -1,7 +1,7 @@
 FROM ubuntu
 
 #Copy the entire projec to /app
-COPY . /app
+COPY .. /app
 
 #This script installs the all of the pip dependencies and
 #populates the database with sample data

@@ -93,18 +93,10 @@ If you dont want to lose your data, upon any change to the models, you can try t
 ##  5. <a name='DockerSetup'></a>Docker Setup 🐳
 - Install [Docker Desktop](https://www.docker.com/products/docker-desktop)
 - After installing, you will have access to the docker command line utility, `docker`
-- For this project, we will be using Docker Compose, which is a way to streamline running multiple Docker containers from a single config file, docker-compose.yml
-- To build and run the docker-compose.yml file, navigate to the project directory and run `docker-compose up -d --build`
-- The above command will build the container images as well as run them in the background (-d option specifies detached mode)
-- To start and stop the containers, you can use `docker-compose stop` and `docker-compose start`
+- Change to the project root, and run `docker build .`
+- Once the container builds, note the image name, and run: `docker run -d -p 8000:8000 <image>'
+- Now the app will be running at `localhost:8000`
 
-###  5.1. <a name='DockerCLIQuickReference'></a>Docker CLI Quick Reference
-- To display all containers on your system run `docker ps -a`
-- To log in to one of your containers run `docker exec -it <container_name> /bin/bash`
-- NOTE: Not all containers use the same shell executable. Above we used bash, but depending on the container image, it may be different.
-
-###  5.2. <a name='ConfiguredContainersdocker-compose.yml'></a>Configured Containers (docker-compose.yml)
-- MySQL container with env options specified in `database/mysql.env`
 
 ##  6. <a name='Runindevelopmentmode'></a>Run in development mode:
 To run the django app in deveopment mode:
