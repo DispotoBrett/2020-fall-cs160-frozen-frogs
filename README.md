@@ -100,7 +100,7 @@ If you dont want to lose your data, upon any change to the models, you can try t
 
 ###  5.1. <a name='DockerCLIQuickReference'></a>Docker CLI Quick Reference
 - To display all containers on your system run `docker ps -a`
-- To log in to one of your containers run `docker exec -it <container_name> /bash`
+- To log in to one of your containers run `docker exec -it <container_name> /bin/bash`
 - NOTE: Not all containers use the same shell executable. Above we used bash, but depending on the container image, it may be different.
 
 ###  5.2. <a name='ConfiguredContainersdocker-compose.yml'></a>Configured Containers (docker-compose.yml)
