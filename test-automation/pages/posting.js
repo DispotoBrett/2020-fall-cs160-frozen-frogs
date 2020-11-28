@@ -11,6 +11,7 @@ exports.build = async () => {
 		await base.login('DemoBuyer', 'sjsu');
 		driver = base._driver;
 		await driver.get('http://127.0.0.1:8000/list_book');
+		await driver.sleep(1000);
 	}
 	catch (e) {
 		console.log(bgRed + "Connection refused. Please startup the django server at 127.0.0.1:8000. EXITING." + reset);
