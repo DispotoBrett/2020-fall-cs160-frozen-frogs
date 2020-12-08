@@ -1,5 +1,9 @@
-# Frozen Frogs Campus Bookshare 📚
+# Frozen Frogs Campus Bookshare 📚 
+SJSU bookshare is a craigslist-like web application for SJSU students to buy and sell their textbooks.
+
 **Note: the docker image `tar` file is in the google docs. Alternatively you can follow the docker build guide in [SETUP.md](https://github.com/DispotoBrett/2020-fall-cs160-frozen-frogs/blob/master/SETUP.md)**
+
+**Note: There is also a user guide / FAQ [here](https://github.com/DispotoBrett/2020-fall-cs160-frozen-frogs/blob/master/UserGuideFAQ.PDF).**
 * 1. [Build Prerequisites:](#BuildPrerequisites)
 * 2. [Building the dev environment](#Buildingthedevenvironment)
 * 3. [Database setup](#Databasesetup)
